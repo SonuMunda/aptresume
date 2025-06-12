@@ -3,10 +3,11 @@
 import Image from "next/image";
 import sideImage from "./assets/images/about-side-home.png";
 import features from "./data/features";
-import processes from "./data/process";
+import processes from "./data/jobFinderProcess";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -52,7 +53,7 @@ export default function Home() {
                   py: 2,
                 }}
               >
-                Get Started
+                <Link href="/job-finder">Get Started</Link>
               </Button>
             </motion.div>
           </div>
@@ -69,9 +70,10 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-10">
           <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
             className="w-full md:w-1/2 text-center md:text-left"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-blue-600 mb-6">
@@ -90,10 +92,10 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.7 }}
-            className="w-full md:w-1/2"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
             <Image
               src={sideImage}

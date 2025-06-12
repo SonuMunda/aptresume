@@ -20,12 +20,14 @@ export const metadata: Metadata = {
 };
 
 import { Poppins } from "next/font/google";
+import SessionProviderWrapper from "./components/SessionProviderWrapper";
+import ThemeRegistry from "./components/ThemeRegistry";
 
-const inter = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
+  weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -35,8 +37,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} overflow-x-hidden`}>
-        <main>{children}</main>
+      <body className={`${poppins.variable} overflow-x-hidden`}>
+        <SessionProviderWrapper>
+          <ThemeRegistry>{children}</ThemeRegistry>
+        </SessionProviderWrapper>
         <Footer />
       </body>
     </html>

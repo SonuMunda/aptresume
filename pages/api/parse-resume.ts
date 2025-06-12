@@ -34,10 +34,10 @@ export default async function handler(
       const data = await pdfParse(buffer);
       parsedText = data.text;
     } else {
-      // TODO: Add DOCX parsing support later
       parsedText = "DOCX parsing coming soon...";
     }
 
+    console.log("Parsed text:", parsedText);
     return res.status(200).json({ text: parsedText });
   } catch (err) {
     console.error("Error parsing resume:", err);

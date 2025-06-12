@@ -20,7 +20,7 @@ AptResume is a job portal application built with Next.js, Tailwind CSS, and Mate
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/aptresume.git
+git clone https://github.com/sonumunda/aptresume.git
 cd aptresume
 ```
 
@@ -36,6 +36,10 @@ npm run dev
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## License
+## APIS
 
-MIT License
+[Resume ATS](https://rapidapi.com/ltdbilgisam/api/ai-resume-builder-cv-checker-resume-rewriter-api/playground/apiendpoint_dc76088d-cb43-4aab-b976-e5ae00ff840f)
+
+[JOBS](https://rapidapi.com/fantastic-jobs-fantastic-jobs-default/api/active-jobs-db/playground/apiendpoint_beaea620-f72c-4091-bf8c-37f9916e2ea9)
+
+

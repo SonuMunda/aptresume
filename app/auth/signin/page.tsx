@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Box,
   Divider,
@@ -14,6 +15,7 @@ import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -108,16 +110,28 @@ export default function SignIn() {
               }}
             />
 
-            <Box className="flex items-center gap-2">
-              <Checkbox
-                id="remember-me"
-                sx={{
-                  "&.Mui-checked": { color: "#2563eb" },
-                }}
-              />
-              <label htmlFor="remember-me" className="text-sm text-slate-600">
-                Remember me
-              </label>
+            <Box className="flex items-center justify-between gap-2">
+              <Box className="flex items-center">
+                <Checkbox
+                  id="remember-me"
+                  sx={{
+                    "&.Mui-checked": { color: "#2563eb" },
+                  }}
+                />
+                <label htmlFor="remember-me" className="text-sm text-slate-600">
+                  Remember me
+                </label>
+              </Box>
+
+              {/* Forgot Password */}
+              <Typography
+                variant="body2"
+                className="text-center text-sm text-slate-600"
+              >
+                <a href="/auth/forgot-password" className="hover:underline">
+                  Forgot your password?
+                </a>
+              </Typography>
             </Box>
 
             <Button
@@ -141,16 +155,6 @@ export default function SignIn() {
             </Button>
           </form>
 
-          {/* Forgot Password */}
-          <Typography
-            variant="body2"
-            className="text-center text-sm text-slate-600"
-          >
-            <a href="/auth/forgot-password" className="hover:underline">
-              Forgot your password?
-            </a>
-          </Typography>
-
           {/* OR Divider */}
           <Box className="flex items-center gap-2 my-2">
             <Divider sx={{ flex: 1, bgcolor: "grey.400" }} />
@@ -171,11 +175,13 @@ export default function SignIn() {
               textTransform: "none",
               fontWeight: 400,
               color: "black",
-              borderColor: "#334155",
-              "&:hover": {
-                backgroundColor: "#f1f5f9",
-                borderColor: "#1e293b",
+              border: "2px solid black",
+              "&hover": {
+                borderColor: "#3c8ac0",
               },
+            }}
+            onClick={() => {
+              signIn("google");
             }}
           >
             Sign in with Google
