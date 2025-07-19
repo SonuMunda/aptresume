@@ -3,20 +3,23 @@ export const getResume = async (fileId: string) => {
     if (!fileId) return;
 
     const response = await fetch(
-      `/api/get-resume-url?fileId=${encodeURIComponent(fileId)}`,
+      `/api/get-resume?fileId=${encodeURIComponent(fileId)}`,
       {
         method: "GET",
       }
     );
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Failed to fetch resume");
+      throw {
+        message: data.message || "Failed to fetch resume",
+        status: response.status,
+      };
     }
 
-    const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching resume:", error);
     throw error;
   }
 };

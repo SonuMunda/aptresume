@@ -5,70 +5,202 @@ import {
   Divider,
   Typography,
   TextField,
-  Checkbox,
   Button,
   InputAdornment,
   IconButton,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
-import { GoogleIcon } from "../components/customIcons";
+import Image from "next/image";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import signInSchema from "@/lib/validations/signin";
+import GoogleSigninButton from "../components/GoogleSigninButton";
+
+interface SignInForm {
+  email: string;
+  password: string;
+}
+
+interface FieldErrors {
+  email?: string;
+  password?: string;
+}
 
 export default function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const [form, setForm] = useState<SignInForm>({
+    email: "",
+    password: "",
+  });
+
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  type FormResponse = {
+    message: string;
+    success: boolean;
+  };
+
+  const [formResponse, setFormResponse] = useState<
+    FormResponse | null | undefined
+  >(null);
 
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
-  return (
-    <section className="min-h-screen bg-white flex sm:items-center justify-center p-4">
-      <div className="container max-w-6xl mx-auto">
-        {/* Sign-in Form */}
-        <div className="rounded-xl shadow-3xl max-w-md mx-auto p-4 md:p-12 flex flex-col gap-6">
-          {/* Logo */}
-          <div className="logo gap-2 w-fit">
-            <Link
-              href="/"
-              className={`logo-link flex items-center jusify-center gap-2 text-2xl text-black font-bold`}
-            >
-              <Image src="/logo.png" alt="Logo" width={32} height={32} />
-              AptResume
-            </Link>
-          </div>
 
-          {/* Heading */}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, type, value } = e.target;
+
+    if (type !== "checkbox") {
+      setForm((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+    }
+
+    setFieldErrors((prev) => ({
+      ...prev,
+      [id]: undefined,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setFieldErrors({});
+    setLoading(true);
+
+    const result = signInSchema.safeParse(form);
+
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      for (const err of result.error.errors) {
+        if (err.path.length > 0) {
+          fieldErrors[err.path[0]] = err.message;
+        }
+      }
+      setFieldErrors(fieldErrors);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setFormResponse(null);
+
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: form.email,
+        password: form.password,
+      });
+
+      if (res?.ok && !res.error) {
+        setFormResponse({
+          success: true,
+          message: "Signed in successfully",
+        });
+        router.push("/");
+      } else {
+        setFormResponse({
+          success: false,
+          message: "Incorrect email or password",
+        });
+      }
+    } catch (error: any) {
+      setFormResponse({
+        success: false,
+        message: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Box component={"section"} className="signin min-h-screen">
+      <Box
+        component={"div"}
+        className="signin-container w-full flex items-center justify-between"
+      >
+        <Box component={"div"} className="block min-w-full lg:min-w-sm p-4 mx-auto">
+          {/* Logo */}
+          <Box component={"div"} className="logo mb-3">
+            <Link href="/" passHref>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 1,
+                  textDecoration: "none",
+                }}
+              >
+                <Image src="/logo.png" alt="Logo" width={32} height={32} />
+
+                <Typography variant="h3" component="h3" fontWeight={900}>
+                  <span className="text-gray-500">Apt</span>
+                  <span className="text-blue-500">Resume</span>
+                </Typography>
+              </Box>
+            </Link>
+          </Box>
+
           <Typography
-            variant="h4"
-            component="h4"
+            variant="h5"
+            component="h1"
             sx={{
-              fontWeight: "bold",
-              color: "#1e293b",
+              fontWeight: 700,
+              mb: 0.5,
+              color: "text.primary",
             }}
           >
-            Sign in
+            Welcome back
           </Typography>
 
-          {/* Form */}
-          <form className="flex flex-col gap-4">
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Sign in to your account to continue
+          </Typography>
+
+          {formResponse && (
+            <Alert
+              severity={formResponse.success ? "success" : "error"}
+              sx={{ mb: 3 }}
+            >
+              {formResponse.message}
+            </Alert>
+          )}
+
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4"
+          >
             <TextField
               type="email"
               id="email"
               label="Email"
+              placeholder="placeholder@email.com"
               variant="outlined"
               fullWidth
-              required
+              value={form.email}
+              onChange={handleChange}
+              error={Boolean(fieldErrors.email)}
+              helperText={fieldErrors.email}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#94a3b8",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#2563eb",
+                  borderRadius: 1,
+                  "& fieldset": {
+                    borderColor: "gray",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "primary.main",
+                  },
                 },
               }}
             />
@@ -77,20 +209,13 @@ export default function SignIn() {
               type={showPassword ? "text" : "password"}
               id="password"
               label="Password"
+              placeholder="Password"
               variant="outlined"
               fullWidth
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#94a3b8",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#2563eb",
-                },
-              }}
+              value={form.password}
+              onChange={handleChange}
+              error={Boolean(fieldErrors.password)}
+              helperText={fieldErrors.password}
               slotProps={{
                 input: {
                   endAdornment: (
@@ -108,100 +233,94 @@ export default function SignIn() {
                   ),
                 },
               }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 1,
+                  "& fieldset": {
+                    borderColor: "gray",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "primary.main",
+                  },
+                },
+              }}
             />
 
-            <Box className="flex items-center justify-between gap-2">
-              <Box className="flex items-center">
-                <Checkbox
-                  id="remember-me"
-                  sx={{
-                    "&.Mui-checked": { color: "#2563eb" },
-                  }}
-                />
-                <label htmlFor="remember-me" className="text-sm text-slate-600">
-                  Remember me
-                </label>
-              </Box>
-
-              {/* Forgot Password */}
-              <Typography
-                variant="body2"
-                className="text-center text-sm text-slate-600"
+            <Box component={"div"}>
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm text-gray-600 hover:text-blue-600 hover:underline"
               >
-                <a href="/auth/forgot-password" className="hover:underline">
-                  Forgot your password?
-                </a>
-              </Typography>
+                Forgot password?
+              </Link>
             </Box>
 
             <Button
               type="submit"
               fullWidth
+              variant="contained"
+              disabled={loading}
+              size="large"
               sx={{
-                padding: "12px",
-                borderRadius: "8px",
-                background: "linear-gradient(135deg, #334155, #0f172a)",
-                boxShadow:
-                  "inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.2)",
-                color: "white",
-                fontWeight: 600,
+                py: 1.5,
+                borderRadius: 1,
                 textTransform: "none",
+                fontWeight: 600,
+                fontSize: "1rem",
+                boxShadow: "none",
                 "&:hover": {
-                  background: "linear-gradient(135deg, #1e293b, #0f172a)",
+                  boxShadow: "none",
                 },
               }}
             >
-              Sign in
+              {loading ? (
+                <CircularProgress size={24} sx={{ color: "inherit" }} />
+              ) : (
+                "Sign in"
+              )}
             </Button>
-          </form>
 
-          {/* OR Divider */}
-          <Box className="flex items-center gap-2 my-2">
-            <Divider sx={{ flex: 1, bgcolor: "grey.400" }} />
-            <Typography sx={{ fontSize: "0.875rem", color: "grey.600" }}>
-              OR
-            </Typography>
-            <Divider sx={{ flex: 1, bgcolor: "grey.400" }} />
-          </Box>
+            <Divider sx={{ my: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                OR
+              </Typography>
+            </Divider>
 
-          {/* Google Sign In */}
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<GoogleIcon />}
-            sx={{
-              padding: "12px",
-              borderRadius: "8px",
-              textTransform: "none",
-              fontWeight: 400,
-              color: "black",
-              border: "2px solid black",
-              "&hover": {
-                borderColor: "#3c8ac0",
-              },
-            }}
-            onClick={() => {
-              signIn("google");
-            }}
-          >
-            Sign in with Google
-          </Button>
+            <Box component={"div"}>
+              <GoogleSigninButton setFormResponse={setFormResponse} />
+            </Box>
 
-          {/* Signup Link */}
-          <Typography
-            variant="body2"
-            className="text-center text-sm text-slate-600 mt-4"
-          >
-            Don&apos;t have an account?
-            <a
-              href="/auth/signup"
-              className="text-blue-600 font-semibold hover:underline ml-1"
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ textAlign: "center", mt: 2 }}
             >
-              Sign up
-            </a>
-          </Typography>
-        </div>
-      </div>
-    </section>
+              Don&apos;t have an account?
+              <Link href="/auth/signup" passHref>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  sx={{
+                    color: "primary.main",
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                    cursor: "pointer",
+                    ml: 0.5,
+                  }}
+                >
+                  Sign up
+                </Typography>
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          component={"div"}
+          className="hidden lg:block h-screen w-2/1 relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900"
+        ></Box>
+      </Box>
+    </Box>
   );
 }

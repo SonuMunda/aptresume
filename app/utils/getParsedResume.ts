@@ -8,8 +8,7 @@ export const getParsedResume = async (file: File | string) => {
 
   if (!res.ok) {
     const message = await res.text();
-    console.log(message);
-    throw new Error(`Resume parse failed: ${message || res.statusText}`);
+    throw new Error(message);
   }
 
   return res.json();

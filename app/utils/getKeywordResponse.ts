@@ -1,7 +1,11 @@
 export const getKeywordResponse = async (query: string) => {
   try {
-    const response = await fetch(`/api/aptresume-ai?query=${query}`, {
-      method: "GET",
+    const response = await fetch(`/api/aptresume-ai/gen-keywords`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: query }),
     });
 
     if (!response.ok) {

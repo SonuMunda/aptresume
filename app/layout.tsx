@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "./components/Footer";
+import { Poppins } from "next/font/google";
+import SessionProviderWrapper from "./components/SessionProviderWrapper";
+import ThemeRegistry from "./components/ThemeRegistry";
+import HeaderWrapper from "./components/layout/HeaderWrapper";
+import { Suspense } from "react";
+import FooterWrapper from "./components/layout/FooterWrapper";
+import Loading from "./loading";
+import ReduxWrapper from "./redux/ReduxWrapper";
 
 export const metadata: Metadata = {
-  title: "AptResume - AI-Powered Resume Builder and Job Matcher",
+  title: "AptResume - AI-Powered Optimizer and Job Matcher",
   description:
     "AptResume is an AI-powered platform that helps job seekers build optimized resumes and match them with suitable job opportunities effortlessly.",
   icons: {
@@ -18,10 +25,6 @@ export const metadata: Metadata = {
     "career development",
   ],
 };
-
-import { Poppins } from "next/font/google";
-import SessionProviderWrapper from "./components/SessionProviderWrapper";
-import ThemeRegistry from "./components/ThemeRegistry";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,9 +42,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} overflow-x-hidden`}>
         <SessionProviderWrapper>
-          <ThemeRegistry>{children}</ThemeRegistry>
+          <ReduxWrapper>
+            <ThemeRegistry>
+              <HeaderWrapper />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <FooterWrapper />
+            </ThemeRegistry>
+          </ReduxWrapper>
         </SessionProviderWrapper>
-        <Footer />
       </body>
     </html>
   );

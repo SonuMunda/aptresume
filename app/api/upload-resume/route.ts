@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
 
     const uniqueId = crypto.randomUUID();
     const fileExtension = file.name.split(".").pop();
+    const fileSize = parseFloat((file.size / 1024).toFixed(2));
     const filePath = `uploads/${uniqueId}.${fileExtension}`;
 
     // Upload to Supabase
@@ -56,6 +57,8 @@ export async function POST(req: NextRequest) {
       data: {
         filename: file.name,
         url: publicUrl,
+        file_size: fileSize,
+        file_type: fileExtension || "unknown",
       },
     });
 
