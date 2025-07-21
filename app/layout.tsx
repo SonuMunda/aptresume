@@ -45,7 +45,7 @@ export default function RootLayout({
           <ReduxWrapper>
             <ThemeRegistry>
               <HeaderWrapper />
-              {children}
+              <Suspense fallback={<Loading />}>{children}</Suspense>
               <FooterWrapper />
             </ThemeRegistry>
           </ReduxWrapper>
