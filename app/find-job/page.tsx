@@ -31,6 +31,7 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import faqData from "@/data/jobFinderFaqs";
 import reputableProviders from "@/data/reputableProviders";
+import { ApiError } from "next/dist/server/api-utils";
 
 const JobFinder: React.FC = () => {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
@@ -48,7 +49,7 @@ const JobFinder: React.FC = () => {
     employmentType: string;
     datePosted: string;
     salaryRange: string;
-    jobProviders: { jobProvider: string; url: string }[]; // Defining the shape of the objects inside the array
+    jobProviders: { jobProvider: string; url: string }[];
   }
 
   const [jobResults, setJobResults] = useState<JobResult[]>([]);
@@ -66,6 +67,7 @@ const JobFinder: React.FC = () => {
   const handleUploadResume = async () => {
     try {
       setLoading(true);
+      setJobResults([]);
       setLoadingText("Uploading resume");
 
       if (!resumeFile) {
@@ -93,17 +95,21 @@ const JobFinder: React.FC = () => {
       const query = parsedResume?.text;
       setLoadingText("Matching job role");
       const jobRole = await getJobRole(query);
-      setLoadingText("Finding jobs for you");
-      const jobs = await getJobs(jobRole);
-      console.log(jobs);
 
-      if (jobs == null || jobs.length === 0) {
-        setError("Api Errorr");
-      }
-      setJobResults(jobs);
+      setLoadingText("Finding jobs for you");
+      const jobsData = await getJobs(jobRole);
+      console.log(jobsData?.jobs);
       setLoadingText("Finding matching jobs");
-    } catch (error) {
-      if (error instanceof Error) setError(error.message);
+      if (jobsData?.jobs.length === 0) {
+        setError("No jobs found");
+        setJobResults([]);
+      }
+      setJobResults(jobsData.jobs);
+    } catch (error: unknown) {
+      if (error instanceof ApiError) {
+        console.log(error.message);
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
       setLoadingText("");
@@ -114,7 +120,7 @@ const JobFinder: React.FC = () => {
     <main>
       <Toaster />
       {/* Hero Section */}
-      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex items-center justify-center bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white overflow-hidden">
+      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex items-center justify-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 text-white overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,7 +131,7 @@ const JobFinder: React.FC = () => {
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
             Discover Your Dream Job
           </h2>
-          <p className="mt-6 text-lg sm:text-xl text-blue-100 leading-relaxed">
+          <p className="mt-6 text-lg sm:text-xl text-indigo-100 leading-relaxed">
             Upload your resume and let our AI match you with the most relevant,
             personalized job opportunities — quickly and efficiently.
           </p>
@@ -157,14 +163,14 @@ const JobFinder: React.FC = () => {
             {...getRootProps()}
             className={`border-2 ${
               isDragActive
-                ? "border-blue-500 bg-blue-50"
+                ? "border-indigo-500 bg-indigo-50"
                 : "border-dashed border-gray-400"
             } rounded-md p-6 text-center cursor-pointer transition-all duration-200`}
           >
             <input {...getInputProps()} />
             <CloudUploadOutlinedIcon
               fontSize="large"
-              className="text-blue-700 mb-2"
+              className="text-indigo-700 mb-2"
             />
             <Typography variant="body2" className="text-gray-700 mb-1">
               Drag & drop your PDF here, or click to select
@@ -220,12 +226,12 @@ const JobFinder: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ErrorOutline color="error" />{" "}
+          <ErrorOutline color="error" />
           <p className="text-center text-red-600">{error}</p>
         </motion.div>
       )}
 
-      {jobResults.length > 0 && (
+      {jobResults?.length > 0 && (
         <section className="job-result">
           <div className="container max-w-6xl mx-auto py-10 px-4 mb-10">
             <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -254,7 +260,7 @@ const JobFinder: React.FC = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-blue-900">
+                      <h4 className="text-lg font-semibold text-indigo-900">
                         {job.title || "Untitled Job"}
                       </h4>
                       <div className="flex flex-wrap gap-2 text-sm text-gray-600 mt-1">
@@ -286,27 +292,41 @@ const JobFinder: React.FC = () => {
                       </div>
 
                       <div className="mt-4 flex flex-wrap gap-3">
-                        {job.jobProviders && job.jobProviders.length > 0 && (
-                          <div className="flex gap-2 flex-wrap">
-                            {job.jobProviders
-                              .filter((provider) =>
+                        {job.jobProviders &&
+                          job.jobProviders.length > 0 &&
+                          (() => {
+                            const reputable = job.jobProviders.filter(
+                              (provider) =>
                                 reputableProviders.includes(
                                   provider.jobProvider
                                 )
-                              )
-                              .map((provider, providerIndex) => (
-                                <Link
-                                  key={providerIndex}
-                                  href={provider.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="bg-blue-600 p-2 rounded text-white text-xs hover:bg-blue-700"
-                                >
-                                  {provider.jobProvider}
-                                </Link>
-                              ))}
-                          </div>
-                        )}
+                            );
+                            const others = job.jobProviders.filter(
+                              (provider) =>
+                                !reputableProviders.includes(
+                                  provider.jobProvider
+                                )
+                            );
+
+                            return (
+                              <div className="flex gap-2 flex-wrap">
+                                {(reputable.length > 0
+                                  ? reputable
+                                  : others
+                                ).map((provider, idx) => (
+                                  <Link
+                                    key={idx}
+                                    href={provider.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-indigo-600 p-2 rounded text-white text-xs hover:bg-indigo-700"
+                                  >
+                                    {provider.jobProvider}
+                                  </Link>
+                                ))}
+                              </div>
+                            );
+                          })()}
                       </div>
                     </div>
                   </motion.div>
@@ -318,7 +338,7 @@ const JobFinder: React.FC = () => {
       )}
 
       {/* Faqs */}
-      <section className="bg-gray-100 mx-auto px-4 py-20">
+      <section className="bg-gray-50 mx-auto px-4 py-20">
         <h3 className="text-4xl font-extrabold text-center mb-10 text-gray-800 tracking-tight">
           Frequently Asked Questions
         </h3>

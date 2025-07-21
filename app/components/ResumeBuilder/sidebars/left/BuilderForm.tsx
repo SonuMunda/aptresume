@@ -16,7 +16,7 @@ const ResumeBuilderForm = () => {
   return (
     <Box
       component={"aside"}
-      className="sidebar-left relative h-screen w-full sm:w-sm max-w-sm p-4 border-r border-gray-300  overflow-y-auto"
+      className="sidebar-left relative h-screen w-full md:w-sm max-w-sm p-4 border-r border-gray-300  overflow-y-auto"
     >
       <Box component={"div"} className="builder-form flex flex-col gap-10">
         <BasicSection />

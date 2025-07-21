@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import signInSchema from "@/lib/validations/signin";
 import GoogleSigninButton from "../components/GoogleSigninButton";
+import { indigo } from "@mui/material/colors";
 
 interface SignInForm {
   email: string;
@@ -113,10 +114,12 @@ export default function SignIn() {
           message: "Incorrect email or password",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Error signing in with Google";
       setFormResponse({
+        message,
         success: false,
-        message: error.message || "Something went wrong. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -124,14 +127,20 @@ export default function SignIn() {
   };
 
   return (
-    <Box component={"section"} className="signin min-h-screen">
+    <Box
+      component={"section"}
+      className="signin min-h-screen w-full bg-indigo-200 shadow shadow-lg flex items-center justify-center"
+    >
       <Box
         component={"div"}
-        className="signin-container w-full flex items-center justify-between"
+        className="container h-[95vh]  max-w-6xl bg-white w-full flex items-center justify-center overflow-hidden"
       >
-        <Box component={"div"} className="block min-w-full lg:min-w-sm p-4 mx-auto">
+        <Box
+          component={"div"}
+          className="login min-w-full lg:min-w-sm p-4 mx-auto"
+        >
           {/* Logo */}
-          <Box component={"div"} className="logo mb-3">
+          <Box component={"div"} className="logo mb-6">
             <Link href="/" passHref>
               <Box
                 sx={{
@@ -142,11 +151,6 @@ export default function SignIn() {
                 }}
               >
                 <Image src="/logo.png" alt="Logo" width={32} height={32} />
-
-                <Typography variant="h3" component="h3" fontWeight={900}>
-                  <span className="text-gray-500">Apt</span>
-                  <span className="text-blue-500">Resume</span>
-                </Typography>
               </Box>
             </Link>
           </Box>
@@ -194,12 +198,9 @@ export default function SignIn() {
               helperText={fieldErrors.email}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: 1,
+                  borderRadius: 2,
                   "& fieldset": {
-                    borderColor: "gray",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "primary.main",
+                    borderColor: "divider",
                   },
                 },
               }}
@@ -235,12 +236,9 @@ export default function SignIn() {
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: 1,
+                  borderRadius: 2,
                   "& fieldset": {
-                    borderColor: "gray",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "primary.main",
+                    borderColor: "divider",
                   },
                 },
               }}
@@ -260,14 +258,15 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               disabled={loading}
-              size="large"
+              
               sx={{
                 py: 1.5,
-                borderRadius: 1,
+                borderRadius: 2,
                 textTransform: "none",
                 fontWeight: 600,
                 fontSize: "1rem",
                 boxShadow: "none",
+                backgroundColor: indigo[600],
                 "&:hover": {
                   boxShadow: "none",
                 },
@@ -301,7 +300,7 @@ export default function SignIn() {
                   component="span"
                   variant="body2"
                   sx={{
-                    color: "primary.main",
+                    color: indigo[900],
                     textDecoration: "none",
                     "&:hover": {
                       textDecoration: "underline",
@@ -318,7 +317,7 @@ export default function SignIn() {
         </Box>
         <Box
           component={"div"}
-          className="hidden lg:block h-screen w-2/1 relative bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900"
+          className="hidden lg:block h-screen w-1/2 relative rounded overflow-hidden signin-background"
         ></Box>
       </Box>
     </Box>

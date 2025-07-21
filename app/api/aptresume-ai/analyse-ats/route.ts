@@ -16,12 +16,11 @@ export async function POST(req: NextRequest) {
   const file_type = body.file_type;
 
   if (!resumeText || typeof resumeText !== "string") {
-    return NextResponse.json(
-      {
-        message: "Invalid Request",
-      },
-      { status: 400 }
-    );
+    return NextResponse.json({
+      message: "Invalid Request",
+      success: false,
+      status: 400,
+    });
   }
 
   const prompt = `
@@ -125,10 +124,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response || !response.text) {
-      return NextResponse.json(
-        { message: "No response received from Gemini API." },
-        { status: 500 }
-      );
+      return NextResponse.json({
+        message: "No response received from Gemini API.",
+        success: false,
+        status: 400,
+      });
     }
 
     const responseText = response.text;
@@ -143,16 +143,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(atsData);
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
+    let message = "API Error";
     if (error instanceof Error) {
-      return NextResponse.json(
-        { message: `Api error: ${error.message}` },
-        { status: 500 }
-      );
+      message = `Api error: ${error.message}`;
     }
-    return NextResponse.json(
-      { message: "An unknown error occurred during API analysis." },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      message,
+      success: false,
+      status: 500,
+    });
   }
 }

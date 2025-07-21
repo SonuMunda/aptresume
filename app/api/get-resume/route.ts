@@ -7,10 +7,7 @@ export async function GET(req: NextRequest) {
     const fileId = searchParams.get("fileId");
 
     if (!fileId) {
-      return NextResponse.json(
-        { message: "file_id is required", success: false },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "File is missing" }, { status: 400 });
     }
 
     const file = await prisma.upload.findFirst({
@@ -21,7 +18,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           message: "Resume not found",
-          success: false,
         },
         { status: 404 }
       );
@@ -29,14 +25,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(file);
   } catch (error) {
+    let message = "Unknown Error";
     if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          message: "Internal Server Error",
-          sucess: false,
-        },
-        { status: 500 }
-      );
+      message = error.message;
     }
+
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

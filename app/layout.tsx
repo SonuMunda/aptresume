@@ -39,13 +39,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={`${poppins.variable} overflow-x-hidden`}>
         <SessionProviderWrapper>
           <ReduxWrapper>
             <ThemeRegistry>
               <HeaderWrapper />
-              <Suspense fallback={<Loading />}>{children}</Suspense>
+              {children}
               <FooterWrapper />
             </ThemeRegistry>
           </ReduxWrapper>

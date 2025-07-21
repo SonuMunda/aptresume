@@ -6,7 +6,10 @@ export async function POST(req: NextRequest) {
     const { file } = await req.json();
 
     if (!file) {
-      return NextResponse.json({ error: "File is required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "No File Provided" },
+        { status: 204 }
+      );
     }
 
     let buffer: Buffer;
@@ -15,7 +18,9 @@ export async function POST(req: NextRequest) {
       const fileRes = await fetch(file);
       if (!fileRes.ok) {
         return NextResponse.json(
-          { error: "Failed to fetch file from URL" },
+          {
+            message: "Failed to fetch file",
+          },
           { status: 400 }
         );
       }
@@ -29,16 +34,19 @@ export async function POST(req: NextRequest) {
 
     if (!parsedText) {
       return NextResponse.json(
-        { error: "Failed to parse document" },
+        {
+          message: "Error is Parsing Document",
+        },
         { status: 400 }
       );
     }
 
-    return NextResponse.json({ text: parsedText }, { status: 200 });
+    return NextResponse.json({ text: parsedText, success: true, status: 200 });
   } catch (error) {
-    console.error("Error parsing document:", error);
     return NextResponse.json(
-      { error: "Failed to process document" },
+      {
+        message: error || "Failed to Process Document",
+      },
       { status: 500 }
     );
   }

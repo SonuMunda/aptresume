@@ -2,6 +2,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { GoogleIcon } from "./customIcons";
 import { signIn } from "next-auth/react";
 import { Dispatch, SetStateAction, useState } from "react";
+import { indigo } from "@mui/material/colors";
 
 type FormResponse = {
   message: string;
@@ -29,9 +30,11 @@ const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
         message: "Signin successful",
         success: true,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Error signing in with Google";
       setFormResponse({
-        message: error.message || "Error signing in with Google",
+        message,
         success: false,
       });
     } finally {
@@ -57,15 +60,15 @@ const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
         sx={{
           py: 1.5,
           px: 4,
-          borderRadius: 1,
+          border: 2,
+          borderRadius: 2,
           textTransform: "none",
           fontWeight: 500,
           backgroundColor: "#f8faff",
           color: "inherit",
-          borderColor: "gray",
+          borderColor: "divider",
           "&:hover": {
-            borderColor: "text.secondary",
-            backgroundColor: "action.hover",
+            borderColor: indigo[600],
           },
           "&:disabled": {
             backgroundColor: "action.disabled",

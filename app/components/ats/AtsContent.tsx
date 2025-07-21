@@ -35,7 +35,7 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
     },
   };
   return (
-    <Box component={"div"} className="ats-content flex flex-col gap-10 w-full md:w-3/4">
+    <Box component={"div"} className="ats-content flex flex-col gap-10 w-full">
       {/* Tailoring Section */}
       <Box
         component={motion.div}

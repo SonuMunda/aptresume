@@ -69,22 +69,13 @@ const JakesResume = () => {
 
   const format = useSelector((state: RootState) => state.format.data);
 
-  type Profile = {
-    network: string;
-    [key: string]: any;
+  const getProfile = (network: string) => {
+    const profile = profiles.find((profile) => profile.network.toLowerCase() === network);
+    return profile;
   };
 
-  const getProfile = (
-    profiles: Profile[],
-    network: string
-  ): Profile | undefined => {
-    return profiles.find(
-      (p) => p?.network.toLowerCase() === network.toLowerCase()
-    );
-  };
-
-  const githubProfile = getProfile(profiles, "github");
-  const linkedInProfile = getProfile(profiles, "linkedin");
+  const githubProfile = getProfile("github");
+  const linkedInProfile = getProfile("linkedin");
 
   return (
     <div

@@ -7,11 +7,11 @@
   width: 100%;
   top: 0;
   left: 0;
-  background: url("/images/signin-side-image.jpg");
+  background: url("/images/signin-hero.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: -1;
+  z-index: 1;
 }
 
 .signup-background::before {
@@ -21,11 +21,11 @@
   width: 100%;
   top: 0;
   left: 0;
-  background: url("/images/signup-side-image.jpg");
+  background: url("/images/signup-hero.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: -1;
+  z-index: 1;
 }
 
 .jodit-wysiwyg ul,

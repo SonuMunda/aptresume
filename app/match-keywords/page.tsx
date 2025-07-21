@@ -8,7 +8,7 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { grey, indigo } from "@mui/material/colors";
 import { getKeywordResponse } from "../utils/getKeywordResponse";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -56,7 +56,7 @@ const KeywordMatcher = () => {
       {/* Hero Section */}
       <Box
         component={"section"}
-        className="hero min-h-[70vh] bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 flex flex-col justify-center items-center text-center px-6"
+        className="hero min-h-[70vh] bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 flex flex-col justify-center items-center text-center px-6"
       >
         <Typography
           variant="h2"
@@ -156,10 +156,11 @@ const KeywordMatcher = () => {
                 px: 8,
                 textTransform: "none",
                 borderRadius: 2,
+                backgroundColor: indigo[600],
                 boxShadow: "0 4px 14px rgba(99, 102, 241, 0.4)",
                 transition: "background-color 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "primary.dark",
+                  backgroundColor: indigo[700],
                 },
               }}
             >
@@ -223,7 +224,7 @@ const KeywordMatcher = () => {
       {/* How It Works Section */}
       <Box
         component="section"
-        className="working-section bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 py-20 text-white"
+        className="working-section bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 py-20 text-white"
       >
         <Box component="div" className="container mx-auto px-4">
           <Typography

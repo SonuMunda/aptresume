@@ -32,7 +32,7 @@ const FeatureCard = ({
         <Icon sx={{ fontSize: 36 }} />
       </div>
       <h3 className="text-xl font-semibold mb-3 text-white">{title}</h3>
-      <p className="text-blue-100 text-base leading-relaxed">{description}</p>
+      <p className="text-indigo-100 text-base leading-relaxed">{description}</p>
     </Box>
   );
 };

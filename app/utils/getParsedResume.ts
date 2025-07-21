@@ -1,3 +1,5 @@
+import { ApiError } from "next/dist/server/api-utils";
+
 export const getParsedResume = async (file: File | string) => {
   if (!file) throw new Error("No file provided");
 
@@ -7,9 +9,9 @@ export const getParsedResume = async (file: File | string) => {
   });
 
   if (!res.ok) {
-    const message = await res.text();
-    throw new Error(message);
+    const errorData = await res.json();
+    const status = 500;
+    throw new ApiError(status, errorData.message);
   }
-
   return res.json();
 };

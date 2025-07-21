@@ -8,7 +8,7 @@ import ResumeBuilderForm from "../components/ResumeBuilder/sidebars/left/Builder
 import BuilderSidebar from "../components/ResumeBuilder/sidebars/right/BuilderSidebar";
 import BuilderPreview from "../components/ResumeBuilder/BuilderPreview";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { ChevronLeft, ChevronRight, Clear } from "@mui/icons-material";
+import { Clear } from "@mui/icons-material";
 
 const ResumeBuilder = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -27,18 +27,22 @@ const ResumeBuilder = () => {
       <Box component="div" className="flex justify-between">
         <Box
           component={"div"}
-          className={`fixed left-[${
-            isLeftSidebarOpen ? 0 : "-100%"
-          }] xl:relative xl:left-0 z-4 bg-gray-200 transition-all delay-150 duration-300 ease-in-out`}
+          className={`fixed xl:relative top-0 ${
+            !isLeftSidebarOpen ? "left-[-100%]" : "left-[0]"
+          } xl:left-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
         >
           <ResumeBuilderForm />
           <Box
             component={"div"}
-            className="absolute top-1 right-5"
+            className="absolute top-0 right-0 border border-gray-300 backdrop-blur-3xl rounded block xl:hidden"
             onClick={() => setIsLeftSidebarOpen(false)}
           >
-            <IconButton>
-              <ChevronLeft />
+            <IconButton
+              sx={{
+                color: "black",
+              }}
+            >
+              <Clear />
             </IconButton>
           </Box>
         </Box>
@@ -47,7 +51,7 @@ const ResumeBuilder = () => {
             setIsLeftSidebarOpen={setIsLeftSidebarOpen}
             setIsRightSidebarOpen={setIsRightSidebarOpen}
           />
-          <Box component={"div"} className="canvas px-2">
+          <Box component={"div"} className="canvas">
             <TransformWrapper
               initialPositionX={0}
               initialPositionY={0}
@@ -78,18 +82,22 @@ const ResumeBuilder = () => {
         </Box>
         <Box
           component={"div"}
-          className={`fixed right-[${
-            isRightSidebarOpen ? 0 : "-100%"
-          }] xl:relative xl:right-0 z-4 bg-gray-200 transition-all delay-150 duration-300 ease-in-out`}
+          className={`fixed xl:relative top-0 ${
+            !isRightSidebarOpen ? "right-[-100%]" : "right-[0]"
+          } xl:right-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
         >
           <BuilderSidebar handleResumeDownload={handleDownloadPDF} />
           <Box
             component={"div"}
-            className="absolute top-1 right-5"
+            className="absolute top-0 right-0 border border-gray-300 backdrop-blur-3xl rounded block xl:hidden"
             onClick={() => setIsRightSidebarOpen(false)}
           >
-            <IconButton>
-              <ChevronRight />
+            <IconButton
+              sx={{
+                color: "black",
+              }}
+            >
+              <Clear />
             </IconButton>
           </Box>
         </Box>

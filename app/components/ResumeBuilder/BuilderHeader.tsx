@@ -33,9 +33,9 @@ const ResumeBuilderHeader = ({
         </Box>
 
         {/* Go to Home Button */}
-        <Button variant="text" color="inherit">
+        <Button variant="text" color="inherit" href="/">
           <Tooltip title={"Go to Home"}>
-            <HomeFilled />
+            <HomeFilled/>
           </Tooltip>
         </Button>
 

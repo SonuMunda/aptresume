@@ -20,6 +20,7 @@ import { signUpSchema, SignUpSchemaType } from "@/lib/validations/signup";
 import { IResponseData } from "@/app/types/responseDataTypes";
 import { motion } from "framer-motion";
 import GoogleSigninButton from "../components/GoogleSigninButton";
+import { indigo } from "@mui/material/colors";
 
 // Define type from Zod schema
 type FormData = SignUpSchemaType;
@@ -106,16 +107,16 @@ export default function SignUp() {
 
   return (
     <main>
-      <Box
-        component={"section"}
-        className="signup min-h-screen"
-      >
+      <Box component={"section"} className="signup min-h-screen bg-indigo-200 flex items-center justify-center">
         <Toaster position="top-center" />
 
-        <Box component={"div"} className="signun-container w-full flex items-center justify-between">
-          <Box component={"div"} className="block min-w-full lg:min-w-sm p-4">
+        <Box
+          component={"div"}
+          className="container h-[95vh] max-w-6xl bg-white shadow shadow-lg flex items-center justify-center overflow-hidden"
+        >
+          <Box component={"div"} className="signup min-w-full lg:min-w-sm p-4 mx-auto">
             {/* Logo */}
-            <Box component={"div"} className="logo mb-3">
+            <Box component={"div"} className="logo mb-6">
               <Link href="/">
                 <Box
                   sx={{
@@ -126,11 +127,6 @@ export default function SignUp() {
                   }}
                 >
                   <Image src="/logo.png" alt="Logo" width={32} height={32} />
-
-                  <Typography variant="h3" component="h3" fontWeight={900}>
-                    <span className="text-gray-500">Apt</span>
-                    <span className="text-blue-500">Resume</span>
-                  </Typography>
                 </Box>
               </Link>
             </Box>
@@ -183,12 +179,9 @@ export default function SignUp() {
                 helperText={errors.name}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 1,
+                    borderRadius: 2,
                     "& fieldset": {
-                      borderColor: "gray",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "primary.main",
+                      borderColor: "divider",
                     },
                   },
                 }}
@@ -206,12 +199,9 @@ export default function SignUp() {
                 helperText={errors.email}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 1,
+                    borderRadius: 2,
                     "& fieldset": {
-                      borderColor: "gray",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "primary.main",
+                      borderColor: "divider",
                     },
                   },
                 }}
@@ -227,33 +217,28 @@ export default function SignUp() {
                 onChange={handleChange}
                 error={!!errors.password}
                 helperText={errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePassword}
-                        edge="end"
-                        aria-label={
-                          showPassword ? "Hide password" : "Show password"
-                        }
-                      >
-                        {showPassword ? (
-                          <VisibilityOff fontSize="small" />
-                        ) : (
-                          <Visibility fontSize="small" />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleTogglePassword}
+                          edge="end"
+                          aria-label={
+                            showPassword ? "Hide password" : "Show password"
+                          }
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 1,
+                    borderRadius: 2,
                     "& fieldset": {
-                      borderColor: "gray",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "primary.main",
+                      borderColor: "divider",
                     },
                   },
                 }}
@@ -267,7 +252,8 @@ export default function SignUp() {
                 size="large"
                 sx={{
                   py: 1.5,
-                  borderRadius: 1,
+                  backgroundColor: indigo[600],
+                  borderRadius: 2,
                   textTransform: "none",
                   fontWeight: 600,
                   fontSize: "1rem",
@@ -296,7 +282,7 @@ export default function SignUp() {
                     component="span"
                     variant="body2"
                     sx={{
-                      color: "primary.main",
+                      color: indigo[900],
                       textDecoration: "none",
                       "&:hover": {
                         textDecoration: "underline",
@@ -322,7 +308,7 @@ export default function SignUp() {
           </Box>
           <Box
             component={"div"}
-            className="hidden lg:block min-h-screen w-full relative signup-background"
+            className="hidden lg:block min-h-screen w-1/2 relative signup-background overflow-hidden"
           ></Box>
         </Box>
       </Box>

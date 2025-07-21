@@ -7,6 +7,7 @@ import processes from "../data/jobFinderProcess";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import FeatureCard from "./components/shared/FeatureCard";
+import { indigo } from "@mui/material/colors";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="hero-section bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen"
+        className="hero-section bg-gradient-to-br from-indigo-950 via-indigo-900 to-gray-950 h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen"
       >
         <div className="container mx-auto h-full flex flex-col items-center justify-center px-4 max-w-6xl">
           <div className="hero-content text-center">
@@ -53,6 +54,7 @@ export default function Home() {
                   px: 6,
                   py: 2,
                   borderRadius: "1rem",
+                  backgroundColor: indigo[600],
                   fontSize: "1rem",
                   fontWeight: 600,
                 }}
@@ -82,7 +84,7 @@ export default function Home() {
             className="w-full md:w-1/2 text-center md:text-left"
           >
             <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-600 mb-6 leading-tight">
-              About <span className="text-blue-400">AptResume</span>
+              About <span className="text-indigo-400">AptResume</span>
             </h2>
 
             <p className="text-gray-700 text-lg leading-relaxed">
@@ -125,9 +127,9 @@ export default function Home() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900"
+        className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900"
       >
-        <h2 className="text-4xl sm:text-5xl font-extrabold mb-12 text-blue-100 tracking-tight">
+        <h2 className="text-4xl sm:text-5xl font-extrabold mb-12 text-indigo-100 tracking-tight">
           How It Works
         </h2>
 
@@ -171,7 +173,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md  border border-gray-200 transition duration-300"
               >
-                <div className={`mb-4 flex justify-center text-blue-600`}>
+                <div className={`mb-4 flex justify-center text-indigo-600`}>
                   <feature.icon fontSize="large" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">

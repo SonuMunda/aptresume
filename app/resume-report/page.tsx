@@ -14,11 +14,11 @@ import { getResume } from "../utils/getResume";
 import { getParsedResume } from "../utils/getParsedResume";
 import AtsResultLoader from "../components/ats/AtsResultLoader";
 import ErrorComponent from "../components/ErrorComponent";
+import { ApiError } from "next/dist/server/api-utils";
 
 type ErrorProps = {
   message: string;
   status: number;
-  success: boolean;
 };
 
 const AtsReport = () => {
@@ -41,16 +41,27 @@ const AtsReport = () => {
       );
 
       setAtsReport(report);
-    } catch (error: any) {
-      setError(error);
+    } catch (error: unknown) {
+      let message = "Internal Server Error";
+      let status = 500;
+      if (error instanceof ApiError) {
+        message = error.message;
+        status = error.statusCode;
+      }
+      setError({
+        message,
+        status,
+      });
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getAtsReport();
-  }, []);
+    if (id) {
+      getAtsReport();
+    }
+  }, [id]);
 
   if (loading) return <AtsResultLoader />;
 
@@ -70,7 +81,7 @@ const AtsReport = () => {
               className="ats-report bg-gray-100 min-h-screen pb-24"
             >
               <Box component={motion.div} className="container mx-auto p-6">
-                <Box component={motion.div} className="content flex gap-10">
+                <Box component={motion.div} className="content flex justify-center gap-10">
                   <AtsResultSidebar
                     score={atsReport.breakdown_by_category.overall_score.score}
                   />

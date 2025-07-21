@@ -5,7 +5,7 @@ import React from "react";
 
 const AtsReportHeader = () => {
   return (
-    <Box component={"header"} className="ats-header">
+    <Box component={"header"} className="ats-header shadow">
       <Box
         component={"div"}
         className="w-full mx-auto flex items-center justify-between p-2"
@@ -23,7 +23,15 @@ const AtsReportHeader = () => {
 
         {/* Upload Button */}
         <Box component={"div"} className="header-btn">
-          <Button variant="contained" href="/resume-scan">Upload New</Button>
+          <Button
+            variant="contained"
+            href="/resume-scan"
+            sx={{
+              textTransform: "none",
+            }}
+          >
+            Upload New
+          </Button>
         </Box>
       </Box>
     </Box>

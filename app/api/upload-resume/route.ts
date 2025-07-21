@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { supabase } from "@/lib/supabase";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,11 +18,9 @@ export async function POST(req: NextRequest) {
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
     if (!acceptedTypes.includes(file.type)) {
-      return new Response(
-        JSON.stringify({ error: "Only PDF and Docx allowed" }),
-        {
-          status: 400,
-        }
+      return NextResponse.json(
+        { message: "Only PDF and Docx allowed" },
+        { status: 400 }
       );
     }
 
@@ -40,9 +38,10 @@ export async function POST(req: NextRequest) {
       });
 
     if (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-      });
+      return NextResponse.json(
+        { message: error.message || "Failed to Upload" },
+        { status: 500 }
+      );
     }
 
     // Get the public URL
@@ -62,22 +61,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return new Response(
-      JSON.stringify({
-        message: "File uploaded and saved",
-        upload: upload,
-      }),
-      {
-        status: 201,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    return NextResponse.json(
+      { message: "File Uploaded", upload },
+      { status: 201 }
     );
   } catch (error) {
-    console.error("Upload error:", error);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-    });
+    if (error instanceof Error)
+      return NextResponse.json(
+        { message: "Internal Server Error" },
+        { status: 500 }
+      );
   }
 }

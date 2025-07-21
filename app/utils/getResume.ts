@@ -1,25 +1,19 @@
+import { ApiError } from "next/dist/server/api-utils";
+
 export const getResume = async (fileId: string) => {
-  try {
-    if (!fileId) return;
+  if (!fileId) return;
 
-    const response = await fetch(
-      `/api/get-resume?fileId=${encodeURIComponent(fileId)}`,
-      {
-        method: "GET",
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw {
-        message: data.message || "Failed to fetch resume",
-        status: response.status,
-      };
+  const response = await fetch(
+    `/api/get-resume?fileId=${encodeURIComponent(fileId)}`,
+    {
+      method: "GET",
     }
+  );
 
-    return data;
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    const errorData = await response.json();
+    const status = response.status;
+    throw new ApiError(status, errorData.message);
   }
+  return response.json();
 };

@@ -1,7 +1,7 @@
-// app/api/jobs/route.ts
-import { NextResponse } from "next/server";
+import { ApiError } from "next/dist/server/api-utils";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const jobTitle = searchParams.get("profession");
 
@@ -26,11 +26,18 @@ export async function GET(request: Request) {
 
     const data = await response.json();
     const jobs = data?.jobs;
-    return NextResponse.json(jobs);
+
+    return NextResponse.json(
+      {
+        jobs: jobs,
+        message: data.message || "Job Fetched",
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof ApiError) {
       return NextResponse.json(
-        { error: "Failed to fetch jobs" },
+        { message: "Failed to fetch jobs" },
         { status: 500 }
       );
     }

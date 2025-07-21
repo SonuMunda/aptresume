@@ -32,17 +32,16 @@ const ResumeScan = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData?.error || "Upload failed");
-        throw new Error("Error uploading file");
+        toast.error(errorData.message || "Upload failed");
+        return;
       }
-      toast.success("File uploaded successfully");
-      const data = await response.json();
 
+      const data = await response.json();
+      toast.success(data.message);
       const resumeId = data?.upload?.id;
       router.push(`/resume-report?id=${resumeId}`);
-      return response;
-    } catch (error: any) {
-      toast.error(error.message || "Upload failed");
+    } catch (error: unknown) {
+      if (error instanceof Error) toast.error(error.message || "Upload failed");
     } finally {
       setLoading(false);
     }
@@ -51,26 +50,28 @@ const ResumeScan = () => {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex flex-col items-center justify-center bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white text-center px-4 overflow-hidden">
-        <motion.h1
-          className="hero-title font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 relative  drop-shadow-lg"
-          initial="hidden"
-          animate="visible"
-          variants={fadeUpVariants}
-        >
-          ATS Resume Scanner & Optimizer
-        </motion.h1>
+      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex flex-col items-center justify-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 text-white text-center px-4 overflow-hidden">
+        <div className="container max-w-5xl mx-auto">
+          <motion.h1
+            className="hero-title font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 relative drop-shadow-lg"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUpVariants}
+          >
+            ATS Resume Scanner & Optimizer
+          </motion.h1>
 
-        <motion.p
-          className="hero-description mt-3 text-lg sm:text-2xl md:text-3xl text-gray-300 max-w-3xl relative  drop-shadow-md"
-          initial="hidden"
-          animate="visible"
-          variants={fadeUpVariants}
-          transition={{ delay: 0.3 }}
-        >
-          Upload your resume to see how well it performs against ATS algorithms
-          and get instant optimization tips.
-        </motion.p>
+          <motion.p
+            className="hero-description mx-auto mt-3 text-xl max-w-3xl text-gray-300  relative  drop-shadow-md"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUpVariants}
+            transition={{ delay: 0.3 }}
+          >
+            Upload your resume to see how well it performs against ATS
+            algorithms and get instant optimization tips.
+          </motion.p>
+        </div>
       </section>
 
       <Toaster />
@@ -78,7 +79,7 @@ const ResumeScan = () => {
       <ResumeUploader handleFileUpload={handleFileUpload} loading={loading} />
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 px-4 text-center text-white">
+      <section className="py-20 bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 px-4 text-center text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-12">
           How Our ATS Scanner Works
         </h2>
