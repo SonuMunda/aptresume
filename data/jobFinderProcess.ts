@@ -7,7 +7,7 @@ import { ElementType } from "react";
 
 interface Process {
   icon: ElementType;
-  color: string;
+  bgColor: string;
   title: string;
   description: string;
 }
@@ -15,21 +15,21 @@ interface Process {
 const processes: Process[] = [
   {
     icon: UploadFileOutlined,
-    color: "pink-600",
+    bgColor: "pink",
     title: "1. Upload Your Resume",
     description:
       "Upload your resume in PDF or Word format. Our system supports multiple file types for a seamless experience.",
   },
   {
     icon: SettingsOutlined,
-    color: "green-600",
+    bgColor: "green",
     title: "2. Smart Analysis",
     description:
       "Our advanced algorithms analyze your skills, experience, and qualifications to find the best job matches.",
   },
   {
     icon: WorkOutline,
-    color: "blue-600",
+    bgColor: "blue",
     title: "3. Get Job Recommendations",
     description:
       "Receive personalized job listings tailored to your profile, with direct links to apply.",

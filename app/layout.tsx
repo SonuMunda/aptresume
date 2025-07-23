@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${poppins.variable} overflow-x-hidden`}>
+      <body className={`${poppins.variable} bg-gray-50 overflow-x-hidden`}>
         <SessionProviderWrapper>
           <ReduxWrapper>
             <ThemeRegistry>

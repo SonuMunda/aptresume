@@ -21,7 +21,7 @@ type ErrorProps = {
   status: number;
 };
 
-const AtsReport = () => {
+const ResumeReport = () => {
   const [atsReport, setAtsReport] = useState<ATSReport>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<ErrorProps | null>(null);
@@ -29,38 +29,43 @@ const AtsReport = () => {
   const searchParms = useSearchParams();
   const id = searchParms?.get("id");
 
-  const getAtsReport = async () => {
-    try {
-      const file = await getResume(id as string);
-      const parsedResume = await getParsedResume(file?.url);
-      const parsedText = parsedResume.text;
-      const report = await getResumeAtsReport(
-        parsedText,
-        file?.file_size,
-        file?.file_type
-      );
-
-      setAtsReport(report);
-    } catch (error: unknown) {
-      let message = "Internal Server Error";
-      let status = 500;
-      if (error instanceof ApiError) {
-        message = error.message;
-        status = error.statusCode;
-      }
-      setError({
-        message,
-        status,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (id) {
-      getAtsReport();
-    }
+    const getAtsReport = async () => {
+      if (id) {
+        try {
+          const file = await getResume(id as string);
+          const parsedResume = await getParsedResume(file?.url);
+          const parsedText = parsedResume.text;
+          const report = await getResumeAtsReport(
+            parsedText,
+            file?.file_size,
+            file?.file_type
+          );
+
+          setAtsReport(report);
+        } catch (error: unknown) {
+          let message = "Internal Server Error";
+          let status = 500;
+          if (error instanceof ApiError) {
+            message = error.message;
+            status = error.statusCode;
+          }
+          setError({
+            message,
+            status,
+          });
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+        setError({
+          message: "No resume id provided",
+          status: 400,
+        });
+      }
+    };
+    getAtsReport();
   }, [id]);
 
   if (loading) return <AtsResultLoader />;
@@ -81,7 +86,10 @@ const AtsReport = () => {
               className="ats-report bg-gray-100 min-h-screen pb-24"
             >
               <Box component={motion.div} className="container mx-auto p-6">
-                <Box component={motion.div} className="content flex justify-center gap-10">
+                <Box
+                  component={motion.div}
+                  className="content flex justify-center gap-10"
+                >
                   <AtsResultSidebar
                     score={atsReport.breakdown_by_category.overall_score.score}
                   />
@@ -97,4 +105,4 @@ const AtsReport = () => {
   );
 };
 
-export default AtsReport;
+export default ResumeReport;

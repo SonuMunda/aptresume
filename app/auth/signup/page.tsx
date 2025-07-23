@@ -103,18 +103,22 @@ export default function SignUp() {
     }
   };
 
-  console.log(responseData);
-
   return (
     <main>
-      <Box component={"section"} className="signup min-h-screen bg-indigo-200 flex items-center justify-center">
+      <Box
+        component={"section"}
+        className="signup h-screen bg-indigo-200 flex items-center justify-center"
+      >
         <Toaster position="top-center" />
 
         <Box
           component={"div"}
-          className="container h-[95vh] max-w-6xl bg-white shadow shadow-lg flex items-center justify-center overflow-hidden"
+          className="container h-screen md:h-[85vh] max-w-6xl lg:bg-white lg:shadow lg:shadow-lg flex items-center justify-center overflow-hidden"
         >
-          <Box component={"div"} className="signup min-w-full lg:min-w-sm p-4 mx-auto">
+          <Box
+            component={"div"}
+            className="signup h-full md:h-max min-w-full bg-white md:min-w-[80%] lg:min-w-sm p-6 my-auto mx-auto"
+          >
             {/* Logo */}
             <Box component={"div"} className="logo mb-6">
               <Link href="/">

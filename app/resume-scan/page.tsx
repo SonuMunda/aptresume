@@ -5,18 +5,30 @@ import { atsProcess } from "@/data/atsProcess";
 import ResumeUploader from "../components/ResumeUploader";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import FeatureCard from "../components/shared/FeatureCard";
-
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+import Image from "next/image";
+import atsScanFaqData from "@/data/atsScannerFaqs";
+import AccordionComponent from "../components/shared/AccordionComponent";
+import HeroSection from "../components/layout/HeroSection";
 
 const ResumeScan = () => {
   const router = useRouter();
-
+  const uploaderRef = useRef<HTMLElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const heroContent = {
+    headline: "Elevate Your Resume with AI Precision",
+    supportingText:
+      "Analyze your resume against ATS standards and receive tailored recommendations to stand out to employers.",
+    image: "/images/ats-scanner-hero-image.png",
+    imageAlt: "ATS Scanner Hero Image",
+    buttonText: "Upload Resume",
+  };
+
+  const scrollToUploader = () => {
+    uploaderRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleFileUpload = async (file: File) => {
     try {
@@ -49,79 +61,127 @@ const ResumeScan = () => {
 
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex flex-col items-center justify-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 text-white text-center px-4 overflow-hidden">
-        <div className="container max-w-5xl mx-auto">
-          <motion.h1
-            className="hero-title font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 relative drop-shadow-lg"
-            initial="hidden"
-            animate="visible"
-            variants={fadeUpVariants}
-          >
-            ATS Resume Scanner & Optimizer
-          </motion.h1>
+      <Toaster />
 
-          <motion.p
-            className="hero-description mx-auto mt-3 text-xl max-w-3xl text-gray-300  relative  drop-shadow-md"
-            initial="hidden"
-            animate="visible"
-            variants={fadeUpVariants}
-            transition={{ delay: 0.3 }}
-          >
-            Upload your resume to see how well it performs against ATS
-            algorithms and get instant optimization tips.
-          </motion.p>
+      {/* Hero Section */}
+      <HeroSection headline={heroContent.headline} supportingText={heroContent.supportingText} image={heroContent.image} buttonText={heroContent.buttonText} handleScroll={scrollToUploader} imageAlt={heroContent.imageAlt}/>
+
+      {/* Additional Info Section */}
+      <section className="py-16 bg-white px-6 sm:px-8 lg:px-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex flex-col lg:flex-row items-start gap-12">
+            <motion.div
+              className="w-full lg:w-1/2 flex justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              <Image
+                src="/images/ats-scan-tip.png"
+                alt="ATS-Optimized Resume Analysis"
+                width={600}
+                height={400}
+                className="rounded-xl shadow-lg object-cover w-full max-w-md"
+              />
+            </motion.div>
+
+            <motion.div
+              className="w-full lg:w-1/2 text-center lg:text-left"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="content space-y-8">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+                  Optimize Your Resume for ATS Success
+                </h2>
+                <p className="text-gray-600 text-lg md:text-xl mx-auto lg:mx-0 max-w-3xl leading-relaxed">
+                  Applicant Tracking Systems (ATS) are used by over 75% of
+                  companies to filter resumes, often rejecting candidates before
+                  human review. Our advanced ATS scanner evaluates your resume’s
+                  formatting, keyword alignment, and job role relevance to
+                  ensure it passes these critical filters.
+                </p>
+                <p className="text-gray-600 text-lg md:text-xl mx-auto lg:mx-0 max-w-3xl leading-relaxed">
+                  By optimizing your resume to align with job descriptions and
+                  refining its structure, you can increase your visibility by up
+                  to 40%. This strategic approach enhances your chances of
+                  securing interviews and gives you a competitive edge in
+                  today’s job market.
+                </p>
+                <p className="text-gray-600 text-lg md:text-xl mx-auto lg:mx-0 max-w-3xl leading-relaxed">
+                  Leverage our AI-powered insights to refine your resume and
+                  unlock new opportunities. Upload your document today to
+                  discover how targeted improvements can make a significant
+                  impact.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      <Toaster />
       {/* Upload Section */}
-      <ResumeUploader handleFileUpload={handleFileUpload} loading={loading} />
+      <section className="resume-uploader bg-gray-100" ref={uploaderRef}>
+        <div className="container max-w-7xl mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+          <h2 className="headline text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center">
+            Upload Your Resume
+          </h2>
+          <p className="supporting-text mx-auto mt-4 text-lg sm:text-xl text-center max-w-4xl text-gray-600">
+            Boost your job application success! Upload your resume for an
+            instant ATS-friendly scan and tailored improvement tips.
+          </p>
+
+          <div className="w-full flex justify-center mt-10 max-auto">
+            <ResumeUploader
+              handleFileUpload={handleFileUpload}
+              loading={loading}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 px-4 text-center text-white">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          How Our ATS Scanner Works
-        </h2>
+      <section className="working white py-20">
+        <div className="container max-w-7xl mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-3xl md:text-4xl font-bold mb-12">
+            How Our ATS Scanner Works
+          </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          {atsProcess.map(({ id, icon: Icon, title, description }, index) => (
-            <FeatureCard
-              index={index}
-              Icon={Icon}
-              title={title}
-              description={description}
-              key={id}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-center gap-10">
+            {atsProcess.map(
+              ({ icon: Icon, iconBgColor, title, description }, index) => (
+                <FeatureCard
+                  index={index}
+                  Icon={Icon}
+                  iconBgColor={iconBgColor}
+                  title={title}
+                  description={description}
+                  key={index}
+                />
+              )
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Faqs */}
+      <section className="bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+        <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800  lg:max-w-4xl lg:mx-auto">
+          Frequently Asked Questions
+        </h3>
+
+        <div className="faq-accordion max-w-5xl mx-auto space-y-6">
+          {atsScanFaqData.map((faq, index) => (
+            <AccordionComponent
+              key={index}
+              question={faq.question}
+              answer={faq.answer}
             />
           ))}
         </div>
-      </section>
-
-      {/* Additional Info Section */}
-      <section className="py-16 bg-gray-100 px-4 text-center">
-        <motion.div
-          className="max-w-4xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUpVariants}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Why Optimize Your Resume for ATS?
-          </h2>
-          <p className="text-gray-700 mb-6">
-            Most companies use Applicant Tracking Systems (ATS) to filter
-            resumes before a human ever reads them. Our scanner helps ensure
-            your resume passes through these filters by analyzing formatting,
-            keywords, and relevance to job roles.
-          </p>
-          <p className="text-gray-700">
-            By tailoring your resume to the job description and optimizing
-            content structure, you improve your chances of getting noticed and
-            landing an interview.
-          </p>
-        </motion.div>
       </section>
     </main>
   );

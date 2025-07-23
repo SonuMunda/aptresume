@@ -3,6 +3,7 @@ import React from "react";
 import ProgressRing from "./ProgressRing";
 import Link from "next/link";
 import sectionsList from "../../../data/resumeResultSibarList";
+import { indigo } from "@mui/material/colors";
 
 const AtsResultSidebar = ({ score }: { score: number }) => {
   const handleScroll = (key: string) => {
@@ -40,26 +41,26 @@ const AtsResultSidebar = ({ score }: { score: number }) => {
             {sectionsList.map((section) => {
               return (
                 <ListItem
-                key={section.key}
-                onClick={() => handleScroll(section.key)}
-                sx={{
-                  py: 1.2,
-                  px: 1.5,
-                  borderRadius: 1,
-                  cursor: "pointer",
-                  transition: "background-color 0.2s ease",
-                  "&:hover": {
-                    backgroundColor: "#F3F4F6", 
-                  },
-                  "&:active": {
-                    backgroundColor: "#E5E7EB", 
-                  },
-                }}
-              >
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                  {section.title}
-                </Typography>
-              </ListItem>
+                  key={section.key}
+                  onClick={() => handleScroll(section.key)}
+                  sx={{
+                    py: 1.2,
+                    px: 1.5,
+                    borderRadius: 1,
+                    cursor: "pointer",
+                    transition: "background-color 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: "#F3F4F6",
+                    },
+                    "&:active": {
+                      backgroundColor: "#E5E7EB",
+                    },
+                  }}
+                >
+                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                    {section.title}
+                  </Typography>
+                </ListItem>
               );
             })}
           </List>
@@ -69,6 +70,7 @@ const AtsResultSidebar = ({ score }: { score: number }) => {
             variant="contained"
             sx={{
               width: "100%",
+              backgroundColor: indigo[600],
               p: 1,
             }}
           >

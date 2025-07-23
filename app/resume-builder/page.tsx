@@ -28,7 +28,7 @@ const ResumeBuilder = () => {
         <Box
           component={"div"}
           className={`fixed xl:relative top-0 ${
-            !isLeftSidebarOpen ? "left-[-100%]" : "left-[0]"
+            !isLeftSidebarOpen ? "left-[-110%]" : "left-[0]"
           } xl:left-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
         >
           <ResumeBuilderForm />
@@ -56,7 +56,7 @@ const ResumeBuilder = () => {
               initialPositionX={0}
               initialPositionY={0}
               initialScale={0.96}
-              minScale={0.5}
+              minScale={0.1}
               centerZoomedOut
               centerOnInit
               smooth
@@ -83,7 +83,7 @@ const ResumeBuilder = () => {
         <Box
           component={"div"}
           className={`fixed xl:relative top-0 ${
-            !isRightSidebarOpen ? "right-[-100%]" : "right-[0]"
+            !isRightSidebarOpen ? "right-[-110%]" : "right-[0]"
           } xl:right-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
         >
           <BuilderSidebar handleResumeDownload={handleDownloadPDF} />

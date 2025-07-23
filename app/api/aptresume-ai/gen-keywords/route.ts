@@ -14,16 +14,23 @@ export async function POST(req: NextRequest) {
       contents: `Analyze the following text and return only the most relevant and suitable keywords. Do not provide any explanation or additional text. Only return a comma-separated list of keywords. Text: ${query}`,
     });
 
-    if (!response) {
-      return NextResponse.json({ message: "Something went wrong" });
+    if (!response.text) {
+      return NextResponse.json(
+        { message: "Failed to generate keywords" },
+        { status: 500 }
+      );
     }
 
     const data = response.text;
-    return NextResponse.json(data);
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json({
-        messgae: error.message,
-      });
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          message: "Internal Server Error",
+        },
+        { status: 500 }
+      );
+    }
   }
 }

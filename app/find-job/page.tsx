@@ -1,15 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Button,
-  Typography,
-  CircularProgress,
-  Chip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Button, Typography, CircularProgress, Chip } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,7 +11,6 @@ import {
   AttachMoneyOutlined,
   BusinessOutlined,
   ErrorOutline,
-  ExpandMore,
   LocationOnOutlined,
   WorkOutline,
 } from "@mui/icons-material";
@@ -29,9 +20,12 @@ import getJobRole from "../utils/getJobRole";
 import getJobs from "../utils/getJobs";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
-import faqData from "@/data/jobFinderFaqs";
+
 import reputableProviders from "@/data/reputableProviders";
 import { ApiError } from "next/dist/server/api-utils";
+import AccordionComponent from "../components/shared/AccordionComponent";
+import jobsFaqData from "@/data/jobFinderFaqs";
+import HeroSection from "../components/layout/HeroSection";
 
 const JobFinder: React.FC = () => {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
@@ -53,6 +47,20 @@ const JobFinder: React.FC = () => {
   }
 
   const [jobResults, setJobResults] = useState<JobResult[]>([]);
+  const uploaderRef = useRef<HTMLElement>(null);
+
+  const heroContent = {
+    headline: "Unlock Your Perfect Career Match",
+    supportingText:
+      "Upload your resume and let our advanced AI analyze your skills, experience, and goals to recommend tailored job opportunities that align with your unique profile.",
+    image: "/images/ai-jobs-suggestion.png",
+    imageAlt: "Keyword Matcher Hero Image",
+    buttonText: "Upload Resume",
+  };
+
+  const scrollToUploader = () => {
+    uploaderRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [] },
@@ -120,26 +128,17 @@ const JobFinder: React.FC = () => {
     <main>
       <Toaster />
       {/* Hero Section */}
-      <section className="relative h-[26rem] sm:h-[30rem] md:h-[34rem] flex items-center justify-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 text-white overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="px-4 text-center max-w-3xl mx-auto"
-        >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
-            Discover Your Dream Job
-          </h2>
-          <p className="mt-6 text-lg sm:text-xl text-indigo-100 leading-relaxed">
-            Upload your resume and let our AI match you with the most relevant,
-            personalized job opportunities — quickly and efficiently.
-          </p>
-        </motion.div>
-      </section>
+      <HeroSection
+        headline={heroContent.headline}
+        supportingText={heroContent.supportingText}
+        image={heroContent.image}
+        imageAlt={heroContent.imageAlt}
+        buttonText={heroContent.buttonText}
+        handleScroll={scrollToUploader}
+      />
 
       {/* Upload Section */}
-      <section className="upload-section">
+      <section className="upload-section" ref={uploaderRef}>
         <div className="container my-16 p-6 mx-auto max-w-2xl">
           <h3 className="text-2xl sm:text-3xl font-bold text-center mb-4">
             Upload Your Resume
@@ -338,53 +337,18 @@ const JobFinder: React.FC = () => {
       )}
 
       {/* Faqs */}
-      <section className="bg-gray-50 mx-auto px-4 py-20">
-        <h3 className="text-4xl font-extrabold text-center mb-10 text-gray-800 tracking-tight">
+      <section className="bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+        <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800 tracking-tight lg:max-w-4xl lg:mx-auto">
           Frequently Asked Questions
         </h3>
 
-        <div className="faq-accordion max-w-5xl space-y-4 mx-auto">
-          {faqData.map((faq, index) => (
-            <Accordion
+        <div className="faq-accordion max-w-5xl mx-auto space-y-6">
+          {jobsFaqData.map((faq, index) => (
+            <AccordionComponent
               key={index}
-              elevation={4}
-              sx={{
-                backgroundColor: "#ffffff",
-                boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)",
-                "&:before": { display: "none" },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMore sx={{ color: "#1e40af" }} />}
-                sx={{
-                  px: 3,
-                  py: 2,
-                  "& .MuiTypography-root": {
-                    fontWeight: 600,
-                    fontSize: "1.125rem",
-                    color: "#1f2937",
-                  },
-                }}
-              >
-                <Typography component="h6">{faq.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  px: 3,
-                  py: 2,
-                  backgroundColor: "#f9fafb",
-                  borderTop: "1px solid #e5e7eb",
-                }}
-              >
-                <Typography
-                  component="p"
-                  variant="body2"
-                  className="text-gray-700 leading-relaxed"
-                >
-                  {faq.answer}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+              question={faq.question}
+              answer={faq.answer}
+            />
           ))}
         </div>
       </section>

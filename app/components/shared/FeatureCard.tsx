@@ -5,11 +5,13 @@ import { ElementType } from "react";
 const FeatureCard = ({
   index,
   Icon,
+  iconBgColor,
   title,
   description,
 }: {
   index: number;
   Icon: ElementType;
+  iconBgColor?: string;
   title: string;
   description: string;
 }) => {
@@ -24,15 +26,17 @@ const FeatureCard = ({
         visible: { opacity: 1, y: 0 },
       }}
       transition={{ delay: index * 0.2, duration: 0.5 }}
-      className={`${
-        index === 2 ? "sm:col-span-full lg:col-span-1" : ""
-      } bg-white/10 border border-white/10 backdrop-blur-lg rounded-2xl p-8 text-center shadow-md hover:shadow-xl transition`}
+      className={`cursor-default ${
+        index === 2 && "sm:col-span-full lg:col-span-1"
+      } bg-white border border-gray-300 rounded-2xl p-6 lg:p-15 shadow-md hover:shadow-2xl transition-all duration-300`}
     >
-      <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-indigo-500/20 text-indigo-300">
+      <div
+        className={`w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full ${iconBgColor} text-white`}
+      >
         <Icon sx={{ fontSize: 36 }} />
       </div>
-      <h3 className="text-xl font-semibold mb-3 text-white">{title}</h3>
-      <p className="text-indigo-100 text-base leading-relaxed">{description}</p>
+      <h3 className="text-xl font-semibold mb-4 text-gray-900">{title}</h3>
+      <p className="text-gray-700 text-base leading-relaxed">{description}</p>
     </Box>
   );
 };

@@ -10,24 +10,37 @@ import {
 } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
 import { getKeywordResponse } from "../utils/getKeywordResponse";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import keywordMatcherSteps from "@/data/kewordMatcherSteps";
 import FeatureCard from "../components/shared/FeatureCard";
+import HeroSection from "../components/layout/HeroSection";
+import { ApiError } from "next/dist/server/api-utils";
+import Image from "next/image";
+import AccordionComponent from "../components/shared/AccordionComponent";
+import keywordsFaqData from "@/data/keywordsFaqData";
 
 const KeywordMatcher = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
   const [keywords, setKeywords] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const uploaderRef = useRef<HTMLElement>(null);
 
-  //Motoin Fadeup
-  const fadeUpVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  const heroContent = {
+    headline: "Unlock Your Dream Job with ATS-Optimized Keywords",
+    supportingText:
+      "Boost your resume’s visibility with AI-driven keyword suggestions tailored to job descriptions, ensuring you pass ATS filters and impress employers.",
+    image: "/images/keyword-matcher-hero-image.png",
+    imageAlt: "ATS Keyword Optimization",
+    buttonText: "Upload Job Description",
   };
 
-  const handleClick = async () => {
+  const scrollToUploader = () => {
+    uploaderRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSubmit = async () => {
     if (!jobDescription.trim()) {
       setError("Please enter a job description.");
       return;
@@ -44,8 +57,9 @@ const KeywordMatcher = () => {
       } else {
         setKeywords(responseData);
       }
-    } catch (err) {
-      if (err instanceof Error) setError("An unexpected error occurred.");
+    } catch (error) {
+      if (error instanceof ApiError)
+        setError(error.message || "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -54,63 +68,35 @@ const KeywordMatcher = () => {
   return (
     <main>
       {/* Hero Section */}
-      <Box
-        component={"section"}
-        className="hero min-h-[70vh] bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 flex flex-col justify-center items-center text-center px-6"
-      >
-        <Typography
-          variant="h2"
-          component={motion.h2}
-          initial="hidden"
-          whileInView="visible"
-          variants={fadeUpVariants}
-          sx={{
-            fontWeight: 700,
-            fontSize: {
-              xs: "2rem",
-              sm: "2.8rem",
-              md: "3.2rem",
-              lg: "3.8rem",
-              xl: "4.2rem",
-            },
-            color: grey[100],
-          }}
-          gutterBottom
-        >
-          AptResume&apos;s Keyword Matcher
-        </Typography>
-
-        <Typography
-          component={motion.p}
-          variant="body1"
-          initial="hidden"
-          whileInView="visible"
-          variants={fadeUpVariants}
-          sx={{
-            maxWidth: 800,
-            color: grey[400],
-          }}
-        >
-          Paste a job description and get the best keywords to boost your resume
-          and beat the ATS!
-        </Typography>
-      </Box>
+      <HeroSection
+        headline={heroContent.headline}
+        supportingText={heroContent.supportingText}
+        image={heroContent.image}
+        imageAlt={heroContent.imageAlt}
+        buttonText={heroContent.buttonText}
+        handleScroll={scrollToUploader}
+      />
 
       {/* Form Section */}
-      <Box className="form-section text-black py-20 flex flex-col items-center bg-gray-50">
-        <Box className="w-full max-w-4xl p-6 sm:p-8 bg-white">
+      <Box
+        component="section"
+        className="form-section bg-white text-black py-16 sm:py-24 flex flex-col items-center"
+        ref={uploaderRef}
+      >
+        <Box component="div" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Typography
             variant="h2"
             component="h1"
             sx={{
-              fontWeight: "bold",
+              fontWeight: 700,
               textAlign: "center",
-              mb: 2,
-              fontSize: { xs: "1.8rem", sm: "2.25rem" },
+              mb: 3,
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
               color: "text.primary",
+              letterSpacing: "-0.025em",
             }}
           >
-            Enter Job Description
+            Job Description Keyword Extractor
           </Typography>
 
           <Typography
@@ -120,188 +106,318 @@ const KeywordMatcher = () => {
               color: "text.secondary",
               textAlign: "center",
               fontSize: { xs: "1rem", sm: "1.125rem" },
+              maxWidth: "600px",
+              mx: "auto",
             }}
           >
-            Paste the job description below to extract the most relevant
-            keywords for your resume.
+            Paste the job description below to identify and extract the most
+            relevant keywords for optimizing your resume.
           </Typography>
 
-          <TextField
-            multiline
-            minRows={8}
-            maxRows={16}
-            fullWidth
-            variant="outlined"
-            placeholder="Paste the job description here..."
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
-            sx={{
-              backgroundColor: "#f9fafb",
-              borderRadius: 3,
-              mb: 4,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 3,
-              },
-            }}
-          />
-
-          <Box className="flex justify-center">
-            <Button
-              variant="contained"
-              size="large"
-              onClick={handleClick}
-              disabled={isLoading || !jobDescription.trim()}
+          <Box className="input w-full max-w-4xl p-6 sm:p-10">
+            <TextField
+              multiline
+              minRows={8}
+              maxRows={20}
+              fullWidth
+              variant="outlined"
+              placeholder="Paste the job description here..."
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              aria-label="Job description input"
               sx={{
-                width: "100%",
-                px: 8,
-                textTransform: "none",
-                borderRadius: 2,
-                backgroundColor: indigo[600],
-                boxShadow: "0 4px 14px rgba(99, 102, 241, 0.4)",
-                transition: "background-color 0.3s ease",
-                "&:hover": {
-                  backgroundColor: indigo[700],
+                backgroundColor: "#f8fafc",
+                borderRadius: 3,
+                mb: 5,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 3,
+                  "& fieldset": {
+                    borderColor: "grey.300",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: indigo[400],
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: indigo[600],
+                  },
                 },
               }}
-            >
-              {isLoading ? (
-                <>
-                  <CircularProgress size={24} color="inherit" />{" "}
-                  <span className="ms-2">Extracting...</span>
-                </>
-              ) : (
-                "Extract Keywords"
-              )}
-            </Button>
-          </Box>
+            />
 
-          {error && (
-            <Alert
-              severity="error"
-              className="mt-6"
-              variant="outlined"
-              sx={{ fontWeight: 600 }}
-            >
-              {error}
-            </Alert>
-          )}
-
-          {keywords && (
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-4xl mx-auto mt-10"
-            >
-              <Typography
-                variant="h4"
+            <Box className="flex justify-center gap-2">
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleSubmit}
+                disabled={isLoading || !jobDescription.trim()}
                 sx={{
-                  fontWeight: "bold",
-                  mb: 3,
-                  color: "text.primary",
+                  px: { xs: 4, sm: 8 },
+                  py: 1.5,
+                  textTransform: "none",
+                  borderRadius: 3,
+                  backgroundColor: indigo[600],
+                  boxShadow: "0 4px 14px rgba(99, 102, 241, 0.3)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: indigo[700],
+                    boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
+                    transform: "translateY(-2px)",
+                  },
+                  "&:disabled": {
+                    backgroundColor: "grey.400",
+                    boxShadow: "none",
+                  },
                 }}
               >
-                Extracted Keywords
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  whiteSpace: "pre-wrap",
-                  color: "text.secondary",
-                  fontSize: "1.125rem",
-                  lineHeight: 1.6,
-                  wordBreak: "break-word",
-                }}
-              >
-                {keywords}
-              </Typography>
+                {isLoading ? (
+                  <Box className="flex items-center">
+                    <CircularProgress size={24} color="inherit" />
+                    <span className="ml-3">Extracting...</span>
+                  </Box>
+                ) : (
+                  "Extract Keywords"
+                )}
+              </Button>
             </Box>
-          )}
+
+            {error && (
+              <Alert
+                severity="error"
+                className="mt-6"
+                variant="outlined"
+                sx={{
+                  fontWeight: 500,
+                  borderRadius: 2,
+                  backgroundColor: "#fef2f2",
+                  borderColor: "#f87171",
+                }}
+              >
+                {error}
+              </Alert>
+            )}
+
+            {keywords && (
+              <Box className="max-w-4xl mx-auto mt-10">
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 600,
+                    mb: 4,
+                    color: "text.primary",
+                    textAlign: "center",
+                  }}
+                >
+                  Extracted Keywords
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    color: "text.secondary",
+                    fontSize: { xs: "1rem", sm: "1.125rem" },
+                    lineHeight: 1.7,
+                    wordBreak: "break-word",
+                    backgroundColor: "#f8fafc",
+                    p: 4,
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "grey.200",
+                  }}
+                >
+                  {keywords}
+                </Typography>
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
 
       {/* How It Works Section */}
-      <Box
-        component="section"
-        className="working-section bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900 py-20 text-white"
-      >
-        <Box component="div" className="container mx-auto px-4">
+      <Box component="section" className="working-section bg-gray-100">
+        <Box component="div" className="container max-w-7xl mx-auto py-20 px-4">
           <Typography
             variant="h2"
             component={motion.h2}
             initial="hidden"
             whileInView="visible"
-            variants={fadeUpVariants}
             sx={{
               fontWeight: "bold",
               textAlign: "center",
               marginBottom: "3rem",
-              color: grey[100],
+              color: grey[900],
               fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
             }}
           >
             How It Works
           </Typography>
 
-          <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {keywordMatcherSteps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <FeatureCard
-                  key={index}
-                  index={index}
-                  Icon={Icon}
-                  title={step.title}
-                  description={step.description}
-                />
-              );
-            })}
+          <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center mx-auto">
+            {keywordMatcherSteps.map(
+              ({ Icon, iconBgColor, title, description }, index) => {
+                return (
+                  <FeatureCard
+                    key={index}
+                    index={index}
+                    Icon={Icon}
+                    iconBgColor={iconBgColor}
+                    title={title}
+                    description={description}
+                  />
+                );
+              }
+            )}
           </Box>
         </Box>
       </Box>
 
       {/* Purpose Section */}
-      <Box className="bg-gradient-to-br from-gray-50 via-white to-gray-100 text-black px-6 py-20">
-        <Box className="max-w-4xl mx-auto text-center">
+      <Box
+        component="section"
+        className="bg-gradient-to-b from-gray-50 to-gray-100 text-black px-4 sm:px-6 py-16 sm:py-24"
+        aria-labelledby="keyword-importance-heading"
+      >
+        <Box
+          component={"div"}
+          className="container items-start max-w-7xl mx-auto flex flex-col md:flex-row gap-16"
+        >
+          {/* Image */}
+          <Box
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="w-full md:w-1/2 flex justify-center"
+          >
+            <Image
+              src={"/images/keywords-importance.png"}
+              alt="Importance of keywords"
+              width={600}
+              height={600}
+              className="rounded-2xl object-cover"
+            />
+          </Box>
+
+          <Box className="content w-full md:w-1/2 text-left">
+            <Typography
+              variant="h2"
+              component="h2"
+              id="keywords-importance-heading"
+              sx={{
+                fontWeight: 800,
+                fontSize: {
+                  xs: "1.8rem",
+                  sm: "2.5rem",
+                  md: "3rem",
+                  lg: "3.5rem",
+                },
+                lineHeight: 1.2,
+                mb: 5,
+                color: "#111827",
+                letterSpacing: "-0.025em",
+              }}
+            >
+              Why Perfect Keywords Are Essential for Your Resume
+            </Typography>
+
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                color: grey[700],
+                fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
+                lineHeight: 1.7,
+                maxWidth: "800px",
+                mx: "auto",
+                mb: 4,
+                opacity: 0.9,
+              }}
+            >
+              In today’s competitive job market, most companies use Applicant
+              Tracking Systems (ATS) to screen resumes before they ever reach a
+              human recruiter. These systems scan for specific keywords that
+              match the job description, filtering out candidates who don’t
+              align closely with the role’s requirements. Without the right
+              keywords, even the most qualified candidates risk being
+              overlooked.
+            </Typography>
+
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                color: grey[700],
+                fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
+                lineHeight: 1.7,
+                maxWidth: "800px",
+                mx: "auto",
+                mb: 4,
+                opacity: 0.9,
+              }}
+            >
+              Our advanced keyword extraction tool analyzes job descriptions to
+              identify the most relevant terms and phrases, such as required
+              skills, qualifications, and industry-specific jargon. By
+              integrating these keywords into your resume, you ensure it aligns
+              with what employers and ATS systems are looking for, significantly
+              increasing your chances of passing the initial screening and
+              landing an interview.
+            </Typography>
+
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                color: grey[700],
+                fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
+                lineHeight: 1.7,
+                maxWidth: "800px",
+                mx: "auto",
+                opacity: 0.9,
+              }}
+            >
+              Beyond ATS optimization, using precise keywords showcases your
+              understanding of the role and industry, making your application
+              stand out to recruiters. Our tool simplifies this process, saving
+              you time and effort while helping you craft a resume that speaks
+              directly to the job you want. Start optimizing your resume today
+              to unlock more opportunities!
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Faqs */}
+      <Box component={"section"}>
+        <Box
+          component={"div"}
+          className="container max-w-7xl mx-auto py-20 px-4"
+        >
           <Typography
             variant="h2"
             component={motion.h2}
             initial="hidden"
             whileInView="visible"
-            variants={fadeUpVariants}
             sx={{
-              fontWeight: 800,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: "3rem",
+              color: grey[900],
               fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-              lineHeight: 1.3,
-              mb: 4,
-              color: "#111827",
             }}
           >
-            Why Do You Need Perfect Keywords?
+            Frequently Asked Questions
           </Typography>
 
-          <Typography
-            variant="body1"
-            component={motion.p}
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeUpVariants}
-            transition={{ delay: 0.3 }}
-            sx={{
-              color: grey[700],
-              fontSize: "1.125rem",
-              lineHeight: 1.8,
-              maxWidth: "700px",
-              mx: "auto",
-            }}
-          >
-            Most resumes are filtered by Applicant Tracking Systems (ATS) before
-            a recruiter even sees them. Our tool analyzes job descriptions to
-            identify the most relevant keywords you should include. By aligning
-            your resume with these terms, you dramatically improve visibility
-            and increase your chances of getting shortlisted.
-          </Typography>
+          <Box component={"div"} className="faq-accordion max-w-5xl mx-auto space-y-6">
+            {keywordsFaqData.map((faq, index) => (
+              <AccordionComponent
+                question={faq.question}
+                answer={faq.answer}
+                key={index}
+              />
+            ))}
+          </Box>
         </Box>
       </Box>
     </main>

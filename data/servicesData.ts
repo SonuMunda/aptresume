@@ -6,37 +6,38 @@ import {
 } from "@mui/icons-material";
 import { SvgIconProps } from "@mui/material";
 
-type Feature = {
+type Service = {
   title: string;
   description: string;
-  icon: React.ElementType<SvgIconProps>;
+  Icon: React.ElementType<SvgIconProps>;
+  iconBgColor?: string;
 };
 
-const features: Feature[] = [
-  {
-    title: "Job Finder",
-    description:
-      "Discover relevant job opportunities tailored to your skills, experience, and goals.",
-    icon: WorkOutline,
-  },
+const services: Service[] = [
   {
     title: "Resume Scan",
     description:
       "Scan your resume and receive instant feedback on keywords, formatting, and job relevance.",
-    icon: DocumentScanner,
+    Icon: DocumentScanner,
   },
   {
     title: "Keyword Matcher",
     description:
       "Match your resume with job descriptions to improve your chances of getting noticed.",
-    icon: Checklist,
+    Icon: Checklist,
   },
   {
     title: "Resume Maker",
     description:
       "Build a professional resume in minutes with customizable templates and guided content suggestions.",
-    icon: Description,
+    Icon: Description,
+  },
+  {
+    title: "Job Finder",
+    description:
+      "Discover relevant job opportunities tailored to your skills, experience, and goals.",
+    Icon: WorkOutline,
   },
 ];
 
-export default features;
+export default services;

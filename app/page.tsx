@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import sideImage from "./assets/images/about-side-home.jpg";
-import features from "../data/features";
-import processes from "../data/jobFinderProcess";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import FeatureCard from "./components/shared/FeatureCard";
 import { indigo } from "@mui/material/colors";
+import { atsProcess } from "@/data/atsProcess";
+import services from "@/data/servicesData";
 
 export default function Home() {
   return (
@@ -17,51 +16,65 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="hero-section bg-gradient-to-br from-indigo-950 via-indigo-900 to-gray-950 h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen"
+        className="hero-section h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen bg-gray-50"
       >
-        <div className="container mx-auto h-full flex flex-col items-center justify-center px-4 max-w-6xl">
-          <div className="hero-content text-center">
+        <div className="container mx-auto h-full flex items-center justify-between px-6 max-w-7xl">
+          <div className="hero-content w-full lg:w-1/2">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight"
+              className="text-gray-900 font-bold text-4xl sm:text-5xl"
             >
-              Advance Your Career with AptResume
+              Enhance your professional image with aptresume.
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-4 text-lg sm:text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto"
+              className="mt-6 text-base sm:text-lg md:text-xl text-gray-700 max-w-xl"
             >
-              Upload your resume and let our AI instantly connect you with job
-              opportunities tailored to your unique experience and skills.
+              Upload your resume and unlock personalized job opportunities
+              tailored to your expertise and skills with our advanced AI
+              technology.
             </motion.p>
 
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="mt-8"
+              className="mt-10"
             >
               <Button
                 variant="contained"
-                href="/find-job"
+                href="/resume-scan"
                 sx={{
                   textTransform: "none",
-                  px: 6,
                   py: 2,
-                  borderRadius: "1rem",
+                  px: 4,
+                  borderRadius: 2,
                   backgroundColor: indigo[600],
-                  fontSize: "1rem",
-                  fontWeight: 600,
+                  color: "#ffffff",
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  "&:hover": {
+                    backgroundColor: indigo[800],
+                  },
                 }}
               >
                 Get Started
               </Button>
             </motion.div>
+          </div>
+          <div className="hero-image hidden lg:block w-1/2">
+            <Image
+              src={"/images/homepage-hero.png"}
+              alt="Professional Career Image"
+              width={600}
+              height={600}
+              className="object-cover"
+            />
           </div>
         </div>
       </motion.section>
@@ -72,36 +85,9 @@ export default function Home() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="about-section py-20 px-4 sm:px-10 bg-gray-100 text-gray-900 overflow-x-hidden"
+        className="about-section bg-white py-24 px-4 sm:px-10 text-gray-900 overflow-x-hidden"
       >
-        <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12">
-          {/* Text Content */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="w-full md:w-1/2 text-center md:text-left"
-          >
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-600 mb-6 leading-tight">
-              About <span className="text-indigo-400">AptResume</span>
-            </h2>
-
-            <p className="text-gray-700 text-lg leading-relaxed">
-              At <strong>AptResume</strong>, we empower job seekers and
-              employers through smart, AI-driven solutions. From resume
-              optimization to intelligent job matching, we help you navigate the
-              job market with confidence and precision.
-            </p>
-
-            <p className="text-gray-700 text-lg mt-4 leading-relaxed">
-              Whether you&apos;re starting your career, transitioning to a new
-              role, or recruiting top talent, AptResume simplifies the
-              process—connecting the right people with the right opportunities,
-              faster.
-            </p>
-          </motion.div>
-
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
           {/* Image */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -111,12 +97,39 @@ export default function Home() {
             className="w-full md:w-1/2 flex justify-center"
           >
             <Image
-              src={sideImage}
-              alt="About AptResume"
-              width={500}
-              height={500}
-              className="rounded-2xl shadow-xl object-cover"
+              src={"/images/about-section-image.jpg"}
+              alt="About aptresume"
+              width={600}
+              height={600}
+              className="rounded-2xl shadow-2xl object-cover"
             />
+          </motion.div>
+
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="w-full md:w-1/2 text-left"
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-8 leading-tight tracking-tight">
+              About <span className="text-indigo-600">aptresume</span>
+            </h2>
+
+            <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+              At <strong>aptresume</strong>, we empower job seekers and
+              employers with cutting-edge, AI-driven solutions. Our platform
+              optimizes resumes and delivers intelligent job matching, enabling
+              you to navigate the job market with confidence and precision.
+            </p>
+
+            <p className="text-gray-700 text-base sm:text-lg mt-6 leading-relaxed">
+              Whether you’re launching your career, transitioning to a new role,
+              or seeking top talent, aptresume streamlines the
+              process—connecting the right individuals with the right
+              opportunities efficiently.
+            </p>
           </motion.div>
         </div>
       </motion.section>
@@ -127,22 +140,25 @@ export default function Home() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-br from-indigo-950 via-indigo-900 to-slate-900"
+        className="bg-gray-100 py-24 px-4 sm:px-6 lg:px-10 text-center"
       >
-        <h2 className="text-4xl sm:text-5xl font-extrabold mb-12 text-indigo-100 tracking-tight">
+        <h2 className="text-4xl sm:text-5xl font-bold mb-14 text-gray-900 tracking-tight">
           How It Works
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {processes.map(({ icon: Icon, title, description }, index) => (
-            <FeatureCard
-              index={index}
-              Icon={Icon}
-              title={title}
-              description={description}
-              key={index}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {atsProcess.map(
+            ({ icon: Icon, title, iconBgColor, description }, index) => (
+              <FeatureCard
+                index={index}
+                Icon={Icon}
+                title={title}
+                iconBgColor={iconBgColor}
+                description={description}
+                key={index}
+              />
+            )
+          )}
         </div>
       </motion.section>
 
@@ -152,35 +168,35 @@ export default function Home() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="py-20 px-4 sm:px-10 bg-gray-100 text-center"
+        className="bg-gray-50 text-center py-24 px-4 sm:px-10"
       >
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-6 tracking-tight">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8">
             Our Services
           </h2>
-          <p className="text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
-            Discover intelligent tools designed to streamline your job search —
-            from resume scanning to personalized job matching and professional
-            resume building.
+          <p className="text-gray-600 sm:text-lg mb-14 max-w-3xl mx-auto">
+            Explore advanced tools designed to enhance your job search—featuring
+            resume scanning, personalized job matching, and expert resume
+            creation services.
           </p>
 
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {features.map((feature, index) => (
+          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            {services.map(({ Icon, title, description }, index) => (
               <motion.div
                 key={index}
                 initial={{ y: 30 }}
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
-                className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md  border border-gray-200 transition duration-300"
+                className="column bg-white space-y-6 p-6 border-2 border-gray-300 rounded-xl "
               >
-                <div className={`mb-4 flex justify-center text-indigo-600`}>
-                  <feature.icon fontSize="large" />
+                <div className="flex items-center justify-center h-16 w-16 rounded-full text-blue-600  mx-auto">
+                  <Icon fontSize="large" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {feature.title}
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {feature.description}
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  {description}
                 </p>
               </motion.div>
             ))}

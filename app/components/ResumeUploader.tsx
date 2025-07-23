@@ -3,10 +3,10 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Chip, CircularProgress } from "@mui/material";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { CircularProgress } from "@mui/material";
 import { Button } from "@mui/material";
 import toast from "react-hot-toast";
+import { Clear, InsertDriveFileRounded } from "@mui/icons-material";
 
 interface ResumeUploaderProps {
   handleFileUpload: (file: File) => void;
@@ -40,73 +40,89 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   });
 
   return (
-    <section className="py-16 px-4 flex justify-center">
-      <div className="w-full max-w-3xl p-8 bg-gray-50 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">
-          Upload Your Resume
-        </h2>
-        <p className="text-gray-600 mb-6">Supported formats: PDF, DOC, DOCX</p>
-
-        <div>
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed p-6 rounded-lg cursor-pointer select-none transition-colors duration-300 ${
-              isDragActive
-                ? "border-emerald-500 bg-emerald-50"
-                : "border-gray-300 bg-white"
-            }`}
-          >
-            <input {...getInputProps()} />
-            <div className="flex flex-col items-center">
-              <CloudUploadIcon
-                style={{
-                  fontSize: 60,
-                  color: isDragActive ? "#10b981" : "#9ca3af",
-                  transition: "color 0.3s ease",
-                }}
-              />
-              <p className="mt-4 text-gray-700">
-                {isDragActive
-                  ? "Drop the file here ..."
-                  : "Drag and drop your resume here, or click to select a file"}
-              </p>
-              <em className="text-sm text-gray-400 mt-2">
-                Only .pdf, .doc, and .docx files accepted
-              </em>
-            </div>
-          </div>
-        </div>
-
-        {resumeFile && (
-          <Chip
-            label={resumeFile.name}
-            color="primary"
-            variant="outlined"
-            icon={<UploadFileIcon />}
-            sx={{ mt: 2, px: 2, borderRadius: "4px" }}
+    <div className="uploader space-y-6 w-full max-w-lg p-8 bg-white rounded-xl text-center border-2 border-gray-300">
+      <div
+        {...getRootProps()}
+        className={`border-2 border-dashed p-8 rounded-xl cursor-pointer select-none transition-colors duration-300 ${
+          isDragActive
+            ? "border-indigo-500 bg-indigo-50"
+            : "border-gray-200 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-25"
+        }`}
+      >
+        <input {...getInputProps()} />
+        <div className="flex flex-col items-center">
+          <CloudUploadIcon
+            style={{
+              fontSize: 64,
+              color: isDragActive ? "#10b981" : "#6b7280",
+              transition: "color 0.3s ease",
+            }}
           />
-        )}
-
-        <div className="mt-6">
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ textTransform: "none", width: "100%" }}
-            disabled={!resumeFile || loading}
-            onClick={() => resumeFile && handleFileUpload(resumeFile)}
-          >
-            {loading ? (
-              <CircularProgress
-                size={28}
-                color="inherit"
-              />
-            ) : (
-              "Upload Resume"
-            )}
-          </Button>
+          <p className="mt-6 text-gray-700  md:text-lg">
+            {isDragActive
+              ? "Drop the file here..."
+              : "Drag and drop your resume here, or click to select"}
+          </p>
+          <em className="text-sm text-gray-500 mt-2">
+            Only .pdf, .doc, and .docx files accepted
+          </em>
         </div>
       </div>
-    </section>
+
+      {resumeFile && (
+        <div className="relative flex items-center justify-between p-3 bg-white border border-gray-300 rounded-xl mx-auto">
+          <div className="flex items-center gap-4">
+            <div className="icon p-2 text-gray-600 bg-white border border-gray-300 rounded-lg">
+              <InsertDriveFileRounded className="text-3xl" />
+            </div>
+            <div className="details text-left">
+              <p className="text-sm text-gray-800 font-medium">
+                {resumeFile.name}
+              </p>
+              <p className="text-gray-500 text-xs">
+                {(resumeFile.size / 1024).toFixed(2)} KB
+              </p>
+            </div>
+          </div>
+          <div className="remove-btn absolute right-2 top-2" onClick={() => setResumeFile(null)}>
+            <button
+              className="text-gray-500 hover:text-red-600 transition-colors duration-200"
+              aria-label="Remove file"
+            >
+              <Clear
+                sx={{
+                  fontSize: 20,
+                }}
+              />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="upload-button">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            textTransform: "none",
+            width: "100%",
+            padding: "10px 20px",
+            fontSize: "1rem",
+            borderRadius: "8px",
+            backgroundColor: "#3f51b5",
+            "&:hover": { backgroundColor: "#303f9f" },
+          }}
+          disabled={!resumeFile || loading}
+          onClick={() => resumeFile && handleFileUpload(resumeFile)}
+        >
+          {loading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Upload Resume"
+          )}
+        </Button>
+      </div>
+    </div>
   );
 };
 

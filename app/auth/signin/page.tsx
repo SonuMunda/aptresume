@@ -129,15 +129,15 @@ export default function SignIn() {
   return (
     <Box
       component={"section"}
-      className="signin min-h-screen w-full bg-indigo-200 shadow shadow-lg flex items-center justify-center"
+      className="signin h-screen bg-indigo-200 flex items-center justify-center"
     >
       <Box
         component={"div"}
-        className="container h-[95vh]  max-w-6xl bg-white w-full flex items-center justify-center overflow-hidden"
+        className="container h-screen md:h-[85vh] max-w-6xl lg:bg-white lg:shadow lg:shadow-lg flex items-center justify-center overflow-hidden"
       >
         <Box
           component={"div"}
-          className="login min-w-full lg:min-w-sm p-4 mx-auto"
+          className="login h-full md:h-max min-w-full bg-white md:min-w-[80%] lg:min-w-sm p-6 my-auto mx-auto"
         >
           {/* Logo */}
           <Box component={"div"} className="logo mb-6">

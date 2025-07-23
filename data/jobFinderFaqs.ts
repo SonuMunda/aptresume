@@ -3,7 +3,7 @@ type FAQItem = {
   answer: string;
 };
 
-const faqData: FAQItem[] = [
+const jobsFaqData: FAQItem[] = [
   {
     question: "What file formats are supported for resume upload?",
     answer: "Currently, we support only PDF format for resume uploads.",
@@ -30,4 +30,4 @@ const faqData: FAQItem[] = [
   },
 ];
 
-export default faqData;
+export default jobsFaqData;
