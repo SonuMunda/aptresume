@@ -10,94 +10,78 @@ import {
   InputAdornment,
   CircularProgress,
   Alert,
+  FormControl,
 } from "@mui/material";
 import Image from "next/image";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import Link from "next/link";
-import toast, { Toaster } from "react-hot-toast";
-import { signUpSchema, SignUpSchemaType } from "@/lib/validations/signup";
-import { IResponseData } from "@/app/types/responseDataTypes";
-import { motion } from "framer-motion";
+import { signUpSchema, SignUpSchemaType } from "@/lib/validations/signupSchema";
+import { IResponseData } from "@/types/responseDataTypes";
 import GoogleSigninButton from "../components/GoogleSigninButton";
 import { indigo } from "@mui/material/colors";
+import { textFieldStyle } from "@/ui/styles/textFieldStyle";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-// Define type from Zod schema
 type FormData = SignUpSchemaType;
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    password: "",
-  });
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
-    {}
-  );
-  const [responseData, setResponseData] = useState<
-    IResponseData | null | undefined
-  >(null);
+  const [responseData, setResponseData] = useState<IResponseData | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onBlur",
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
 
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const result = signUpSchema.safeParse(formData);
-
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
-      result.error.errors.forEach((error) => {
-        if (error.path[0]) {
-          const fieldName = error.path[0] as keyof FormData;
-          fieldErrors[fieldName] = error.message;
-        }
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setErrors({});
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
-
+    setResponseData(null);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
-      const data = await res.json();
+      const resData = await res.json();
 
       if (!res.ok) {
-        if (data?.errors) {
-          setErrors((prev) => ({
-            ...prev,
-            ...data.errors,
-          }));
-        }
-        setResponseData(data);
-        setFormData({ name: "", email: "", password: "" });
+        setResponseData({
+          message: resData.message,
+          success: false,
+        });
+        return;
       }
 
-      setResponseData(data);
+      reset();
+      setResponseData({
+        message: resData.message,
+        success: true,
+      });
     } catch (error: unknown) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again."
-      );
+      if (error instanceof Error) {
+        setResponseData({
+          message: error.message,
+          success: false,
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -105,22 +89,17 @@ export default function SignUp() {
 
   return (
     <main>
-      <Box
-        component={"section"}
-        className="signup h-screen bg-indigo-200 flex items-center justify-center"
-      >
-        <Toaster position="top-center" />
-
+      <Box component={"section"} className="signup">
         <Box
           component={"div"}
-          className="container h-screen md:h-[85vh] max-w-6xl lg:bg-white lg:shadow lg:shadow-lg flex items-center justify-center overflow-hidden"
+          className="container min-h-screen min-w-full bg-white mx-auto grid lg:grid-cols-2"
         >
           <Box
             component={"div"}
-            className="signup h-full md:h-max min-w-full bg-white md:min-w-[80%] lg:min-w-sm p-6 my-auto mx-auto"
+            className="signup-form space-y-6 h-fit w-full p-4 md:p-10 md:m-auto md:max-w-xl"
           >
             {/* Logo */}
-            <Box component={"div"} className="logo mb-6">
+            <Box component={"div"} className="logo mb-2">
               <Link href="/">
                 <Box
                   sx={{
@@ -130,17 +109,16 @@ export default function SignUp() {
                     textDecoration: "none",
                   }}
                 >
-                  <Image src="/logo.png" alt="Logo" width={32} height={32} />
+                  <Image src="/logo.png" alt="Logo" width={48} height={48} />
                 </Box>
               </Link>
             </Box>
             {/* Heading */}
             <Typography
-              variant="h5"
-              component="h1"
+              variant="h2"
+              component="h2"
               sx={{
                 fontWeight: 700,
-                mb: 0.5,
               }}
             >
               Create your account
@@ -148,105 +126,82 @@ export default function SignUp() {
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Get started with your new account
             </Typography>
+
             {/* Error/Success Alert */}
             {responseData && (
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                sx={{ mb: 3 }}
-              >
-                <Alert
-                  severity={responseData.success ? "success" : "error"}
-                  variant="outlined"
-                >
-                  {responseData.message}
-                </Alert>
-              </Box>
+              <Alert severity={responseData.success ? "success" : "error"}>
+                {responseData.message}
+              </Alert>
             )}
             {/* Form */}
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <TextField
-                name="name"
-                label="Full Name"
-                variant="outlined"
-                fullWidth
-                value={formData.name}
-                onChange={handleChange}
-                error={!!errors.name}
-                helperText={errors.name}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                    "& fieldset": {
-                      borderColor: "divider",
-                    },
-                  },
-                }}
-              />
+              <FormControl>
+                <TextField
+                  {...register("name")}
+                  name="name"
+                  id="name"
+                  variant="filled"
+                  label="Full Name"
+                  fullWidth
+                  focused
+                  error={!!errors.name}
+                  helperText={errors.name?.message || " "}
+                  sx={textFieldStyle}
+                />
+              </FormControl>
 
-              <TextField
-                name="email"
-                type="email"
-                label="Email Address"
-                variant="outlined"
-                fullWidth
-                value={formData.email}
-                onChange={handleChange}
-                error={!!errors.email}
-                helperText={errors.email}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                    "& fieldset": {
-                      borderColor: "divider",
-                    },
-                  },
-                }}
-              />
+              <FormControl>
+                <TextField
+                  {...register("email")}
+                  name="email"
+                  id="email"
+                  type="text"
+                  variant="filled"
+                  label="Email"
+                  fullWidth
+                  focused
+                  error={!!errors.email}
+                  helperText={errors.email?.message || " "}
+                  sx={textFieldStyle}
+                />
+              </FormControl>
 
-              <TextField
-                name="password"
-                type={showPassword ? "text" : "password"}
-                label="Password"
-                variant="outlined"
-                fullWidth
-                value={formData.password}
-                onChange={handleChange}
-                error={!!errors.password}
-                helperText={errors.password}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleTogglePassword}
-                          edge="end"
-                          aria-label={
-                            showPassword ? "Hide password" : "Show password"
-                          }
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
-                    "& fieldset": {
-                      borderColor: "divider",
+              <FormControl>
+                <TextField
+                  {...register("password")}
+                  name="password"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  variant="filled"
+                  label="Password"
+                  fullWidth
+                  focused
+                  error={!!errors.password}
+                  helperText={errors.password?.message || " "}
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleTogglePassword}
+                            edge="end"
+                            aria-label={
+                              showPassword ? "Hide password" : "Show password"
+                            }
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
                     },
-                  },
-                }}
-              />
+                  }}
+                  sx={textFieldStyle}
+                />
+              </FormControl>
 
               <Button
                 type="submit"
@@ -259,8 +214,6 @@ export default function SignUp() {
                   backgroundColor: indigo[600],
                   borderRadius: 2,
                   textTransform: "none",
-                  fontWeight: 600,
-                  fontSize: "1rem",
                   boxShadow: "none",
                   mt: 1,
                   "&:hover": {
@@ -271,21 +224,24 @@ export default function SignUp() {
                 {loading ? (
                   <CircularProgress size={24} sx={{ color: "inherit" }} />
                 ) : (
-                  "Create Account"
+                  <Typography component={"span"} variant="body1">
+                    Sign Up
+                  </Typography>
                 )}
               </Button>
 
               <Typography
-                variant="body2"
+                variant="body1"
                 color="text.secondary"
                 sx={{ textAlign: "center", mt: 1 }}
               >
-                Already have an account?{" "}
+                Already have an account?
                 <Link href="/auth/signin">
                   <Typography
                     component="span"
-                    variant="body2"
+                    variant="body1"
                     sx={{
+                      ml: 1,
                       color: indigo[900],
                       textDecoration: "none",
                       "&:hover": {
@@ -312,7 +268,7 @@ export default function SignUp() {
           </Box>
           <Box
             component={"div"}
-            className="hidden lg:block min-h-screen w-1/2 relative signup-background overflow-hidden"
+            className="hidden lg:block h-full w-full relative signup-background"
           ></Box>
         </Box>
       </Box>

@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
 import { TaskAlt } from "@mui/icons-material";
+import { indigo } from "@mui/material/colors";
 
 export default function VerifiedPage() {
   const theme = useTheme();
-
   return (
     <>
       <Head>
@@ -21,7 +21,7 @@ export default function VerifiedPage() {
         component={"section"}
         className="verified-page flex flex-col items-center justify-center h-screen bg-gray-200"
       >
-        <Container maxWidth="sm" className="text-center">
+        <Container maxWidth="sm" className="text-center space-y-6">
           {/* Animated Icon */}
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -32,7 +32,6 @@ export default function VerifiedPage() {
               sx={{
                 fontSize: 80,
                 color: theme.palette.success.main,
-                mb: 2,
               }}
             />
           </motion.div>
@@ -48,25 +47,17 @@ export default function VerifiedPage() {
               sx={{
                 fontWeight: 700,
                 color: "#0f172a",
-                mb: 1,
               }}
             >
               Email Verified Successfully!
             </Typography>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
             <Typography
               variant="body1"
               sx={{
                 color: "text.secondary",
                 maxWidth: 480,
                 mx: "auto",
-                mb: 4,
               }}
             >
               Thank you for confirming your email. You can now sign in and start
@@ -86,14 +77,14 @@ export default function VerifiedPage() {
               href="/auth/signin"
               size="large"
               sx={{
-                px: 5,
-                py: 1.5,
+                py: "1rem",
                 fontSize: 16,
                 textTransform: "none",
                 fontWeight: 600,
                 borderRadius: 2,
-                background: "primary.main",
+                background: indigo[700],
               }}
+              fullWidth
             >
               Go to Sign In
             </Button>

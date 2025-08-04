@@ -11,6 +11,7 @@ import skillsSlice from "./slices/resume/skillsSlice";
 import languagesSlice from "./slices/resume/languagesSlice";
 import hobbiesSlice from "./slices/resume/hobbiesSlice";
 import formatSlice from "./slices/resume/formatSlice";
+import jobsSlice from "./slices/jobsSlice";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     languages: languagesSlice,
     hobbies: hobbiesSlice,
     format: formatSlice,
+    jobs: jobsSlice,
   },
 });
 

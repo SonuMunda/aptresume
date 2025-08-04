@@ -11,6 +11,7 @@ type Service = {
   description: string;
   Icon: React.ElementType<SvgIconProps>;
   iconBgColor?: string;
+  href: string;
 };
 
 const services: Service[] = [
@@ -19,24 +20,28 @@ const services: Service[] = [
     description:
       "Scan your resume and receive instant feedback on keywords, formatting, and job relevance.",
     Icon: DocumentScanner,
+    href: "/resume-scan",
   },
   {
-    title: "Keyword Matcher",
+    title: "Extract Keywords",
     description:
       "Match your resume with job descriptions to improve your chances of getting noticed.",
     Icon: Checklist,
+    href: "extract-keywords",
   },
   {
-    title: "Resume Maker",
+    title: "Resume Builder",
     description:
       "Build a professional resume in minutes with customizable templates and guided content suggestions.",
     Icon: Description,
+    href: "/resume-builder",
   },
   {
-    title: "Job Finder",
+    title: "Jobs",
     description:
       "Discover relevant job opportunities tailored to your skills, experience, and goals.",
     Icon: WorkOutline,
+    href: "/jobs",
   },
 ];
 

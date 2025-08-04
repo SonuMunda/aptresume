@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ATSReport } from "../types/atsReportTypes";
+import { ATSReport } from "@/types/atsReportTypes";
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
 import AtsResultSidebar from "../components/ats/AtsResultSidebar";
@@ -85,7 +85,7 @@ const ResumeReport = () => {
               component={motion.section}
               className="ats-report bg-gray-100 min-h-screen pb-24"
             >
-              <Box component={motion.div} className="container mx-auto p-6">
+              <Box component={motion.div} className="container max-w-7xl mx-auto sm:p-4">
                 <Box
                   component={motion.div}
                   className="content flex justify-center gap-10"

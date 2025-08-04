@@ -6,8 +6,10 @@ import Header from "./Header";
 
 const hiddenPaths: string[] = [
   "/auth/signin",
+  "/auth/reset-password",
   "/auth/signup",
   "/auth/verified",
+  "/forgot-password",
   "/resume-report",
   "/resume-builder",
 ];

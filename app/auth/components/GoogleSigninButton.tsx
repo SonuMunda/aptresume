@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import { GoogleIcon } from "./customIcons";
 import { signIn } from "next-auth/react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -10,7 +10,7 @@ type FormResponse = {
 };
 
 type GoogleSigninButtonProps = {
-  setFormResponse: Dispatch<SetStateAction<FormResponse | null | undefined>>;
+  setFormResponse: Dispatch<SetStateAction<FormResponse | null>>;
 };
 
 const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
@@ -75,7 +75,9 @@ const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
           },
         }}
       >
-        Continue with Google
+        <Typography component={"span"} variant="body1" fontWeight={600}>
+          Continue with Google
+        </Typography>
       </Button>
     </>
   );

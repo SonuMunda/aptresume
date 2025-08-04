@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins } from "next/font/google";
+import {Roboto } from "next/font/google";
 import SessionProviderWrapper from "./components/SessionProviderWrapper";
 import ThemeRegistry from "./components/ThemeRegistry";
 import HeaderWrapper from "./components/layout/HeaderWrapper";
 import { Suspense } from "react";
 import FooterWrapper from "./components/layout/FooterWrapper";
 import Loading from "./loading";
-import ReduxWrapper from "./redux/ReduxWrapper";
+import ReduxWrapper from "./components/redux/ReduxWrapper";
 
 export const metadata: Metadata = {
-  title: "AptResume - AI-Powered Optimizer and Job Matcher",
+  title: "AptResume - AI-Powered Resume Scanner and Jobs",
   description:
     "AptResume is an AI-powered platform that helps job seekers build optimized resumes and match them with suitable job opportunities effortlessly.",
   icons: {
@@ -18,15 +18,15 @@ export const metadata: Metadata = {
   },
   keywords: [
     "resume builder",
-    "job matching",
-    "AI resume",
+    "jobs",
+    "AI resume Scanning",
     "job seeker tools",
     "resume optimization",
     "career development",
   ],
 };
 
-const poppins = Poppins({
+const roboto =  Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${poppins.variable} bg-gray-50 overflow-x-hidden`}>
+      <body className={`${roboto.variable} bg-gray-50 overflow-x-hidden`}>
         <SessionProviderWrapper>
           <ReduxWrapper>
             <ThemeRegistry>

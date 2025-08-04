@@ -19,8 +19,9 @@ import { ApiError } from "next/dist/server/api-utils";
 import Image from "next/image";
 import AccordionComponent from "../components/shared/AccordionComponent";
 import keywordsFaqData from "@/data/keywordsFaqData";
+import SectionSummary from "../components/shared/SectionSummary";
 
-const KeywordMatcher = () => {
+const KeywordExtractor = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
   const [keywords, setKeywords] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +92,7 @@ const KeywordMatcher = () => {
               fontWeight: 700,
               textAlign: "center",
               mb: 3,
-              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              fontSize: { xs: "2.25rem", sm: "3rem" },
               color: "text.primary",
               letterSpacing: "-0.025em",
             }}
@@ -155,7 +156,7 @@ const KeywordMatcher = () => {
                   py: 1.5,
                   textTransform: "none",
                   borderRadius: 3,
-                  backgroundColor: indigo[600],
+                  backgroundColor: indigo[500],
                   boxShadow: "0 4px 14px rgba(99, 102, 241, 0.3)",
                   transition: "all 0.3s ease",
                   "&:hover": {
@@ -233,23 +234,12 @@ const KeywordMatcher = () => {
       </Box>
 
       {/* How It Works Section */}
-      <Box component="section" className="working-section bg-gray-100">
+      <Box component="section" className="working-section bg-gradient-to-br from-indigo-50 to-blue-50">
         <Box component="div" className="container max-w-7xl mx-auto py-20 px-4">
-          <Typography
-            variant="h2"
-            component={motion.h2}
-            initial="hidden"
-            whileInView="visible"
-            sx={{
-              fontWeight: "bold",
-              textAlign: "center",
-              marginBottom: "3rem",
-              color: grey[900],
-              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-            }}
-          >
-            How It Works
-          </Typography>
+          <SectionSummary
+            headline="How our AI-powered keyword extractor works"
+            supportingText="Effortlessly uncover key insights with our AI-powered keyword extractor"
+          />
 
           <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center mx-auto">
             {keywordMatcherSteps.map(
@@ -273,7 +263,7 @@ const KeywordMatcher = () => {
       {/* Purpose Section */}
       <Box
         component="section"
-        className="bg-gradient-to-b from-gray-50 to-gray-100 text-black px-4 sm:px-6 py-16 sm:py-24"
+        className="bg-white text-black px-4 sm:px-6 py-16 sm:py-24"
         aria-labelledby="keyword-importance-heading"
       >
         <Box
@@ -313,7 +303,7 @@ const KeywordMatcher = () => {
                 },
                 lineHeight: 1.2,
                 mb: 5,
-                color: "#111827",
+                color: grey[800],
                 letterSpacing: "-0.025em",
               }}
             >
@@ -388,7 +378,7 @@ const KeywordMatcher = () => {
       </Box>
 
       {/* Faqs */}
-      <Box component={"section"}>
+      <Box component={"section"} className="bg-gradient-to-br from-indigo-50 to-blue-50">
         <Box
           component={"div"}
           className="container max-w-7xl mx-auto py-20 px-4"
@@ -403,13 +393,16 @@ const KeywordMatcher = () => {
               textAlign: "center",
               marginBottom: "3rem",
               color: grey[900],
-              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              fontSize: { xs: "2.25rem", sm: "3rem" },
             }}
           >
             Frequently Asked Questions
           </Typography>
 
-          <Box component={"div"} className="faq-accordion max-w-5xl mx-auto space-y-6">
+          <Box
+            component={"div"}
+            className="faq-accordion max-w-5xl mx-auto space-y-6"
+          >
             {keywordsFaqData.map((faq, index) => (
               <AccordionComponent
                 question={faq.question}
@@ -424,4 +417,4 @@ const KeywordMatcher = () => {
   );
 };
 
-export default KeywordMatcher;
+export default KeywordExtractor;

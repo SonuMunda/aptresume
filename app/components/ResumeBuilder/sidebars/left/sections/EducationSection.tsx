@@ -32,11 +32,7 @@ const EducationSection = () => {
   });
 
   const isFormIncomplete =
-    !formData.institute ||
-    !formData.type ||
-    !formData.area ||
-    !formData.score ||
-    !formData.date;
+    !formData.institute || !formData.type || !formData.area || !formData.date;
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -113,7 +109,12 @@ const EducationSection = () => {
           }
         />
 
-        <Button variant="contained" fullWidth disabled={isFormIncomplete} onClick={handleAdd}>
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={isFormIncomplete}
+          onClick={handleAdd}
+        >
           Add Education
         </Button>
       </Box>

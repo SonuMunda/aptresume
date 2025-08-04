@@ -11,6 +11,7 @@ import Image from "next/image";
 import atsScanFaqData from "@/data/atsScannerFaqs";
 import AccordionComponent from "../components/shared/AccordionComponent";
 import HeroSection from "../components/layout/HeroSection";
+import SectionSummary from "../components/shared/SectionSummary";
 
 const ResumeScan = () => {
   const router = useRouter();
@@ -49,8 +50,8 @@ const ResumeScan = () => {
       }
 
       const data = await response.json();
-      toast.success(data.message);
       const resumeId = data?.upload?.id;
+      toast.success(data.message);
       router.push(`/resume-report?id=${resumeId}`);
     } catch (error: unknown) {
       if (error instanceof Error) toast.error(error.message || "Upload failed");
@@ -64,7 +65,14 @@ const ResumeScan = () => {
       <Toaster />
 
       {/* Hero Section */}
-      <HeroSection headline={heroContent.headline} supportingText={heroContent.supportingText} image={heroContent.image} buttonText={heroContent.buttonText} handleScroll={scrollToUploader} imageAlt={heroContent.imageAlt}/>
+      <HeroSection
+        headline={heroContent.headline}
+        supportingText={heroContent.supportingText}
+        image={heroContent.image}
+        buttonText={heroContent.buttonText}
+        handleScroll={scrollToUploader}
+        imageAlt={heroContent.imageAlt}
+      />
 
       {/* Additional Info Section */}
       <section className="py-16 bg-white px-6 sm:px-8 lg:px-12">
@@ -124,17 +132,15 @@ const ResumeScan = () => {
       </section>
 
       {/* Upload Section */}
-      <section className="resume-uploader bg-gray-100" ref={uploaderRef}>
-        <div className="container max-w-7xl mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
-          <h2 className="headline text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 text-center">
-            Upload Your Resume
-          </h2>
-          <p className="supporting-text mx-auto mt-4 text-lg sm:text-xl text-center max-w-4xl text-gray-600">
-            Boost your job application success! Upload your resume for an
-            instant ATS-friendly scan and tailored improvement tips.
-          </p>
+      <section className="resume-uploader bg-gradient-to-br from-indigo-50 to-blue-50" ref={uploaderRef}>
+        <div className="container max-w-7xl mx-auto py-24 px-4 grid lg:grid-cols-2 items-center gap-10">
+          <SectionSummary
+            headline="Upload Your Resume"
+            supportingText="Boost your job application success! Upload your resume for an
+            instant ATS-friendly scan and tailored improvement tips."
+          />
 
-          <div className="w-full flex justify-center mt-10 max-auto">
+          <div className="w-full mx-auto">
             <ResumeUploader
               handleFileUpload={handleFileUpload}
               loading={loading}
@@ -144,11 +150,12 @@ const ResumeScan = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="working white py-20">
-        <div className="container max-w-7xl mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-3xl md:text-4xl font-bold mb-12">
-            How Our ATS Scanner Works
-          </h2>
+      <section className="working white">
+        <div className="container max-w-7xl text-center mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+          <SectionSummary
+            headline="How Our ATS Scanner Works"
+            supportingText="Our AI-powered ATS scanner helps you optimize your resume for top job matching."
+          />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-center gap-10">
             {atsProcess.map(
@@ -168,7 +175,7 @@ const ResumeScan = () => {
       </section>
 
       {/* Faqs */}
-      <section className="bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <section className="bg-gradient-to-br from-indigo-50 to-blue-50 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
         <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800  lg:max-w-4xl lg:mx-auto">
           Frequently Asked Questions
         </h3>

@@ -10,6 +10,7 @@ import {
   IconButton,
   CircularProgress,
   Alert,
+  FormControl,
 } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,9 +18,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import signInSchema from "@/lib/validations/signin";
+import signInSchema from "@/lib/validations/signinSchema";
 import GoogleSigninButton from "../components/GoogleSigninButton";
 import { indigo } from "@mui/material/colors";
+import { textFieldStyle } from "@/ui/styles/textFieldStyle";
 
 interface SignInForm {
   email: string;
@@ -48,23 +50,19 @@ export default function SignIn() {
     success: boolean;
   };
 
-  const [formResponse, setFormResponse] = useState<
-    FormResponse | null | undefined
-  >(null);
+  const [formResponse, setFormResponse] = useState<FormResponse | null>(null);
 
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, type, value } = e.target;
+    const { id, value } = e.target;
 
-    if (type !== "checkbox") {
-      setForm((prev) => ({
-        ...prev,
-        [id]: value,
-      }));
-    }
+    setForm((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
 
     setFieldErrors((prev) => ({
       ...prev,
@@ -76,7 +74,6 @@ export default function SignIn() {
     e.preventDefault();
 
     setFieldErrors({});
-    setLoading(true);
 
     const result = signInSchema.safeParse(form);
 
@@ -88,10 +85,10 @@ export default function SignIn() {
         }
       }
       setFieldErrors(fieldErrors);
-      setLoading(false);
       return;
     }
 
+    setLoading(true);
     try {
       setLoading(true);
       setFormResponse(null);
@@ -127,20 +124,17 @@ export default function SignIn() {
   };
 
   return (
-    <Box
-      component={"section"}
-      className="signin h-screen bg-indigo-200 flex items-center justify-center"
-    >
+    <Box component={"section"} className="signin">
       <Box
         component={"div"}
-        className="container h-screen md:h-[85vh] max-w-6xl lg:bg-white lg:shadow lg:shadow-lg flex items-center justify-center overflow-hidden"
+        className="container min-h-screen min-w-full bg-white mx-auto grid lg:grid-cols-2"
       >
         <Box
           component={"div"}
-          className="login h-full md:h-max min-w-full bg-white md:min-w-[80%] lg:min-w-sm p-6 my-auto mx-auto"
+          className="signup-form h-fit w-full p-4 md:p-10 md:m-auto md:max-w-xl"
         >
           {/* Logo */}
-          <Box component={"div"} className="logo mb-6">
+          <Box component={"div"} className="logo mb-3">
             <Link href="/" passHref>
               <Box
                 sx={{
@@ -150,14 +144,14 @@ export default function SignIn() {
                   textDecoration: "none",
                 }}
               >
-                <Image src="/logo.png" alt="Logo" width={32} height={32} />
+                <Image src="/logo.png" alt="Logo" width={48} height={48} />
               </Box>
             </Link>
           </Box>
 
           <Typography
-            variant="h5"
-            component="h1"
+            variant="h2"
+            component="h2"
             sx={{
               fontWeight: 700,
               mb: 0.5,
@@ -185,68 +179,58 @@ export default function SignIn() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4"
           >
-            <TextField
-              type="email"
-              id="email"
-              label="Email"
-              placeholder="placeholder@email.com"
-              variant="outlined"
-              fullWidth
-              value={form.email}
-              onChange={handleChange}
-              error={Boolean(fieldErrors.email)}
-              helperText={fieldErrors.email}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 2,
-                  "& fieldset": {
-                    borderColor: "divider",
-                  },
-                },
-              }}
-            />
+            <FormControl>
+              <TextField
+                type="email"
+                id="email"
+                label="Email"
+                variant="filled"
+                fullWidth
+                focused
+                value={form.email}
+                onChange={handleChange}
+                error={Boolean(fieldErrors.email)}
+                helperText={fieldErrors.email || " "}
+                sx={textFieldStyle}
+              />
+            </FormControl>
 
-            <TextField
-              type={showPassword ? "text" : "password"}
-              id="password"
-              label="Password"
-              placeholder="Password"
-              variant="outlined"
-              fullWidth
-              value={form.password}
-              onChange={handleChange}
-              error={Boolean(fieldErrors.password)}
-              helperText={fieldErrors.password}
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePassword}
-                        edge="end"
-                        aria-label={
-                          showPassword ? "Hide password" : "Show password"
-                        }
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 2,
-                  "& fieldset": {
-                    borderColor: "divider",
+            <FormControl>
+              <TextField
+                type={showPassword ? "text" : "password"}
+                id="password"
+                variant="filled"
+                label="Password"
+                fullWidth
+                focused
+                value={form.password}
+                onChange={handleChange}
+                error={Boolean(fieldErrors.password)}
+                helperText={fieldErrors.password || " "}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleTogglePassword}
+                          edge="end"
+                          aria-label={
+                            showPassword ? "Hide password" : "Show password"
+                          }
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
                   },
-                },
-              }}
-            />
+                }}
+                sx={textFieldStyle}
+              />
+            </FormControl>
 
             <Box component={"div"}>
               <Link
-                href="/auth/forgot-password"
+                href="/forgot-password"
                 className="text-sm text-gray-600 hover:text-blue-600 hover:underline"
               >
                 Forgot password?
@@ -258,13 +242,10 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               disabled={loading}
-              
               sx={{
                 py: 1.5,
                 borderRadius: 2,
                 textTransform: "none",
-                fontWeight: 600,
-                fontSize: "1rem",
                 boxShadow: "none",
                 backgroundColor: indigo[600],
                 "&:hover": {
@@ -275,9 +256,36 @@ export default function SignIn() {
               {loading ? (
                 <CircularProgress size={24} sx={{ color: "inherit" }} />
               ) : (
-                "Sign in"
+                <Typography component={"span"} variant="body1">
+                  Sign in
+                </Typography>
               )}
             </Button>
+
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ textAlign: "center", mt: 2 }}
+            >
+              Don&apos;t have an account?
+              <Link href="/auth/signup" passHref>
+                <Typography
+                  component="span"
+                  variant="body1"
+                  sx={{
+                    color: indigo[900],
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                    cursor: "pointer",
+                    ml: 1,
+                  }}
+                >
+                  Sign up
+                </Typography>
+              </Link>
+            </Typography>
 
             <Divider sx={{ my: 2 }}>
               <Typography variant="body2" color="text.secondary">
@@ -288,36 +296,11 @@ export default function SignIn() {
             <Box component={"div"}>
               <GoogleSigninButton setFormResponse={setFormResponse} />
             </Box>
-
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ textAlign: "center", mt: 2 }}
-            >
-              Don&apos;t have an account?
-              <Link href="/auth/signup" passHref>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{
-                    color: indigo[900],
-                    textDecoration: "none",
-                    "&:hover": {
-                      textDecoration: "underline",
-                    },
-                    cursor: "pointer",
-                    ml: 0.5,
-                  }}
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </Typography>
           </Box>
         </Box>
         <Box
           component={"div"}
-          className="hidden lg:block h-screen w-1/2 relative rounded overflow-hidden signin-background"
+          className="hidden lg:block h-full w-full relative signin-background"
         ></Box>
       </Box>
     </Box>

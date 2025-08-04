@@ -1,4 +1,4 @@
-import { signUpSchema } from "@/lib/validations/signup";
+import { signUpSchema } from "@/lib/validations/signupSchema";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
@@ -22,16 +22,14 @@ export const POST = async (req: NextRequest) => {
     if (existingUser) {
       if (existingUser.emailVerified) {
         return NextResponse.json(
-          { errors: { email: "Email already exists" } },
-          { status: 400 }
+          { message: "Email already exist" },
+          { status: 409 }
         );
       }
 
-      // If user is unverified, delete it
       await prisma.user.delete({ where: { email } });
     }
 
-    // Create new user
     const newUser = await prisma.user.create({
       data: {
         name,
@@ -45,16 +43,18 @@ export const POST = async (req: NextRequest) => {
     await sendEmailVerification(newUser.id, newUser.name, newUser.email);
 
     return NextResponse.json(
-      { message: "Verification email sent.", success: true },
+      {
+        message:
+          "We've sent a verification email. Click the link inside to get started.",
+        success: true,
+      },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Signup error:", error);
     return NextResponse.json(
       {
-        message: "Internal Server Error",
         success: false,
-        error: error instanceof Error ? error.message : "Unexpected error",
+        message: error instanceof Error ? error.message : "Unexpected error",
       },
       { status: 500 }
     );

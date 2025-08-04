@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, LinkedIn, Instagram } from "@mui/icons-material";
+// import { Facebook, Twitter, LinkedIn, Instagram } from "@mui/icons-material";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-950 text-gray-300 py-10 px-4 sm:px-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Brand Info */}
         <div>
           <div className="logo gap-2">
@@ -30,19 +30,24 @@ const Footer = () => {
           <h3 className="font-semibold text-white mb-2">Explore</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/job-finder" className="hover:text-white">
-                Job Finder
-              </a>
+              <Link href="/jobs" className="hover:text-white">
+                Jobs
+              </Link>
             </li>
             <li>
-              <a href="/resume-scan" className="hover:text-white">
+              <Link href="/resume-scan" className="hover:text-white">
                 Resume Scan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/keyword-matcher" className="hover:text-white">
-                Keyword Matcher
-              </a>
+              <Link href="/extract-keywords" className="hover:text-white">
+                Extract Keywords
+              </Link>
+            </li>
+            <li>
+              <Link href="/resume-builder" className="hover:text-white">
+                Build Resume
+              </Link>
             </li>
           </ul>
         </div>
@@ -52,25 +57,20 @@ const Footer = () => {
           <h3 className="font-semibold text-white mb-2">Company</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/about" className="hover:text-white">
+              <Link href="/about" className="hover:text-white">
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:text-white">
+              <Link href="/contact" className="hover:text-white">
                 Contact
-              </a>
-            </li>
-            <li>
-              <a href="/privacy" className="hover:text-white">
-                Privacy Policy
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
 
         {/* Social Media */}
-        <div>
+        {/* <div>
           <h3 className="font-semibold text-white mb-2">Follow Us</h3>
           <div className="flex gap-4 mt-2">
             <a href="#" aria-label="Facebook">
@@ -86,12 +86,12 @@ const Footer = () => {
               <Instagram className="hover:text-white" />
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Bottom */}
       <div className="text-center text-sm text-gray-500 mt-10 border-t border-gray-800 pt-6">
-        &copy; {new Date().getFullYear()} AptResume. All rights reserved.
+        &copy; {new Date().getFullYear()} AptResume. Developed by Sonu Munda.
       </div>
     </footer>
   );

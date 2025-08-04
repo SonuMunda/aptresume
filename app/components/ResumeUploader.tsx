@@ -7,6 +7,7 @@ import { CircularProgress } from "@mui/material";
 import { Button } from "@mui/material";
 import toast from "react-hot-toast";
 import { Clear, InsertDriveFileRounded } from "@mui/icons-material";
+import { indigo } from "@mui/material/colors";
 
 interface ResumeUploaderProps {
   handleFileUpload: (file: File) => void;
@@ -40,7 +41,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   });
 
   return (
-    <div className="uploader space-y-6 w-full max-w-lg p-8 bg-white rounded-xl text-center border-2 border-gray-300">
+    <div className="uploader space-y-6 w-full max-w-xl mx-auto p-8 bg-white rounded-md text-center">
       <div
         {...getRootProps()}
         className={`border-2 border-dashed p-8 rounded-xl cursor-pointer select-none transition-colors duration-300 ${
@@ -109,8 +110,8 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             padding: "10px 20px",
             fontSize: "1rem",
             borderRadius: "8px",
-            backgroundColor: "#3f51b5",
-            "&:hover": { backgroundColor: "#303f9f" },
+            backgroundColor: indigo[500],
+            "&:hover": { backgroundColor: indigo[700] },
           }}
           disabled={!resumeFile || loading}
           onClick={() => resumeFile && handleFileUpload(resumeFile)}

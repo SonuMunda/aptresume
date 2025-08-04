@@ -31,13 +31,12 @@ export async function POST(req: NextRequest) {
     const data = response.text;
     return NextResponse.json(data);
   } catch (error) {
-    console.log(error);
-
-    return NextResponse.json(
-      {
-        message: "An error occurred while processing your request.",
-      },
-      { status: 500 }
-    );
+    if (error instanceof Error)
+      return NextResponse.json(
+        {
+          message: "An error occurred while processing your request.",
+        },
+        { status: 500 }
+      );
   }
 }

@@ -1,5 +1,6 @@
 import { HomeFilled, Menu } from "@mui/icons-material";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 
 interface HeaderProps {
@@ -33,11 +34,13 @@ const ResumeBuilderHeader = ({
         </Box>
 
         {/* Go to Home Button */}
-        <Button variant="text" color="inherit" href="/">
-          <Tooltip title={"Go to Home"}>
-            <HomeFilled/>
-          </Tooltip>
-        </Button>
+        <Link href={"/"}>
+          <Button variant="text" color="inherit">
+            <Tooltip title={"Go to Home"}>
+              <HomeFilled />
+            </Tooltip>
+          </Button>
+        </Link>
 
         {/* Right Sidebar Toggler */}
         <Box component={"div"} className="flex items-center block xl:hidden">

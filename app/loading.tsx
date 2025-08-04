@@ -1,9 +1,9 @@
-import { Skeleton } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 export default function Loading() {
   return (
-    <div className="h-screen w-full">
-      <Skeleton variant="rectangular" width={"100%"} height={"100vh"} />
+    <div className="h-screen w-full flex items-center justify-center">
+      <CircularProgress />
     </div>
   );
 }

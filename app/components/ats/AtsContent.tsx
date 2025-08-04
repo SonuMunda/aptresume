@@ -2,7 +2,7 @@
 import { Box, Chip, Grid, Typography } from "@mui/material";
 import React from "react";
 import ProgressLinear from "./ProgressLinear";
-import { ATSReport } from "../../types/atsReportTypes";
+import { ATSReport } from "@/types/atsReportTypes";
 import {
   Check,
   DescriptionOutlined,
@@ -35,7 +35,7 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
     },
   };
   return (
-    <Box component={"div"} className="ats-content flex flex-col gap-10 w-full">
+    <Box component={"div"} className="ats-content flex flex-col gap-10 max-w-3xl w-full">
       {/* Tailoring Section */}
       <Box
         component={motion.div}

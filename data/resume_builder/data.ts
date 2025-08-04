@@ -3,7 +3,7 @@ export const templates = [
     id: 1,
     name: "template01",
     title: "Jake's Resume",
-    url: "https://writelatex.s3.amazonaws.com/published_ver/16158.jpeg?X-Amz-Expires=14400&X-Amz-Date=20250717T152012Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWJBOALPNFPV7PVH5/20250717/us-east-1/s3/aws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0d9b55cd23c4b1712f69065929971dac04bd04bb6d363a055bc2a1625c310c67",
+    url: "https://github.com/jakegut/resume/raw/master/resume.png",
   },
   {
     id: 2,

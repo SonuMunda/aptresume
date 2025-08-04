@@ -1,45 +1,61 @@
-import { ApiError } from "next/dist/server/api-utils";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const jobTitle = searchParams.get("profession");
+export const POST = async (request: NextRequest) => {
+  const body = await request.json();
 
-  if (!jobTitle) {
+  const { title, experience, location } = body;
+
+  if (!title)
     return NextResponse.json(
-      { message: "Missing 'profession' parameter." },
+      { message: "Job Title Required" },
       { status: 400 }
     );
+
+  let query = title;
+
+  if (location) {
+    query += ` in = '${location}'`;
   }
 
-  const title = encodeURIComponent(jobTitle);
-  const location = encodeURIComponent("India");
-  const url = `https://jobs-api14.p.rapidapi.com/v2/list?query=${title}&location=${location}&autoTranslateLocation=true&remoteOnly=false&employmentTypes=fulltime%3Bparttime%3Bintern%3Bcontractor&datePosted=hour'`;
+  const params = [
+    `query=${encodeURIComponent(query)}`,
+    "page=1",
+    "num_pages=10",
+    "country=in",
+    "date_posted=week",
+  ];
+
+  if (experience) {
+    params.push(`job_requirements=${encodeURIComponent(experience)}`);
+  }
+
+  const url = `https://jsearch.p.rapidapi.com/search?${params.join("&")}`;
 
   try {
     const response = await fetch(url, {
+      method: "GET",
       headers: {
-        "x-rapidapi-key": process.env.JOBS_API_KEY as string,
-        "x-rapidapi-host": "jobs-api14.p.rapidapi.com",
+        "x-rapidapi-key": process.env.JSEARCH_API_KEY as string,
+        "x-rapidapi-host": "jsearch.p.rapidapi.com",
       },
     });
 
-    const data = await response.json();
-    const jobs = data?.jobs;
-
-    return NextResponse.json(
-      {
-        jobs: jobs,
-        message: data.message || "Job Fetched",
-      },
-      { status: 200 }
-    );
-  } catch (error) {
-    if (error instanceof ApiError) {
+    if (!response.ok) {
+      const error = await response.json();
       return NextResponse.json(
-        { message: "Failed to fetch jobs" },
+        { message: error.message || "No data fetched" },
+        { status: response.status }
+      );
+    }
+
+    const jobs = await response.json();
+    return NextResponse.json(jobs.data, { status: 200 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: error.message || "Internal Server Error" },
         { status: 500 }
       );
     }
   }
-}
+};

@@ -22,14 +22,14 @@ const ResumeBuilder = () => {
   return (
     <Box
       component="section"
-      className="h-screen w-full overflow-hidden bg-gray-200"
+      className="h-screen w-full overflow-hidden bg-gradient-to-br from-indigo-50 to-blue-50"
     >
       <Box component="div" className="flex justify-between">
         <Box
           component={"div"}
           className={`fixed xl:relative top-0 ${
             !isLeftSidebarOpen ? "left-[-110%]" : "left-[0]"
-          } xl:left-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
+          } xl:left-[0] z-4 bg-gradient-to-br from-indigo-50 to-blue-50 transition-all duration-300 ease-in-out`}
         >
           <ResumeBuilderForm />
           <Box
@@ -84,7 +84,7 @@ const ResumeBuilder = () => {
           component={"div"}
           className={`fixed xl:relative top-0 ${
             !isRightSidebarOpen ? "right-[-110%]" : "right-[0]"
-          } xl:right-[0] z-4 bg-gray-200 transition-all duration-300 ease-in-out`}
+          } xl:right-[0] z-4 bg-gradient-to-br from-indigo-50 to-blue-50 transition-all duration-300 ease-in-out`}
         >
           <BuilderSidebar handleResumeDownload={handleDownloadPDF} />
           <Box

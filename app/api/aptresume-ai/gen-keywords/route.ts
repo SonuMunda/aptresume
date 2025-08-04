@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash-lite",
       contents: `Analyze the following text and return only the most relevant and suitable keywords. Do not provide any explanation or additional text. Only return a comma-separated list of keywords. Text: ${query}`,
     });
 
