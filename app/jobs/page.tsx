@@ -240,7 +240,7 @@ const Jobs = () => {
                 placeholder="Job Title, Location, or Keyword"
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 2,
+                    borderRadius: 100,
                     backgroundColor: "#f5f5f5",
                     "&:hover fieldset": { borderColor: indigo[200] },
                     "&.Mui-focused fieldset": { borderColor: indigo[400] },
@@ -257,7 +257,7 @@ const Jobs = () => {
                 }
                 displayEmpty
                 sx={{
-                  borderRadius: 2,
+                  borderRadius: 100,
                   backgroundColor: "#f5f5f5",
                   "&:hover .MuiOutlinedInput-notchedOutline": {
                     borderColor: indigo[200],
@@ -287,13 +287,11 @@ const Jobs = () => {
                 }
                 placeholder="Location"
                 sx={{
-                  borderRadius: 2,
-                  backgroundColor: "#f5f5f5",
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: indigo[200],
-                  },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: indigo[400],
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 100,
+                    backgroundColor: "#f5f5f5",
+                    "&:hover fieldset": { borderColor: indigo[200] },
+                    "&.Mui-focused fieldset": { borderColor: indigo[400] },
                   },
                 }}
               />
@@ -305,7 +303,7 @@ const Jobs = () => {
               onClick={handleSearch}
               disabled={formData.title.trim().length === 0}
               sx={{
-                borderRadius: 2,
+                borderRadius: 100,
                 py: 2,
                 px: 4,
                 width: 140,
@@ -556,7 +554,7 @@ const Jobs = () => {
                 sx={{
                   py: 2,
                   px: 4,
-                  borderRadius: 2,
+                  borderRadius: 100,
                   backgroundColor: indigo[500],
                   color: "white",
                   fontWeight: 500,

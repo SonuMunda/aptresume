@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import toast from "react-hot-toast";
 import { Clear, InsertDriveFileRounded } from "@mui/icons-material";
 import { indigo } from "@mui/material/colors";
+import { motion } from "framer-motion";
 
 interface ResumeUploaderProps {
   handleFileUpload: (file: File) => void;
@@ -41,7 +42,12 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   });
 
   return (
-    <div className="uploader space-y-6 w-full max-w-xl mx-auto p-8 bg-white rounded-md text-center">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      className="uploader space-y-6 w-full max-w-xl mx-auto p-4 bg-white rounded-xl text-center"
+    >
       <div
         {...getRootProps()}
         className={`border-2 border-dashed p-8 rounded-xl cursor-pointer select-none transition-colors duration-300 ${
@@ -85,7 +91,10 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
               </p>
             </div>
           </div>
-          <div className="remove-btn absolute right-2 top-2" onClick={() => setResumeFile(null)}>
+          <div
+            className="remove-btn absolute right-2 top-2"
+            onClick={() => setResumeFile(null)}
+          >
             <button
               className="text-gray-500 hover:text-red-600 transition-colors duration-200"
               aria-label="Remove file"
@@ -109,7 +118,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             width: "100%",
             padding: "10px 20px",
             fontSize: "1rem",
-            borderRadius: "8px",
+            borderRadius: 2,
             backgroundColor: indigo[500],
             "&:hover": { backgroundColor: indigo[700] },
           }}
@@ -123,7 +132,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           )}
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

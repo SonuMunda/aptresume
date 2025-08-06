@@ -138,7 +138,7 @@ const Header = () => {
                   sx={{
                     textTransform: "none",
                     backgroundColor: indigo[500],
-                    borderRadius: 2,
+                    borderRadius: 100,
                     "&:hover": {
                       backgroundColor: indigo[600],
                     },

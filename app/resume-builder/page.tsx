@@ -55,7 +55,7 @@ const ResumeBuilder = () => {
             <TransformWrapper
               initialPositionX={0}
               initialPositionY={0}
-              initialScale={0.96}
+              initialScale={0.8}
               minScale={0.1}
               centerZoomedOut
               centerOnInit

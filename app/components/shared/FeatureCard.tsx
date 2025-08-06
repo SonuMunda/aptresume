@@ -1,3 +1,4 @@
+import { cardVariants } from "@/ui/animations";
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { ElementType } from "react";
@@ -18,17 +19,18 @@ const FeatureCard = ({
   return (
     <Box
       component={motion.div}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0 },
+      initial="offscreen"
+      whileInView="onscreen"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={cardVariants}
+      whileHover={{
+        scale: 1.04,
+        boxShadow: "0 8px 32px rgba(60,72,150,0.18)",
       }}
-      transition={{ delay: index * 0.2, duration: 0.5 }}
+      transition={{ type: "spring", stiffness: 260, damping: 15 }}
       className={`cursor-default ${
         index === 2 && "sm:col-span-full lg:col-span-1"
-      } bg-white border border-gray-300 rounded-2xl p-6 lg:p-15 shadow-md hover:shadow-2xl transition-all duration-300`}
+      }  border border-gray-300 rounded-2xl p-6 lg:p-15 shadow-md hover:shadow-2xl transition-all duration-300`}
     >
       <div
         className={`w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full ${iconBgColor} text-white`}

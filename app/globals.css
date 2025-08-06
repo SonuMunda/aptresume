@@ -7,7 +7,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  background: url("/images/signin-hero.jpg");
+  background: url("/images/signin-hero.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -21,7 +21,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  background: url("/images/signup-hero.jpg");
+  background: url("/images/signup-hero.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

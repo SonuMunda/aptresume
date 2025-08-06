@@ -1,14 +1,75 @@
 "use client";
 
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { grey, indigo } from "@mui/material/colors";
 import { textFieldStyle } from "@/ui/styles/textFieldStyle";
 import { Mail, Send } from "@mui/icons-material";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  contactSchema,
+  ContactSchemaType,
+} from "@/lib/validations/contactSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IResponseData } from "@/types/responseDataTypes";
+
+type FormData = ContactSchemaType;
 
 const Contact = () => {
+  const [responseData, setResponseData] = useState<IResponseData | null>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(contactSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const response = await fetch("/api/contact-us", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const resData = await response.json();
+
+      if (!response.ok) {
+        setResponseData({ message: resData.message, success: false });
+        return;
+      }
+
+      setResponseData({ message: resData.message, success: true });
+      reset();
+    } catch (error) {
+      if (error instanceof Error) {
+        setResponseData({ message: error.message, success: false });
+      }
+    }
+  };
+
   return (
     <Box component="main">
       <Box
@@ -61,81 +122,90 @@ const Contact = () => {
                   message, and we will respond within 24 hours.
                 </Typography>
               </Box>
+
+              {/* Error/Success Alert */}
+              {responseData && (
+                <Alert severity={responseData.success ? "success" : "error"}>
+                  {responseData.message}
+                </Alert>
+              )}
+
               <Box
                 component={"form"}
-                action={process.env.FORMSPREE_URL}
-                method="POST"
+                onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-4"
               >
                 <FormControl>
                   <TextField
+                    {...register("name")}
                     type="text"
                     id="name"
                     label="Full Name"
                     variant="standard"
                     fullWidth
                     focused
-                    // value={form.email}
-                    // onChange={handleChange}
-                    // error={Boolean(fieldErrors.email)}
-                    // helperText={fieldErrors.email}
+                    error={!!errors.name}
+                    helperText={errors.name?.message || " "}
                     sx={textFieldStyle}
                   />
                 </FormControl>
                 <FormControl>
                   <TextField
-                    type="email"
+                    {...register("email")}
+                    type="text"
                     id="email"
                     label="Email"
                     variant="standard"
                     fullWidth
                     focused
-                    // value={form.email}
-                    // onChange={handleChange}
-                    // error={Boolean(fieldErrors.email)}
-                    // helperText={fieldErrors.email}
+                    error={!!errors.email}
+                    helperText={errors.email?.message || " "}
                     sx={textFieldStyle}
                   />
                 </FormControl>
                 <FormControl>
                   <TextField
+                    {...register("subject")}
                     type="text"
-                    id="phone"
-                    label="Phone Number"
+                    id="subject"
+                    label="Subject"
                     variant="standard"
                     fullWidth
                     focused
-                    // value={form.email}
-                    // onChange={handleChange}
-                    // error={Boolean(fieldErrors.email)}
-                    // helperText={fieldErrors.email}
+                    error={!!errors.subject}
+                    helperText={errors?.subject?.message || " "}
                     sx={textFieldStyle}
                   />
                 </FormControl>
                 <FormControl>
                   <TextField
+                    {...register("message")}
                     type="message"
                     id="message"
                     label="Message"
                     variant="standard"
-                    placeholder="Leave a message here"
                     fullWidth
                     focused
                     multiline
                     rows={6}
-                    // value={form.email}
-                    // onChange={handleChange}
-                    // error={Boolean(fieldErrors.email)}
-                    // helperText={fieldErrors.email}
+                    error={!!errors.message}
+                    helperText={errors.message?.message || " "}
                     sx={textFieldStyle}
                   />
                 </FormControl>
 
                 <Button
                   type="submit"
-                  startIcon={<Send />}
+                  startIcon={
+                    isSubmitting ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : (
+                      <Send />
+                    )
+                  }
                   variant="contained"
                   color="primary"
+                  disabled={!isValid}
                   sx={{
                     display: "flex",
                     mt: 4,
@@ -146,7 +216,11 @@ const Contact = () => {
                     },
                   }}
                 >
-                  <Typography component={"span"}>Send</Typography>
+                  {isSubmitting ? (
+                    <Typography component={"span"}>Sending</Typography>
+                  ) : (
+                    <Typography component={"span"}>Send</Typography>
+                  )}
                 </Button>
               </Box>
             </Box>

@@ -16,30 +16,30 @@ type Service = {
 
 const services: Service[] = [
   {
-    title: "Resume Scan",
+    title: "ATS Resume Scanner with Tips",
     description:
-      "Scan your resume and receive instant feedback on keywords, formatting, and job relevance.",
+      " Analyze your resume to make sure it sails smoothly past Applicant Tracking Systems. Get personalized tips to improve your chances.",
     Icon: DocumentScanner,
     href: "/resume-scan",
   },
   {
-    title: "Extract Keywords",
+    title: "Job Description Keyword Extractor",
     description:
-      "Match your resume with job descriptions to improve your chances of getting noticed.",
+      "Quickly identify important keywords and skills from any job listing, so you can tailor your resume to match perfectly.",
     Icon: Checklist,
     href: "extract-keywords",
   },
   {
-    title: "Resume Builder",
+    title: "Intuitive Resume Builder",
     description:
-      "Build a professional resume in minutes with customizable templates and guided content suggestions.",
+      "Craft professional resumes effortlessly using our AI-assisted builder that highlights your strengths and experience.",
     Icon: Description,
     href: "/resume-builder",
   },
   {
-    title: "Jobs",
+    title: "Aggregated Job Listings",
     description:
-      "Discover relevant job opportunities tailored to your skills, experience, and goals.",
+      "Browse relevant jobs from multiple portals, all conveniently aggregated into one easy-to-navigate page.",
     Icon: WorkOutline,
     href: "/jobs",
   },

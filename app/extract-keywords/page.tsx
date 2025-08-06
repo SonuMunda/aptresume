@@ -20,6 +20,7 @@ import Image from "next/image";
 import AccordionComponent from "../components/shared/AccordionComponent";
 import keywordsFaqData from "@/data/keywordsFaqData";
 import SectionSummary from "../components/shared/SectionSummary";
+import { container, fadeUp } from "@/ui/animations";
 
 const KeywordExtractor = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
@@ -127,8 +128,6 @@ const KeywordExtractor = () => {
               onChange={(e) => setJobDescription(e.target.value)}
               aria-label="Job description input"
               sx={{
-                backgroundColor: "#f8fafc",
-                borderRadius: 3,
                 mb: 5,
                 "& .MuiOutlinedInput-root": {
                   borderRadius: 3,
@@ -155,7 +154,7 @@ const KeywordExtractor = () => {
                   px: { xs: 4, sm: 8 },
                   py: 1.5,
                   textTransform: "none",
-                  borderRadius: 3,
+                  borderRadius: 2,
                   backgroundColor: indigo[500],
                   boxShadow: "0 4px 14px rgba(99, 102, 241, 0.3)",
                   transition: "all 0.3s ease",
@@ -234,7 +233,10 @@ const KeywordExtractor = () => {
       </Box>
 
       {/* How It Works Section */}
-      <Box component="section" className="working-section bg-gradient-to-br from-indigo-50 to-blue-50">
+      <Box
+        component="section"
+        className="working-section bg-gradient-to-br from-indigo-50 to-blue-50"
+      >
         <Box component="div" className="container max-w-7xl mx-auto py-20 px-4">
           <SectionSummary
             headline="How our AI-powered keyword extractor works"
@@ -267,8 +269,12 @@ const KeywordExtractor = () => {
         aria-labelledby="keyword-importance-heading"
       >
         <Box
-          component={"div"}
+          component={motion.div}
           className="container items-start max-w-7xl mx-auto flex flex-col md:flex-row gap-16"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
         >
           {/* Image */}
           <Box
@@ -291,7 +297,8 @@ const KeywordExtractor = () => {
           <Box className="content w-full md:w-1/2 text-left">
             <Typography
               variant="h2"
-              component="h2"
+              component={motion.h2}
+              variants={fadeUp}
               id="keywords-importance-heading"
               sx={{
                 fontWeight: 800,
@@ -312,7 +319,8 @@ const KeywordExtractor = () => {
 
             <Typography
               variant="body1"
-              component="p"
+              component={motion.p}
+              variants={fadeUp}
               sx={{
                 color: grey[700],
                 fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
@@ -334,7 +342,8 @@ const KeywordExtractor = () => {
 
             <Typography
               variant="body1"
-              component="p"
+              component={motion.p}
+              variants={fadeUp}
               sx={{
                 color: grey[700],
                 fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
@@ -356,7 +365,8 @@ const KeywordExtractor = () => {
 
             <Typography
               variant="body1"
-              component="p"
+              component={motion.p}
+              variants={fadeUp}
               sx={{
                 color: grey[700],
                 fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
@@ -378,7 +388,10 @@ const KeywordExtractor = () => {
       </Box>
 
       {/* Faqs */}
-      <Box component={"section"} className="bg-gradient-to-br from-indigo-50 to-blue-50">
+      <Box
+        component={"section"}
+        className="bg-gradient-to-br from-indigo-50 to-blue-50"
+      >
         <Box
           component={"div"}
           className="container max-w-7xl mx-auto py-20 px-4"
@@ -388,6 +401,11 @@ const KeywordExtractor = () => {
             component={motion.h2}
             initial="hidden"
             whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, scale: 0 },
+              visible: { opacity: 1, scale: 1 },
+            }}
             sx={{
               fontWeight: "bold",
               textAlign: "center",

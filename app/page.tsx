@@ -3,40 +3,54 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
-import FeatureCard from "./components/shared/FeatureCard";
 import { indigo } from "@mui/material/colors";
-import { atsProcess } from "@/data/atsProcess";
-import services from "@/data/servicesData";
 import Link from "next/link";
 import SectionSummary from "./components/shared/SectionSummary";
 import homeFaqData from "@/data/homeFaqData";
 import AccordionComponent from "./components/shared/AccordionComponent";
+import { cardVariants } from "@/ui/animations";
+import ServicesSection from "./components/ServicesSection";
+import userJourneySteps from "@/data/userJourneySteps";
+
+const container = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.22,
+    },
+  },
+};
+const fadeUp = {
+  hidden: { y: 32, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
+};
 
 export default function Home() {
   return (
     <main>
       {/* Hero Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="hero-section flex items-center min-h-[75vh] lg:h-screen bg-gradient-to-br from-indigo-50 to-blue-50"
-      >
+      <section className="hero-section flex items-center min-h-[75vh] lg:h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
         <div className="container px-4 py-25 mx-auto h-full max-w-7xl flex flex-col lg:flex-row items-center justify-between">
-          <div className="hero-content h-full w-full lg:w-1/2 flex flex-col justify-center">
+          <motion.div
+            className="hero-content h-full w-full lg:w-1/2 flex flex-col justify-center"
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+          >
             <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
               className="text-gray-900 font-bold text-4xl sm:text-5xl"
             >
               Enhance your professional image with aptresume.
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-6 text-base sm:text-lg md:text-xl text-gray-700 max-w-xl"
             >
               Upload your resume and unlock personalized job opportunities
@@ -45,9 +59,9 @@ export default function Home() {
             </motion.p>
 
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-10"
             >
               <Link href="/resume-scan">
@@ -55,9 +69,9 @@ export default function Home() {
                   variant="contained"
                   sx={{
                     textTransform: "none",
-                    py: 2,
+                    p: 2,
                     px: 4,
-                    borderRadius: 2,
+                    borderRadius: 100,
                     backgroundColor: indigo[500],
                     color: "#ffffff",
                     fontSize: "1.125rem",
@@ -71,8 +85,13 @@ export default function Home() {
                 </Button>
               </Link>
             </motion.div>
-          </div>
-          <div className="hero-image w-full  lg:w-1/2">
+          </motion.div>
+          <motion.div
+            className="hero-image w-full  lg:w-1/2"
+            initial={{ x: 80, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7 }}
+          >
             <Image
               src={"/images/homepage-hero.png"}
               alt="Professional Career Image"
@@ -80,131 +99,131 @@ export default function Home() {
               height={600}
               className="object-cover mx-auto"
             />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How its Works */}
+      <section className="working bg-white">
+        <div className="container max-w-7xl text-center mx-auto py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+          <SectionSummary
+            headline="Your Step-by-Step Path to Career Success"
+            supportingText="Navigate your job search with confidence using AptResume’s comprehensive tools. From uploading your resume to applying for the perfect job, our AI-driven platform guides you through every step with personalized insights and seamless experiences designed to help you stand out and succeed."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-center gap-10">
+            {userJourneySteps.map(({ Icon, title, description }, index) => (
+              <motion.div
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={cardVariants}
+                whileHover={{
+                  scale: 1.04,
+                  boxShadow: "0 8px 32px rgba(60,72,150,0.18)",
+                }}
+                transition={{ type: "spring", stiffness: 260, damping: 15 }}
+                className="column h-full bg-indigo-50 space-y-6 p-6 border border-gray-300 rounded-xl"
+                key={index}
+              >
+                <div className="flex items-center justify-center h-16 w-16 rounded-full text-indigo-600  mx-auto">
+                  <Icon fontSize="large" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
+                <p className="text-gray-600">{description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </motion.section>
-
+      </section>
       {/* About Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        viewport={{ once: true }}
-        className="about-section bg-white py-24 px-4 sm:px-10 text-gray-900 overflow-x-hidden"
-      >
+      <section className="about-section bg-indigo-50 py-24 px-4 sm:px-10 text-gray-900 overflow-x-hidden">
         <div className="container max-w-7xl mx-auto">
-          {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            viewport={{ once: true }}
-            className="w-full text-left"
+            className="w-full text-center"
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-6 leading-tight tracking-tight">
+            <motion.h2
+              className="text-3xl sm:text-4xl font-bold text-gray-700 mb-6"
+              variants={fadeUp}
+            >
               About AptResume
-            </h2>
+            </motion.h2>
 
-            <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-              At <strong>aptresume</strong>, we empower job seekers and
-              employers with cutting-edge, AI-driven solutions. Our platform
-              optimizes resumes and delivers intelligent job matching, enabling
-              you to navigate the job market with confidence and precision.
-            </p>
+            <motion.p
+              className="text-gray-700 text-base sm:text-lg leading-relaxed"
+              variants={fadeUp}
+            >
+              At <b>aptresume</b>, we empower job seekers and employers with
+              cutting-edge, AI-driven solutions. Our platform optimizes resumes
+              and delivers intelligent job matching, enabling you to navigate
+              the job market with confidence and precision.
+            </motion.p>
 
-            <p className="text-gray-700 text-base sm:text-lg mt-6 leading-relaxed">
+            <motion.p
+              className="text-gray-700 text-base sm:text-lg mt-6 leading-relaxed"
+              variants={fadeUp}
+            >
               Whether you’re launching your career, transitioning to a new role,
               or seeking top talent, aptresume streamlines the
               process—connecting the right individuals with the right
               opportunities efficiently.
-            </p>
+            </motion.p>
+
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mt-10"
+            >
+              <Link href="/about">
+                <Button
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    p: 2,
+                    px: 4,
+                    borderRadius: 100,
+                    backgroundColor: indigo[500],
+                    color: "#ffffff",
+                    fontSize: "1.125rem",
+                    fontWeight: 700,
+                    "&:hover": {
+                      backgroundColor: indigo[700],
+                    },
+                  }}
+                >
+                  Learn more
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
-      </motion.section>
-
-      {/* How It Works Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        viewport={{ once: true }}
-        className=" bg-gradient-to-br from-indigo-50 to-blue-50 space-y-10 py-24 px-4 sm:px-6 lg:px-10 text-center"
-      >
-        <div className="container max-w-7xl mx-auto">
-          <SectionSummary
-            headline="How Our ATS Scanner Works"
-            supportingText="Our AI-powered ATS scanner helps you optimize your resume for top job matching."
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {atsProcess.map(
-              ({ icon: Icon, title, iconBgColor, description }, index) => (
-                <FeatureCard
-                  index={index}
-                  Icon={Icon}
-                  title={title}
-                  iconBgColor={iconBgColor}
-                  description={description}
-                  key={index}
-                />
-              )
-            )}
-          </div>
-        </div>
-      </motion.section>
+      </section>
 
       {/* Our Services Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        viewport={{ once: true }}
-        className="bg-white text-center py-24 px-4 sm:px-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <SectionSummary
-            headline="Our Service"
-            supportingText="Explore advanced tools designed to enhance your job search—featuring
-            resume scanning, personalized job matching, and expert resume
-            creation services."
-          />
-
-          <div className="grid gap-8 md:grid-cols-2">
-            {services.map(({ Icon, title, description, href }, index) => (
-              <Link href={href} key={index}>
-                <motion.div
-                  initial={{ y: 30 }}
-                  whileInView={{ y: 0 }}
-                  viewport={{ once: true }}
-                  className="column h-full bg-white space-y-6 p-6 border border-gray-300 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50"
-                >
-                  <div className="flex items-center justify-center h-16 w-16 rounded-full text-indigo-600  mx-auto">
-                    <Icon fontSize="large" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {title}
-                  </h3>
-                  <p className="text-gray-600">{description}</p>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </motion.section>
+      <ServicesSection />
 
       {/* Faqs */}
-      <motion.div className="bg-gradient-to-br from-indigo-50 to-blue-50">
+      <section className="bg-gradient-to-br from-indigo-50 to-blue-50">
         <motion.div className="container max-w-7xl mx-auto py-20 px-4">
           <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, scale: 0 },
+              visible: { opacity: 1, scale: 1 },
+            }}
             className="text-gray-800 font-bold text-3xl sm:text-5xl mb-12 text-center"
           >
             Frequently Asked Question
           </motion.h1>
 
-          <motion.div className="faq-accordion max-w-5xl mx-auto space-y-6">
+          <div className="faq-accordion max-w-5xl mx-auto space-y-6">
             {homeFaqData.map((faq, index) => (
               <AccordionComponent
                 question={faq.question}
@@ -212,9 +231,9 @@ export default function Home() {
                 key={index}
               />
             ))}
-          </motion.div>
+          </div>
         </motion.div>
-      </motion.div>
+      </section>
     </main>
   );
 }

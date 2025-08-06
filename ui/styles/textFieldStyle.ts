@@ -6,7 +6,11 @@ export const textFieldStyle = {
       borderColor: indigo[500],
     },
   },
-
+  "& .MuiInputBase-root.MuiInput-root": {
+    "&:after": {
+      borderColor: indigo[500],
+    },
+  },
   "& .MuiInputLabel-root": {
     color: indigo[500],
     borderColor: indigo[500],
@@ -16,6 +20,9 @@ export const textFieldStyle = {
   },
   "& .MuiInputBase-root.MuiFilledInput-root": {
     borderRadius: 2,
+    borderColor: indigo[500],
+  },
+  "& .MuiInputBase-root.MuiStandardInput-root": {
     borderColor: indigo[500],
   },
 
