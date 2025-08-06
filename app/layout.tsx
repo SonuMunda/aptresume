@@ -10,21 +10,44 @@ import Loading from "./loading";
 import ReduxWrapper from "./components/redux/ReduxWrapper";
 
 export const metadata: Metadata = {
-  title: "AptResume - AI-Powered Resume Scanner and Jobs",
+  title: "AptResume - AI-Powered Resume Scanner, Builder & Job Matching | By YourName",
   description:
-    "AptResume is an AI-powered platform that helps job seekers build optimized resumes and match them with suitable job opportunities effortlessly.",
+    "AptResume is an advanced AI-powered platform designed to help job seekers build optimized resumes, scan for ATS compatibility, extract key job keywords, and match with relevant job opportunities effortlessly. Created by YourName.",
   icons: {
     icon: "/favicon.ico",
   },
   keywords: [
     "resume builder",
-    "jobs",
-    "AI resume Scanning",
+    "AI resume scanning",
+    "ATS resume scanner",
     "job seeker tools",
     "resume optimization",
     "career development",
+    "job matching platform",
+    "professional resume templates",
+    "AI job search",
+    "YourName",
   ],
+  authors: [{ name: "Sonu Munda", url: "https://sonumunda.me" }],
+  openGraph: {
+    title: "AptResume - AI-Powered Resume Scanner & Job Matching Platform",
+    description:
+      "Build optimized resumes, scan ATS, extract job keywords, and find your dream job easily with AptResume AI platform by YourName.",
+    url: "https://aptresume.com",
+    siteName: "AptResume",
+    images: [
+      {
+        url: "https://aptresume.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "AptResume AI Resume Scanner and Job Matching",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
+
 
 const roboto =  Roboto({
   subsets: ["latin"],
