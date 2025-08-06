@@ -82,9 +82,9 @@ const Contact = () => {
         >
           <Box
             component={motion.div}
-            className="left h-full bg-white rounded-xl p-10 border-2 border-indigo-100 shadow shadow-lg"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            className="left h-full bg-white rounded-xl p-4 lg:p-10 border-2 border-indigo-100 shadow shadow-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           >
             <Box component={"div"} className="left-content space-y-10">
@@ -228,8 +228,8 @@ const Contact = () => {
           <Box
             component={motion.div}
             className="right bg-white rounded-xl overflow-hidden border-2 border-indigo-100 shadow shadow-lg"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             <Box component={"div"} className="image">
@@ -241,10 +241,10 @@ const Contact = () => {
                 className="mx-auto rounded-lg"
               />
             </Box>
-            <Box component={"div"} className="contact-info p-10">
+            <Box component={"div"} className="contact-info p-4 lg:p-10">
               <Box
                 component={"div"}
-                className="contact-info-item flex items-center gap-6"
+                className="contact-info-item flex flex-wrap items-center justify-center gap-6"
               >
                 <Box
                   component={"div"}
