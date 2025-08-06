@@ -1,45 +1,34 @@
-
 # AptResume
 
-AptResume is a job portal application built with Next.js, Tailwind CSS, and Material UI.
+AptResume is an AI-powered platform designed to optimize your job search journey. It offers a suite of tools to help job seekers create standout resumes, tailor applications, and find suitable jobs all in one place.
 
 ## Features
 
-- Home page with hero section
-- Responsive navigation header
-- Pages: Job Finder, Resume Scan, Keyword Matcher
+- **ATS Resume Scanner:** Analyze your resume to ensure it clears Applicant Tracking Systems, with personalized improvement tips.
+- **Job Description Keyword Extractor:** Identify and highlight essential keywords from job listings so you can tailor your resume effectively.
+- **Resume Builder:** Build professional resumes from scratch using two minimalist, easy-to-use templates.
+- **Aggregated Job Listings:** Browse relevant jobs aggregated from multiple portals in a convenient, unified interface.
 
-## Tech Stack
+## Usage
 
-- Next.js
-- React
+- Upload your resume in the ATS Scanner for instant analysis.
+- Use the keyword extractor to tailor your resume to job descriptions.
+- Create or edit your resume using the minimalist resume builder.
+- Explore aggregated job listings and easily apply to relevant positions.
+
+## Technologies Used
+
+- React JS
+- NextJS
 - Tailwind CSS
 - Material UI
-
-## Getting Started
-
-1. Clone the repository:
-```bash
-git clone https://github.com/sonumunda/aptresume.git
-cd aptresume
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## APIS
-
-[Resume ATS](https://rapidapi.com/ltdbilgisam/api/ai-resume-builder-cv-checker-resume-rewriter-api/playground/apiendpoint_dc76088d-cb43-4aab-b976-e5ae00ff840f)
-
-[JOBS](https://rapidapi.com/fantastic-jobs-fantastic-jobs-default/api/active-jobs-db/playground/apiendpoint_beaea620-f72c-4091-bf8c-37f9916e2ea9)
+- Redux Toolkit
+- React Hook Form 
+- Next Auth 
+- Framer Motion
+- Gemini API
+- Supabase
+- Prisma
+- Zod
 
 

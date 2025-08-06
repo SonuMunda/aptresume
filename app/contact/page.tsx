@@ -78,7 +78,7 @@ const Contact = () => {
       >
         <Box
           component={"div"}
-          className="container max-w-7xl mx-auto px-4 py-24 grid grid-cols-2 gap-8"
+          className="container max-w-7xl mx-auto px-4 py-24 grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           <Box
             component={motion.div}
@@ -232,13 +232,13 @@ const Contact = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            <Box component={"div"} className="image p-1">
+            <Box component={"div"} className="image">
               <Image
                 src={"/images/contact-page.png"}
                 alt="contact-us"
-                width={600}
-                height={700}
-                className="mx-auto rounded-xl"
+                width={800}
+                height={800}
+                className="mx-auto rounded-lg"
               />
             </Box>
             <Box component={"div"} className="contact-info p-10">
