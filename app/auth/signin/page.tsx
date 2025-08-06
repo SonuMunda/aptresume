@@ -22,6 +22,7 @@ import signInSchema from "@/lib/validations/signinSchema";
 import GoogleSigninButton from "../components/GoogleSigninButton";
 import { indigo } from "@mui/material/colors";
 import { textFieldStyle } from "@/ui/styles/textFieldStyle";
+import { motion } from "framer-motion";
 
 interface SignInForm {
   email: string;
@@ -299,7 +300,7 @@ export default function SignIn() {
           </Box>
         </Box>
         <Box
-          component={"div"}
+          component={motion.div}
           className="hidden lg:block h-full w-full relative signin-background"
         ></Box>
       </Box>

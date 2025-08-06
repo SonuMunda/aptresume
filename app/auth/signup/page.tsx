@@ -23,6 +23,7 @@ import { indigo } from "@mui/material/colors";
 import { textFieldStyle } from "@/ui/styles/textFieldStyle";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 
 type FormData = SignUpSchemaType;
 
@@ -267,7 +268,10 @@ export default function SignUp() {
             </Box>
           </Box>
           <Box
-            component={"div"}
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
             className="hidden lg:block h-full w-full relative signup-background"
           ></Box>
         </Box>
