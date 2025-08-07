@@ -25,14 +25,14 @@ const EducationSection = () => {
 
   const [formData, setFormData] = useState({
     institute: "",
-    type: "",
+    title: "",
     area: "",
     score: "",
     date: "",
   });
 
   const isFormIncomplete =
-    !formData.institute || !formData.type || !formData.area || !formData.date;
+    !formData.institute || !formData.title || !formData.date;
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -42,7 +42,7 @@ const EducationSection = () => {
     dispatch(addEducation(formData));
     setFormData({
       institute: "",
-      type: "",
+      title: "",
       area: "",
       score: "",
       date: "",
@@ -68,12 +68,12 @@ const EducationSection = () => {
             }
           />
           <FormGroup
-            id="education-type"
+            id="education-title"
             label="Course Title"
-            value={formData.type}
+            value={formData.title}
             placeholder="B.Tech"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleInputChange("type", e.target.value)
+              handleInputChange("title", e.target.value)
             }
           />
         </Box>
@@ -136,7 +136,7 @@ const EducationSection = () => {
               </Typography>
 
               <Typography variant="h6" color="text.secondary">
-                {edu.type} — {edu.area}
+                {edu.title} — {edu.area}
               </Typography>
 
               <Typography variant="caption" color="text.secondary">

@@ -70,7 +70,9 @@ const JakesResume = () => {
   const format = useSelector((state: RootState) => state.format.data);
 
   const getProfile = (network: string) => {
-    const profile = profiles.find((profile) => profile.network.toLowerCase() === network);
+    const profile = profiles.find(
+      (profile) => profile.network.toLowerCase() === network
+    );
     return profile;
   };
 
@@ -88,6 +90,8 @@ const JakesResume = () => {
         color: format.textColor,
         minHeight: "297mm",
         minWidth: "210mm",
+        cursor: "text",
+        userSelect: "text",
       }}
     >
       <div
@@ -184,13 +188,13 @@ const JakesResume = () => {
             return (
               <div className="education-details space-y-1" key={index}>
                 <div className="flex justify-between">
-                  <h3 className=" font-medium">
-                    {edu.institute} - {edu.area}
+                  <h3 className="font-semibold">
+                    {edu.institute} {edu.area && " - " + edu.area}
                   </h3>
                   <span className="">{edu.date}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="">{edu.type}</span>
+                  <span className="">{edu.title}</span>
                   <span className="">{edu.score}</span>
                 </div>
               </div>

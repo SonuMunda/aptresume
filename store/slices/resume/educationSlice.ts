@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface EducationItem {
   institute: string;
-  type: string;
+  title: string;
   area: string;
   score: string;
   date: string;

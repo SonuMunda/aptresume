@@ -6,14 +6,18 @@ import MattysResume from "./ResumeTemplates/MattysResume";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
-const BuilderPreview = () => {
+const BuilderPreview = ({
+  contentRef,
+}: {
+  contentRef: React.RefObject<HTMLDivElement | null>;
+}) => {
   const { template } = useSelector((state: RootState) => state.format.data);
 
   return (
-    <>
+    <div ref={contentRef}>
       {template === "template01" && <JakesResume />}
       {template === "template02" && <MattysResume />}
-    </>
+    </div>
   );
 };
 

@@ -12,15 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState, ChangeEvent } from "react";
-import SectionHeading from "../../../../../../ui/resume_builder/SectionHeading";
-import FormGroup from "../../../../../../ui/resume_builder/FormGroup";
-import SliderFormGroup from "../../../../../../ui/resume_builder/SliderFormGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
   addLanguage,
   removeLanguage,
 } from "@/store/slices/resume/languagesSlice";
+import SectionHeading from "@/ui/resume_builder/SectionHeading";
+import SliderFormGroup from "@/ui/resume_builder/SliderFormGroup";
+import FormGroup from "@/ui/resume_builder/FormGroup";
 
 const LanguagesSection = () => {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ const LanguagesSection = () => {
           disabled={isFormIncomplete}
           onClick={handleAdd}
         >
-          Add Certification
+          Add Language
         </Button>
       </Box>
 

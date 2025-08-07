@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState, ChangeEvent } from "react";
-import SectionHeading from "../../../../../../ui/resume_builder/SectionHeading";
-import FormGroup from "../../../../../../ui/resume_builder/FormGroup";
+import SectionHeading from "@/ui/resume_builder/SectionHeading";
+import FormGroup from "@/ui/resume_builder/FormGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { addHobby, removeHobby } from "@/store/slices/resume/hobbiesSlice";
@@ -65,7 +65,7 @@ const HobbiesSection = () => {
           disabled={isFormIncomplete}
           onClick={handleAdd}
         >
-          Add Certification
+          Add Hobby
         </Button>
       </Box>
 
