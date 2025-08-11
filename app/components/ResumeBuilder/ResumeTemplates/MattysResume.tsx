@@ -224,7 +224,7 @@ const MattysResume = () => {
                   <span className="">{edu.date}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="">{edu.type}</span>
+                  <span className="">{edu.title}</span>
                   <span className="">{edu.score}</span>
                 </div>
               </div>
