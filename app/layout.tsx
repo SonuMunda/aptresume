@@ -10,9 +10,9 @@ import Loading from "./loading";
 import ReduxWrapper from "./components/redux/ReduxWrapper";
 
 export const metadata: Metadata = {
-  title: "AptResume - AI-Powered Resume Scanner, Builder & Job Matching | By YourName",
+  title: "AptResume - AI-Powered Resume Scanner, Keywords extractor, , Resume Builder, and Jobs",
   description:
-    "AptResume is an advanced AI-powered platform designed to help job seekers build optimized resumes, scan for ATS compatibility, extract key job keywords, and match with relevant job opportunities effortlessly. Created by YourName.",
+    "AptResume is an advanced AI-powered platform designed to help job seekers build optimized resumes, scan for ATS compatibility, extract key job keywords, and match with relevant job opportunities effortlessly. Created by Sonu Munda.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -26,18 +26,18 @@ export const metadata: Metadata = {
     "job matching platform",
     "professional resume templates",
     "AI job search",
-    "YourName",
+    "Sonu Munda",
   ],
-  authors: [{ name: "Sonu Munda", url: "https://sonumunda.me" }],
+  authors: [{ name: "Sonu Munda", url: "https://sonumunda.vecel.app" }],
   openGraph: {
-    title: "AptResume - AI-Powered Resume Scanner & Job Matching Platform",
+    title: "AptResume - AI-Powered Resume Scanner & Jobs",
     description:
-      "Build optimized resumes, scan ATS, extract job keywords, and find your dream job easily with AptResume AI platform by YourName.",
-    url: "https://aptresume.com",
+      "Build optimized resumes, scan ATS, extract job keywords, and find your dream job easily with AptResume AI platform by Sonu Munda.",
+    url: "https://aptresume.vercel.app",
     siteName: "AptResume",
     images: [
       {
-        url: "https://aptresume.com/og-image.jpg",
+        url: "https://aptresume.vercel.app/_next/image?url=%2Flogo.png&w=64&q=75",
         width: 1200,
         height: 630,
         alt: "AptResume AI Resume Scanner and Job Matching",

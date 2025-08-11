@@ -183,7 +183,6 @@ const Jobs = () => {
       setDescriptionHTML("");
       const formattedDesc = await getJobDescription(description);
       setDescriptionHTML(formattedDesc);
-      console.log(formattedDesc);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
