@@ -1,6 +1,6 @@
 import SectionHeading from "@/ui/resume_builder/SectionHeading";
 import { FontDownloadOutlined } from "@mui/icons-material";
-import { Box, Button} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { fonts } from "@/data/resume_builder/data";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
@@ -32,11 +32,7 @@ const TypographySection = () => {
 
       {/* Available Fonts */}
       <Box component={"div"}>
-        <Box
-          component={"label"}
-          htmlFor="fonts"
-          className="text-sm font-semibold"
-        >
+        <Box component={"h6"} className="text-sm font-semibold">
           Available Fonts
         </Box>
         <Box
@@ -57,7 +53,7 @@ const TypographySection = () => {
                     item.font_name === font
                       ? "rgba(0, 0, 255, 0.1)"
                       : "transparent",
-                  fontFamily:`${item.font_name}, sans-serif`,
+                  fontFamily: `${item.font_name}, sans-serif`,
                   textTransform: "none",
                   padding: "0.5rem",
                 }}

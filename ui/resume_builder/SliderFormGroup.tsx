@@ -20,15 +20,16 @@ const SliderFormGroup = ({
 }) => {
   return (
     <Box component={"div"} className="slider-group">
-      <Box component={"label"} htmlFor={id} className="text-sm font-semibold">
+      <Box component={"h6"} className="text-sm font-semibold">
         {label}
       </Box>
       <Box component={"div"} className="flex items-center gap-4">
         <Slider
+          id={id}
+          name={id}
           min={min}
           max={max}
           step={step}
-          id={id}
           value={selectedValue}
           sx={{ color: "inherit" }}
           onChange={(_, value) => onChange(value as number)}

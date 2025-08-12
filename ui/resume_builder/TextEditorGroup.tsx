@@ -2,7 +2,6 @@
 
 import React, { useRef, useMemo, useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import debounce from "lodash.debounce";
 import dynamic from "next/dynamic";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
@@ -30,6 +29,9 @@ const TextEditorGroup = ({
       style: {
         fontSize: "small",
       },
+      attributes: {
+        id: id,
+      },
       toolbarAdaptive: false,
       buttons: [
         "bold",
@@ -47,39 +49,28 @@ const TextEditorGroup = ({
         "redo",
       ],
     }),
-    []
+    [id]
   );
-
-  const debouncedOnChangeRef = useRef(
-    debounce((newContent: string) => {
-      onChange(newContent);
-    }, 300)
-  );
-
-  useEffect(() => {
-    debouncedOnChangeRef.current = debounce((newContent: string) => {
-      onChange(newContent);
-    }, 1000);
-  }, [onChange]);
 
   const handleEditorChange = (newContent: string) => {
     setEditorContent(newContent);
-    debouncedOnChangeRef.current(newContent);
+    onChange(newContent);
   };
 
   return (
     <Box component="div" className="text-editor-group">
-      <Box component="label" htmlFor={id} className="text-sm font-semibold">
+      <Box component="span" className="text-sm font-semibold">
         {label}
       </Box>
 
       <JoditEditor
         id={id}
         name={id}
+        config={editorConfig}
         ref={editor}
         value={editorContent}
-        onChange={handleEditorChange}
-        config={editorConfig}
+        tabIndex={1}
+        onBlur={handleEditorChange}
       />
     </Box>
   );

@@ -116,7 +116,7 @@ const KeywordExtractor = () => {
             relevant keywords for optimizing your resume.
           </Typography>
 
-          <Box className="input w-full max-w-4xl p-6 sm:p-10">
+          <Box className="input w-full max-w-4xl sm:p-10">
             <TextField
               multiline
               minRows={8}

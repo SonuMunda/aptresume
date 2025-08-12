@@ -91,7 +91,7 @@ const ThemeSection = () => {
           })}
         </Box>
         <Box className="selected-color">
-          <Box component="label" className="text-sm font-bold">
+          <Box component="h6" className="text-sm font-bold">
             Primary Color
           </Box>
           <Box className="flex items-center gap-4">
@@ -135,7 +135,7 @@ const ThemeSection = () => {
       {/* Background Color Section */}
       <Box className="background-color">
         <Box className="selected-color">
-          <Box component="label" className="text-sm font-bold">
+          <Box component="h6" className="text-sm font-bold">
             Background Color
           </Box>
           <Box className="flex items-center gap-4">
@@ -179,7 +179,7 @@ const ThemeSection = () => {
       {/* Text Color Section */}
       <Box className="text-color">
         <Box className="selected-color">
-          <Box component="label" className="text-sm font-bold">
+          <Box component="h6" className="text-sm font-bold">
             Text Color
           </Box>
           <Box className="flex items-center gap-4">

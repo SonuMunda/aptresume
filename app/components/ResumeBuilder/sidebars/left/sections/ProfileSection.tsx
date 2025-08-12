@@ -19,7 +19,6 @@ import { addProfile, removeProfile } from "@/store/slices/resume/profilesSlice";
 const ProfileSection = () => {
   const dispatch = useDispatch();
   const profiles = useSelector((state: RootState) => state.profiles.data);
-  console.log(profiles);
 
   const [formData, setFormData] = useState({
     network: "",

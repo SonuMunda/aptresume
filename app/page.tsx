@@ -27,7 +27,7 @@ const fadeUp = {
 
 export default function Home() {
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       {/* Hero Section */}
       <section className="hero-section flex items-center min-h-[75vh] lg:h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
         <div className="container px-4 py-25 mx-auto h-full max-w-7xl flex flex-col lg:flex-row items-center justify-between">

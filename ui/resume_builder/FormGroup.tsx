@@ -33,6 +33,7 @@ const FormGroup = ({
       rows={rows}
       fullWidth
       value={value}
+      autoComplete="true"
       onChange={onChange}
       slotProps={{
         htmlInput: {
