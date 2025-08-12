@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import SessionProviderWrapper from "./components/SessionProviderWrapper";
 import ThemeRegistry from "./components/ThemeRegistry";
 import HeaderWrapper from "./components/layout/HeaderWrapper";
@@ -10,7 +10,8 @@ import Loading from "./loading";
 import ReduxWrapper from "./components/redux/ReduxWrapper";
 
 export const metadata: Metadata = {
-  title: "AptResume - AI-Powered Resume Scanner, Keywords extractor, , Resume Builder, and Jobs",
+  title:
+    "AptResume - AI-Powered Resume Scanner, Keywords extractor, , Resume Builder, and Jobs",
   description:
     "AptResume is an advanced AI-powered platform designed to help job seekers build optimized resumes, scan for ATS compatibility, extract key job keywords, and match with relevant job opportunities effortlessly. Created by Sonu Munda.",
   icons: {
@@ -25,7 +26,10 @@ export const metadata: Metadata = {
     "career development",
     "job matching platform",
     "professional resume templates",
-    "AI job search",
+    "jobs",
+    "resume",
+    "cv",
+
     "Sonu Munda",
   ],
   authors: [{ name: "Sonu Munda", url: "https://sonumunda.vecel.app" }],
@@ -48,8 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-
-const roboto =  Roboto({
+const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",

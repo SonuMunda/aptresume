@@ -95,8 +95,8 @@ export default function Home() {
             <Image
               src={"/images/homepage-hero.png"}
               alt="Professional Career Image"
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               className="object-cover mx-auto"
             />
           </motion.div>
