@@ -104,7 +104,7 @@ const MattysResume = () => {
           <h1
             className={`font-bold`}
             style={{
-              fontSize: format.fontSize + 24,
+              fontSize: format.fontSize * 2,
               lineHeight: 1,
             }}
           >
@@ -187,54 +187,23 @@ const MattysResume = () => {
 
         {/* Summary */}
         <div className={`summary ${visible ? "block" : "hidden"}`}>
-          <h2 className="uppercase border-b mb-1">Summary</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Summary
+          </h2>
           <p>{summary}</p>
         </div>
 
-        {/* Profiles */}
-        {/* <div className="profiles">
-          <h2 className="uppercase border-b mb-1">Profiles</h2>
-          {profiles.map((profile, index) => {
-            return (
-              <div className="profiles-details space-y-1" key={index}>
-                <div className="flex items-center gap-4">
-                  <h3 className="font-bold">{profile.network}:</h3>
-                  <Link
-                    href={profile.url}
-                    className="hover:underline"
-                  >
-                    {profile.url}
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div> */}
-
-        {/* Education */}
-        <div className="education">
-          <h2 className="uppercase border-b mb-1">Education</h2>
-          {education.map((edu, index) => {
-            return (
-              <div className="education-details space-y-1" key={index}>
-                <div className="flex justify-between">
-                  <h3 className=" font-medium">
-                    {edu.institute} - {edu.area}
-                  </h3>
-                  <span className="">{edu.date}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="">{edu.title}</span>
-                  <span className="">{edu.score}</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Technical Skills */}
+        {/* Skills */}
         <div className="skills">
-          <h2 className="uppercase border-b mb-1">Technical Skills</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Technical Skills
+          </h2>
           {skills.map((skill, index) => {
             return (
               <div
@@ -252,7 +221,12 @@ const MattysResume = () => {
         <div
           className={`experience ${isExperienceVisible ? "block" : "hidden"}`}
         >
-          <h2 className="uppercase border-b mb-1">Experience</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Experience
+          </h2>
           <div className="flex flex-col gap-2">
             {experience.map((exp, index) => {
               return (
@@ -277,7 +251,12 @@ const MattysResume = () => {
 
         {/* Projects */}
         <div className="projects">
-          <h2 className="uppercase border-b mb-1">Projects</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Projects
+          </h2>
           <div className="projects-info">
             {projects.map((proj, index) => {
               return (
@@ -287,10 +266,7 @@ const MattysResume = () => {
                       <h6 className="font-bold">{proj.title}</h6>|
                       <p>{proj.keywords}</p>
                     </div>
-                    <Link
-                      href={proj.link}
-                      className="text-blue-700 hover:underline"
-                    >
+                    <Link href={proj.link} className="underline">
                       {proj.link}
                     </Link>
                   </div>
@@ -304,13 +280,44 @@ const MattysResume = () => {
           </div>
         </div>
 
+        {/* Education */}
+        <div className="education">
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Education
+          </h2>
+          {education.map((edu, index) => {
+            return (
+              <div className="education-details space-y-1" key={index}>
+                <div className="flex justify-between">
+                  <h3 className="font-semibold">
+                    {edu.institute} {edu.area && " - " + edu.area}
+                  </h3>
+                  <span className="">{edu.date}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="">{edu.title}</span>
+                  <span className="">{edu.score}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
         {/* Achievements */}
         <div
           className={`achievements ${
             isAchievementsVisible ? "block" : "hidden"
           }`}
         >
-          <h2 className="uppercase border-b mb-1">Achievements</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Achievements
+          </h2>
           <div className="flex flex-col gap-2">
             {achievements.map((ach, index) => {
               return (
@@ -339,7 +346,12 @@ const MattysResume = () => {
             isCertificationsVisible ? "block" : "hidden"
           }`}
         >
-          <h2 className=" uppercase border-b mb-1">Certifications</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Certifications
+          </h2>
           <div className="flex flex-col gap-2">
             {certifications.map((cert, index) => {
               return (
@@ -353,7 +365,7 @@ const MattysResume = () => {
                     <span className="">{cert.link}</span>
                   </div>
                   <div
-                    className=" ms-4"
+                    className="ms-4"
                     dangerouslySetInnerHTML={{ __html: cert.description }}
                   ></div>
                 </div>
@@ -364,7 +376,12 @@ const MattysResume = () => {
 
         {/* Languages */}
         <div className="languages">
-          <h2 className="uppercase border-b mb-1">Languages</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Languages
+          </h2>
           <div className="languages flex flex-wrap items-center gap-10">
             {languages.map((lang, index) => {
               return (
@@ -378,7 +395,12 @@ const MattysResume = () => {
 
         {/* Hobbies */}
         <div className="hobbies">
-          <h2 className="uppercase  border-b mb-1">Hobbies</h2>
+          <h2
+            className="uppercase mb-1"
+            style={{ borderBottom: `1px solid ${format.textColor}` }}
+          >
+            Hobbies
+          </h2>
           <div className="hobby flex flex-wrap items-center gap-10">
             {hobbies.map((hobby, index) => {
               return (

@@ -8,7 +8,7 @@ interface FormatData {
   primaryColor: string;
   backgroundColor: string;
   textColor: string;
-  // pageSize: string;
+  pageSize: string;
   pageMargin: number;
 }
 
@@ -25,7 +25,7 @@ const initialState: FormatState = {
     primaryColor: "#1976d2",
     backgroundColor: "#ffffff",
     textColor: "#000000",
-    // pageSize: "A4",
+    pageSize: "A4",
     pageMargin: 20,
   },
 };
@@ -55,9 +55,9 @@ const formatSlice = createSlice({
     setTextColor: (state, action: PayloadAction<string>) => {
       state.data.textColor = action.payload;
     },
-    // setPageSize: (state, action: PayloadAction<string>) => {
-    //   state.data.pageSize = action.payload;
-    // },
+    setPageSize: (state, action: PayloadAction<string>) => {
+      state.data.pageSize = action.payload;
+    },
     setPageMargin: (state, action: PayloadAction<number>) => {
       state.data.pageMargin = action.payload;
     },
@@ -73,7 +73,7 @@ export const {
   setPrimaryColor,
   setBackgroundColor,
   setTextColor,
-  // setPageSize,
+  setPageSize,
   setPageMargin,
   resetFormat,
 } = formatSlice.actions;

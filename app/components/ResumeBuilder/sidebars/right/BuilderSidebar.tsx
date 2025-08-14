@@ -4,19 +4,30 @@ import {
   FileDownloadOutlined,
   PictureAsPdfOutlined,
 } from "@mui/icons-material";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Typography,
+} from "@mui/material";
 
 import TemplatesSection from "./sections/TemplatesSection";
 import TypographySection from "./sections/TypographySection";
 import ThemeSection from "./sections/ThemeSection";
 import PageFormattingSection from "./sections/PageFormattingSection";
 import SectionHeading from "@/ui/resume_builder/SectionHeading";
+import { indigo } from "@mui/material/colors";
 
 interface BuilderSidebarProps {
   handleResumeDownload: () => void;
+  loading: boolean;
 }
 
-const BuilderSidebar = ({ handleResumeDownload }: BuilderSidebarProps) => {
+const BuilderSidebar = ({
+  handleResumeDownload,
+  loading,
+}: BuilderSidebarProps) => {
   return (
     <Box
       component={"aside"}
@@ -45,7 +56,7 @@ const BuilderSidebar = ({ handleResumeDownload }: BuilderSidebarProps) => {
         {/* Download */}
         <Box
           component={"div"}
-          className="download flex flex-col gap-6 relative"
+          className="download flex flex-col gap-6 relative mb-10"
         >
           {/* Heading */}
 
@@ -53,38 +64,54 @@ const BuilderSidebar = ({ handleResumeDownload }: BuilderSidebarProps) => {
 
           {/* Download Options */}
           <Box
-            component={"div"}
-            className="flex flex-col gap-6"
+            component="div"
+            className="flex flex-col gap-6 max-w-md"
             onClick={handleResumeDownload}
           >
-            <Button
-              variant="text"
-              startIcon={
-                <PictureAsPdfOutlined fontSize="large" color="error" />
-              }
-              sx={{
-                backgroundColor: "white",
-                border: 1,
-                borderColor: "divider",
-                p: 2,
-              }}
+            <Box
+              className="rounded-lg border border-gray-200 shadow-sm hover:shadow-md 
+                   bg-white transition-all cursor-pointer hover:bg-neutral-100 hover:border-indigo-400"
             >
-              <Typography
+              <Button
+                fullWidth
+                variant="text"
+                startIcon={
+                  loading ? (
+                    <CircularProgress size={24} sx={{ color: indigo[500] }} />
+                  ) : (
+                    <PictureAsPdfOutlined fontSize="inherit" color="error" />
+                  )
+                }
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  fontSize: "14px",
+                  justifyContent: "flex-start",
+                  gap: 2,
                   textAlign: "left",
-                  textTransform: "none",
+                  padding: "1rem",
                 }}
               >
-                <span className="font-bold text-black">Pdf</span>
-                <span className="text-gray-600">
-                  Download a PDF version of your resume is perfect for printing,
-                  sharing with recruiters, or uploading to job portals.
-                </span>
-              </Typography>
-            </Button>
+                <Box className="flex flex-col">
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      color: "black",
+                    }}
+                  >
+                    Download PDF Resume
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      color: "text.secondary",
+                      textTransform: "none",
+                    }}
+                  >
+                    Perfect for printing, sharing with recruiters, or uploading
+                    to job portals.
+                  </Typography>
+                </Box>
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
