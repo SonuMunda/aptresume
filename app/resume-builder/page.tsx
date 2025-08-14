@@ -2,28 +2,73 @@
 
 import { Box, IconButton } from "@mui/material";
 import { useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
 import ResumeBuilderHeader from "../components/ResumeBuilder/BuilderHeader";
 import ResumeBuilderForm from "../components/ResumeBuilder/sidebars/left/BuilderForm";
 import BuilderSidebar from "../components/ResumeBuilder/sidebars/right/BuilderSidebar";
 import BuilderPreview from "../components/ResumeBuilder/BuilderPreview";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Clear } from "@mui/icons-material";
+import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const ResumeBuilder = () => {
+  const { pageSize } = useSelector((state: RootState) => state?.format.data);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState<boolean>(false);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState<boolean>(false);
+  const [resumeTitle, setResumeTitle] = useState<string>("myresume");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleDownloadPDF = useReactToPrint({
-    contentRef,
-  });
+  const downloadPdf = async () => {
+    const htmlContent = contentRef.current?.outerHTML;
+    if (!htmlContent) {
+      toast("Unable to download PDF");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/download-resume", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ html: htmlContent, pageSize }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error(errorData.message || "Error generating PDF");
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${resumeTitle || "myresume"}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message);
+      }
+      toast("Oops, something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
       component="section"
       className="h-screen w-full overflow-hidden bg-gradient-to-br from-indigo-50 to-blue-50"
     >
+      <Toaster />
       <Box component="div" className="flex justify-between">
         <Box
           component={"div"}
@@ -50,6 +95,10 @@ const ResumeBuilder = () => {
           <ResumeBuilderHeader
             setIsLeftSidebarOpen={setIsLeftSidebarOpen}
             setIsRightSidebarOpen={setIsRightSidebarOpen}
+            title={resumeTitle}
+            setTitle={setResumeTitle}
+            loading={loading}
+            download={downloadPdf}
           />
           <Box component={"div"} className="canvas">
             <TransformWrapper
@@ -74,7 +123,7 @@ const ResumeBuilder = () => {
                   id="resume-preview"
                   ref={contentRef}
                 >
-                  <BuilderPreview contentRef={contentRef}/>
+                  <BuilderPreview contentRef={contentRef} />
                 </Box>
               </TransformComponent>
             </TransformWrapper>
@@ -86,7 +135,10 @@ const ResumeBuilder = () => {
             !isRightSidebarOpen ? "right-[-110%]" : "right-[0]"
           } xl:right-[0] z-4 bg-gradient-to-br from-indigo-50 to-blue-50 transition-all duration-300 ease-in-out`}
         >
-          <BuilderSidebar handleResumeDownload={handleDownloadPDF} />
+          <BuilderSidebar
+            handleResumeDownload={downloadPdf}
+            loading={loading}
+          />
           <Box
             component={"div"}
             className="absolute top-0 right-0 border border-gray-300 backdrop-blur-3xl rounded block xl:hidden"
