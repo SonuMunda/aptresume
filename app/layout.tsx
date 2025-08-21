@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+
+  other: {
+    "google-site-verification": "taV1NL9LHxS5GZO6CvJg9Ro7i0nPQWYbEG5SEiWbi6U",
+  },
 };
 
 const roboto = Roboto({
