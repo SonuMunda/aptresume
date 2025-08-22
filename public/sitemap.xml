@@ -2,10 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aptresume.vercel.app/</loc>
-    <lastmod>2024-08-11</lastmod>
+    <lastmod>2025-08-22</lastmod>
   </url>
   <url>
     <loc>https://aptresume.vercel.app/about</loc>
-    <lastmod>2024-08-01</lastmod>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/jobs</loc>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/resume-scan</loc>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/</loc>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/extract-keyword</loc>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/signin</loc>
+    <lastmod>2024-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://aptresume.vercel.app/signup</loc>
+    <lastmod>2024-08-22</lastmod>
   </url>
 </urlset>
