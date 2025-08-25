@@ -11,11 +11,14 @@ export const POST = async (request: NextRequest) => {
       { status: 400 }
     );
 
-  let query = title;
+  let query = "";
 
   if (location) {
-    query += ` in = '${location}'`;
+    query  = `${title} in ${location}`;
   }
+
+  console.log(query);
+  
 
   const params = [
     `query=${encodeURIComponent(query)}`,
