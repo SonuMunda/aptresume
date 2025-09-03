@@ -28,6 +28,7 @@ import Loading from "../loading";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setError, setJobs, setLoading } from "@/store/slices/jobsSlice";
+import { useSession } from "next-auth/react";
 
 interface formDataProps {
   title: string;
@@ -42,6 +43,7 @@ interface searchJobsProps {
 }
 
 const Jobs = () => {
+  const { status } = useSession();
   const {
     data: jobs,
     loading,
@@ -112,6 +114,7 @@ const Jobs = () => {
       if (location) queryData.location = location;
 
       dispatch(setLoading(true));
+
       try {
         const response = await fetch(`/api/get-jobs`, {
           method: "POST",
@@ -135,10 +138,15 @@ const Jobs = () => {
       }
     };
 
-    if (title) {
+    if (status === "unauthenticated") {
+      toast.error("Please sign in to search for jobs");
+      return;
+    }
+
+    if (title && status === "authenticated") {
       searchJobs({ title, experience, location });
     }
-  }, [title, experience, location, dispatch]);
+  }, [title, experience, location, dispatch, status]);
 
   // Event Handlers
   const handleSearch = () => {
@@ -517,6 +525,14 @@ const Jobs = () => {
           </Suspense>
           {/* Jobs Listings  */}
 
+          {!jobs?.length && !loading && !error && (
+            <Typography
+              component={"p"}
+              className="text-center text-gray-600 text-lg md:text-xl mx-auto lg:mx-0 max-w-3xl leading-relaxed"
+            >
+              No jobs found. Try adjusting your search criteria.
+            </Typography>
+          )}
           {/* Jobs Error Box*/}
           {error && (
             <Box

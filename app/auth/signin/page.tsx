@@ -125,14 +125,20 @@ export default function SignIn() {
   };
 
   return (
-    <Box component={"section"} className="signin">
+    <Box
+      component={motion.section}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="signin"
+    >
       <Box
         component={"div"}
-        className="container min-h-screen min-w-full bg-white mx-auto grid lg:grid-cols-2"
+        className="container min-h-screen max-w-7xl flex items-center bg-white mx-auto"
       >
         <Box
           component={"div"}
-          className="signup-form h-fit w-full p-4 md:p-10 md:m-auto md:max-w-xl"
+          className="signup-form h-fit max-w-lg flex-1 px-4 pt-4 pb-10 mx-auto"
         >
           {/* Logo */}
           <Box component={"div"} className="logo mb-3">
@@ -175,6 +181,16 @@ export default function SignIn() {
             </Alert>
           )}
 
+          <Box component={"div"}>
+            <GoogleSigninButton setFormResponse={setFormResponse} />
+          </Box>
+
+          <Divider sx={{ my: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              OR
+            </Typography>
+          </Divider>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -188,6 +204,7 @@ export default function SignIn() {
                 variant="filled"
                 fullWidth
                 focused
+                size="small"
                 value={form.email}
                 onChange={handleChange}
                 error={Boolean(fieldErrors.email)}
@@ -204,6 +221,7 @@ export default function SignIn() {
                 label="Password"
                 fullWidth
                 focused
+                size="small"
                 value={form.password}
                 onChange={handleChange}
                 error={Boolean(fieldErrors.password)}
@@ -287,22 +305,12 @@ export default function SignIn() {
                 </Typography>
               </Link>
             </Typography>
-
-            <Divider sx={{ my: 2 }}>
-              <Typography variant="body2" color="text.secondary">
-                OR
-              </Typography>
-            </Divider>
-
-            <Box component={"div"}>
-              <GoogleSigninButton setFormResponse={setFormResponse} />
-            </Box>
           </Box>
         </Box>
-        <Box
+        {/* <Box
           component={motion.div}
           className="hidden lg:block h-full w-full relative signin-background"
-        ></Box>
+        ></Box> */}
       </Box>
     </Box>
   );

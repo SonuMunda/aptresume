@@ -90,14 +90,20 @@ export default function SignUp() {
 
   return (
     <main>
-      <Box component={"section"} className="signup">
+      <Box
+        component={motion.section}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="signup"
+      >
         <Box
           component={"div"}
-          className="container min-h-screen min-w-full bg-white mx-auto grid lg:grid-cols-2"
+          className="container min-h-screen max-w-7xl flex items-center bg-white mx-auto"
         >
           <Box
             component={"div"}
-            className="signup-form space-y-6 h-fit w-full p-4 md:p-10 md:m-auto md:max-w-xl"
+            className="signup-form space-y-6 h-fit flex-1 max-w-lg px-4 pt-4 pb-10 my-auto mx-auto"
           >
             {/* Logo */}
             <Box component={"div"} className="logo mb-2">
@@ -134,146 +140,156 @@ export default function SignUp() {
                 {responseData.message}
               </Alert>
             )}
+
+            <Box component={"div"}>
+              <GoogleSigninButton setFormResponse={setResponseData} />
+            </Box>
+
+            <Divider sx={{ my: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                OR
+              </Typography>
+            </Divider>
+
             {/* Form */}
-            <Box
-              component="form"
-              onSubmit={handleSubmit(onSubmit)}
-              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-            >
-              <FormControl>
-                <TextField
-                  {...register("name")}
-                  name="name"
-                  id="name"
-                  variant="filled"
-                  label="Full Name"
-                  fullWidth
-                  focused
-                  error={!!errors.name}
-                  helperText={errors.name?.message || " "}
-                  sx={textFieldStyle}
-                />
-              </FormControl>
+            <div className="form-box">
+              <Box
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+                sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+              >
+                <FormControl>
+                  <TextField
+                    {...register("name")}
+                    name="name"
+                    id="name"
+                    variant="filled"
+                    label="Full Name"
+                    fullWidth
+                    focused
+                    size="small"
+                    error={!!errors.name}
+                    helperText={errors.name?.message || " "}
+                    sx={textFieldStyle}
+                  />
+                </FormControl>
 
-              <FormControl>
-                <TextField
-                  {...register("email")}
-                  name="email"
-                  id="email"
-                  type="text"
-                  variant="filled"
-                  label="Email"
-                  fullWidth
-                  focused
-                  error={!!errors.email}
-                  helperText={errors.email?.message || " "}
-                  sx={textFieldStyle}
-                />
-              </FormControl>
+                <FormControl>
+                  <TextField
+                    {...register("email")}
+                    name="email"
+                    id="email"
+                    type="text"
+                    variant="filled"
+                    label="Email"
+                    fullWidth
+                    focused
+                    size="small"
+                    error={!!errors.email}
+                    helperText={errors.email?.message || " "}
+                    sx={textFieldStyle}
+                  />
+                </FormControl>
 
-              <FormControl>
-                <TextField
-                  {...register("password")}
-                  name="password"
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  variant="filled"
-                  label="Password"
+                <FormControl>
+                  <TextField
+                    {...register("password")}
+                    name="password"
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    variant="filled"
+                    label="Password"
+                    fullWidth
+                    focused
+                    size="small"
+                    error={!!errors.password}
+                    helperText={errors.password?.message || " "}
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleTogglePassword}
+                              edge="end"
+                              aria-label={
+                                showPassword ? "Hide password" : "Show password"
+                              }
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
+                    sx={textFieldStyle}
+                  />
+                </FormControl>
+
+                <Button
+                  type="submit"
                   fullWidth
-                  focused
-                  error={!!errors.password}
-                  helperText={errors.password?.message || " "}
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={handleTogglePassword}
-                            edge="end"
-                            aria-label={
-                              showPassword ? "Hide password" : "Show password"
-                            }
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
+                  variant="contained"
+                  disabled={loading}
+                  size="large"
+                  sx={{
+                    py: 1.5,
+                    backgroundColor: indigo[600],
+                    borderRadius: 2,
+                    textTransform: "none",
+                    boxShadow: "none",
+                    mt: 1,
+                    "&:hover": {
+                      boxShadow: "none",
                     },
                   }}
-                  sx={textFieldStyle}
-                />
-              </FormControl>
+                >
+                  {loading ? (
+                    <CircularProgress size={24} sx={{ color: "inherit" }} />
+                  ) : (
+                    <Typography component={"span"} variant="body1">
+                      Sign Up
+                    </Typography>
+                  )}
+                </Button>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={loading}
-                size="large"
-                sx={{
-                  py: 1.5,
-                  backgroundColor: indigo[600],
-                  borderRadius: 2,
-                  textTransform: "none",
-                  boxShadow: "none",
-                  mt: 1,
-                  "&:hover": {
-                    boxShadow: "none",
-                  },
-                }}
-              >
-                {loading ? (
-                  <CircularProgress size={24} sx={{ color: "inherit" }} />
-                ) : (
-                  <Typography component={"span"} variant="body1">
-                    Sign Up
-                  </Typography>
-                )}
-              </Button>
-
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ textAlign: "center", mt: 1 }}
-              >
-                Already have an account?
-                <Link href="/auth/signin">
-                  <Typography
-                    component="span"
-                    variant="body1"
-                    sx={{
-                      ml: 1,
-                      color: indigo[900],
-                      textDecoration: "none",
-                      "&:hover": {
-                        textDecoration: "underline",
-                      },
-                      cursor: "pointer",
-                    }}
-                  >
-                    Sign in
-                  </Typography>
-                </Link>
-              </Typography>
-
-              <Divider sx={{ my: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  OR
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ textAlign: "center", mt: 1 }}
+                >
+                  Already have an account?
+                  <Link href="/auth/signin">
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      sx={{
+                        ml: 1,
+                        color: indigo[900],
+                        textDecoration: "none",
+                        "&:hover": {
+                          textDecoration: "underline",
+                        },
+                        cursor: "pointer",
+                      }}
+                    >
+                      Sign in
+                    </Typography>
+                  </Link>
                 </Typography>
-              </Divider>
-
-              <Box component={"div"}>
-                <GoogleSigninButton setFormResponse={setResponseData} />
               </Box>
-            </Box>
+            </div>
           </Box>
-          <Box
+          {/* <Box
             component={motion.div}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
             className="hidden lg:block h-full w-full relative signup-background"
-          ></Box>
+          ></Box> */}
         </Box>
       </Box>
     </main>
