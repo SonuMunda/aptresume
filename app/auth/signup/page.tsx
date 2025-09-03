@@ -24,6 +24,7 @@ import { textFieldStyle } from "@/ui/styles/textFieldStyle";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 type FormData = SignUpSchemaType;
 
@@ -31,6 +32,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState<IResponseData | null>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const {
     register,
@@ -52,13 +54,20 @@ export default function SignUp() {
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if (!executeRecaptcha) {
+      return;
+    }
+
+    const token = await executeRecaptcha("signup");
+
+    const dataWithToken = { ...data, token };
     setLoading(true);
     setResponseData(null);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataWithToken),
       });
 
       const resData = await res.json();

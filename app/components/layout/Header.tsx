@@ -18,6 +18,8 @@ const Header = () => {
     setUserMenuOpen((prev) => !prev);
   };
 
+  console.log(session);
+
   const pages = [
     { href: "/resume-scan", label: "Resume Scan" },
     { href: "/extract-keywords", label: "Extract Keywords" },

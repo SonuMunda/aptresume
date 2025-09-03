@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import FooterWrapper from "./components/layout/FooterWrapper";
 import Loading from "./loading";
 import ReduxWrapper from "./components/redux/ReduxWrapper";
+import ReCaptchaProvider from "./components/ReCaptchaProvider";
 
 export const metadata: Metadata = {
   title:
@@ -74,7 +75,9 @@ export default function RootLayout({
           <ReduxWrapper>
             <ThemeRegistry>
               <HeaderWrapper />
-              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <ReCaptchaProvider>
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+              </ReCaptchaProvider>
               <FooterWrapper />
             </ThemeRegistry>
           </ReduxWrapper>

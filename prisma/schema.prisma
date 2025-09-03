@@ -21,7 +21,6 @@ model User {
   updatedAt     DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
-  Upload        Upload[]
 }
 
 model Account {
@@ -37,7 +36,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id])
+  Upload            User    @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId])
 }
@@ -66,8 +65,7 @@ model Upload {
   file_type String
   createdAt DateTime @default(now())
   result    Json?
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
+  userEmail String?
 }
 
 model Contact {

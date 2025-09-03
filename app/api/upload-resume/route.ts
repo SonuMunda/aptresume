@@ -6,6 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
+    const email = formData.get("email") as string;
 
     if (!file || typeof file === "string") {
       return new Response(JSON.stringify({ error: "No valid file provided" }), {
@@ -58,8 +59,10 @@ export async function POST(req: NextRequest) {
         url: publicUrl,
         file_size: fileSize,
         file_type: fileExtension || "unknown",
+        userEmail: email,
       },
     });
+
 
     return NextResponse.json(
       { message: "File Uploaded", upload },

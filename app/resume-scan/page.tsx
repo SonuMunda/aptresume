@@ -15,7 +15,7 @@ import SectionSummary from "../components/shared/SectionSummary";
 import { useSession } from "next-auth/react";
 
 const ResumeScan = () => {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const uploaderRef = useRef<HTMLElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,9 +41,13 @@ const ResumeScan = () => {
 
     try {
       setLoading(true);
-
+      const email = session?.user?.email;
       const formData = new FormData();
-      formData.append("file", file);
+
+      if (email) {
+        formData.append("file", file);
+        formData.append("email", email);
+      }
 
       const response = await fetch("/api/upload-resume", {
         method: "POST",

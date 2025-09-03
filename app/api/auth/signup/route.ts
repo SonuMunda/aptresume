@@ -15,7 +15,41 @@ export const POST = async (req: NextRequest) => {
     }
 
     const { name, email, password } = parsed.data;
+    const token = body?.token;
 
+    // Verify reCAPTCHA token
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!recaptchaSecret) {
+      return NextResponse.json(
+        { message: "reCAPTCHA secret key is not configured" },
+        { status: 500 }
+      );
+    }
+
+    const rescaptchaResponse = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${recaptchaSecret}&response=${token}`,
+      }
+    );
+
+    const recaptchaData = await rescaptchaResponse.json();
+
+    console.log("reCAPTCHA data:", recaptchaData.score);
+
+
+    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      return NextResponse.json(
+        { message: "reCAPTCHA verification failed" },
+        { status: 400 }
+      );
+    }
+
+    // Use Arcjet to assess the risk of the signup attempt
     const decision = await aj.protect(req, {
       email: email,
     });
@@ -27,8 +61,10 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
+    // Hashing the password
     const hashedPassword = await bcrypt.hash(password, 16);
 
+    // Check if user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
     if (existingUser) {
