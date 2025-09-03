@@ -12,8 +12,10 @@ import atsScanFaqData from "@/data/atsScannerFaqs";
 import AccordionComponent from "../components/shared/AccordionComponent";
 import HeroSection from "../components/layout/HeroSection";
 import SectionSummary from "../components/shared/SectionSummary";
+import { useSession } from "next-auth/react";
 
 const ResumeScan = () => {
+  const { status } = useSession();
   const router = useRouter();
   const uploaderRef = useRef<HTMLElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,6 +34,11 @@ const ResumeScan = () => {
   };
 
   const handleFileUpload = async (file: File) => {
+    if (status === "unauthenticated") {
+      toast.error("Please sign in to upload your resume");
+      return;
+    }
+
     try {
       setLoading(true);
 

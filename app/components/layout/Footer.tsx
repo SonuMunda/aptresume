@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-indigo-950 text-gray-300 py-10 px-4 sm:px-10">
+    <footer className="bg-neutral-950 text-gray-300 py-10 px-4 sm:px-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Brand Info */}
         <div>

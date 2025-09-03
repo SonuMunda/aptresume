@@ -3,11 +3,11 @@ import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import sendEmailVerification from "@/lib/utils/sendVerificationMail";
+import aj from "@/arcjet/arcjet";
 
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-
     const parsed = signUpSchema.safeParse(body);
     if (!parsed.success) {
       const errorMessages = parsed.error.flatten().fieldErrors;
@@ -15,6 +15,18 @@ export const POST = async (req: NextRequest) => {
     }
 
     const { name, email, password } = parsed.data;
+
+    const decision = await aj.protect(req, {
+      email: email,
+    });
+
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { message: "Email not allowed" },
+        { status: 403 }
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(password, 16);
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
