@@ -42,8 +42,8 @@ export const authOptions: AuthOptions = {
     }),
   ],
   pages: {
-    newUser: "/auth/signin",
     signIn: "/auth/signin",
+    newUser: "/auth/signup",
     error: "/auth/signin",
   },
   session: {
@@ -57,6 +57,7 @@ export const authOptions: AuthOptions = {
       }
       return session;
     },
+
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
@@ -64,6 +65,12 @@ export const authOptions: AuthOptions = {
         token.name = user.name;
       }
       return token;
+    },
+
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET as string,
