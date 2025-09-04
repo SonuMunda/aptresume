@@ -36,7 +36,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  Upload            User    @relation(fields: [userId], references: [id])
+  user              User    @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId])
 }

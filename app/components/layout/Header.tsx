@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { indigo } from "@mui/material/colors";
+import { indigo, red } from "@mui/material/colors";
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -187,7 +187,7 @@ const Header = () => {
 
               {/* User Menu */}
               {userMenuOpen && (
-                <div className="user-menu absolute right-0 mt-2 w-56 bg-white/50 backdrop-blur-3xl rounded-lg shadow-lg border border-gray-300 text-sm font-sans overflow-hidden z-50">
+                <div className="user-menu absolute right-0 mt-2 w-56 bg-neutral-100 rounded-lg shadow-lg border border-gray-300 text-sm font-sans overflow-hidden z-50">
                   <ul className="flex flex-col">
                     <li className="px-6 py-4 border-b border-gray-200">
                       <div className="text-gray-900 font-semibold">
@@ -205,6 +205,9 @@ const Header = () => {
                         sx={{
                           color: "text.secondary",
                           textTransform: "none",
+                          "&:hover":{
+                            backgroundColor: red[100],
+                          }
                         }}
                       >
                         Sign Out
