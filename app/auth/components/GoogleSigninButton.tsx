@@ -21,27 +21,24 @@ const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      const res = await signIn("google", {
+      const response = await signIn("google", {
         callbackUrl: "/",
-        redirect: true,
+        redirect: false,
       });
 
-      console.log(res);
-      
-
-      if (!res?.ok) {
+      if (response?.error) {
         setFormResponse({
-          message: "Error signing in with Google",
+          message: response.error,
           success: false,
         });
       }
 
-      setFormResponse({
-        message: "Signin successful",
-        success: true,
-      });
-
-
+      if (response?.ok && !response?.error) {
+        setFormResponse({
+          message: "Signed in successfully!",
+          success: true,
+        });
+      }
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Error signing in with Google";
