@@ -108,11 +108,11 @@ export default function SignUp() {
       >
         <Box
           component={"div"}
-          className="container min-h-screen max-w-7xl flex items-center bg-white mx-auto"
+          className="container min-h-screen max-w-7xl flex sm:items-center bg-white mx-auto"
         >
           <Box
             component={"div"}
-            className="signup-form space-y-6 h-fit flex-1 max-w-lg px-4 pt-4 pb-10 my-auto mx-auto"
+            className="signup-form space-y-6 h-fit flex-1 max-w-lg px-4 pt-4 pb-10 mx-auto"
           >
             {/* Logo */}
             <Box component={"div"} className="logo mb-2">

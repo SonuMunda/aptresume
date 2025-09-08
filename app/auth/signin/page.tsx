@@ -134,7 +134,7 @@ export default function SignIn() {
     >
       <Box
         component={"div"}
-        className="container min-h-screen max-w-7xl flex items-center bg-white mx-auto"
+        className="container min-h-screen max-w-7xl flex sm:items-center bg-white mx-auto"
       >
         <Box
           component={"div"}

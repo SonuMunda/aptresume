@@ -82,7 +82,7 @@ const Contact = () => {
         >
           <Box
             component={motion.div}
-            className="left h-full bg-white rounded-xl p-4 lg:p-10 border-2 border-indigo-100 shadow shadow-lg"
+            className="left h-full bg-white rounded-xl p-6 lg:p-10 border-2 border-indigo-100 shadow shadow-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
@@ -97,6 +97,10 @@ const Contact = () => {
                   component={"h6"}
                   sx={{
                     color: indigo[400],
+                    bgcolor: indigo[50],
+                    width: "fit-content",
+                    p: "0.2rem 0.6rem",
+                    borderRadius: "16px",
                     fontWeight: 600,
                   }}
                 >
@@ -244,7 +248,7 @@ const Contact = () => {
             <Box component={"div"} className="contact-info p-4 lg:p-10">
               <Box
                 component={"div"}
-                className="contact-info-item flex flex-wrap items-center justify-center gap-6"
+                className="contact-info-item flex flex-wrap items-center  gap-6"
               >
                 <Box
                   component={"div"}
