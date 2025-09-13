@@ -13,7 +13,7 @@ const ReCaptchaProvider: React.FC<ReCaptchaProviderProps> = ({ children }) => {
       reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
     >
       {children}
-    </GoogleReCaptchaProvider>
+    </GoogleReCaptchaProvider> 
   );
 };
 

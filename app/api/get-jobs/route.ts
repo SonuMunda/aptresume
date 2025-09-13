@@ -3,34 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
 
-  const { title, experience, location } = body;
+  const jobTitle = body;
 
-  if (!title)
+
+  if (!jobTitle)
     return NextResponse.json(
       { message: "Job Title Required" },
       { status: 400 }
     );
 
-  let query = "";
 
-  if (location) {
-    query  = `${title} in ${location}`;
-  }
-
-  console.log(query);
-  
 
   const params = [
-    `query=${encodeURIComponent(query)}`,
+    `query=${encodeURIComponent(jobTitle)}`,
     "page=1",
     "num_pages=10",
     "country=in",
     "date_posted=week",
   ];
 
-  if (experience) {
-    params.push(`job_requirements=${encodeURIComponent(experience)}`);
-  }
 
   const url = `https://jsearch.p.rapidapi.com/search?${params.join("&")}`;
 
@@ -45,6 +36,7 @@ export const POST = async (request: NextRequest) => {
 
     if (!response.ok) {
       const error = await response.json();
+      console.error(error);
       return NextResponse.json(
         { message: error.message || "No data fetched" },
         { status: response.status }

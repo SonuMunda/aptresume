@@ -6,8 +6,6 @@ import {
   CircularProgress,
   FormControl,
   IconButton,
-  MenuItem,
-  Select,
   Stack,
   TextField,
   Typography,
@@ -23,24 +21,11 @@ import JobDescriptionSkeleton from "../components/JobDescriptionSkeleton";
 import JobCardSkeleton from "../components/JobCardSkeleton";
 import { ChevronLeft } from "@mui/icons-material";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "../loading";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setError, setJobs, setLoading } from "@/store/slices/jobsSlice";
 import { useSession } from "next-auth/react";
-
-interface formDataProps {
-  title: string;
-  experience: string;
-  location: string;
-}
-
-interface searchJobsProps {
-  title: string;
-  location?: string | null;
-  experience?: string | null;
-}
 
 const Jobs = () => {
   const { status } = useSession();
@@ -51,14 +36,11 @@ const Jobs = () => {
   } = useSelector((state: RootState) => state.jobs);
 
   const dispatch = useDispatch();
+
   // States
   const [descriptionHTML, setDescriptionHTML] = useState<string>("");
   const [descLoading, setDescLoading] = useState<boolean>(true);
-  const [formData, setFormData] = useState<formDataProps>({
-    title: "",
-    experience: "",
-    location: "",
-  });
+  const [jobTitle, setJobTitle] = useState<string>("");
   const [descJobId, setDescJobId] = useState<string | null>("");
   const selectedJob = jobs?.find((job) => job?.job_id === descJobId);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -72,13 +54,13 @@ const Jobs = () => {
   // References
   const uploaderRef = useRef<HTMLElement>(null);
   const jobsContent = useRef<HTMLElement>(null);
+  const jobDetailsRef = useRef<HTMLDivElement>(null);
 
   // Router
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const title = searchParams.get("title");
-  const experience = searchParams.get("experience");
-  const location = searchParams.get("location");
+  // const searchParams = useSearchParams();
+  // const title = searchParams.get("title");
+  // const experience = searchParams.get("experience");
+  // const location = searchParams.get("location");
 
   // Hero Section Contents
   const heroContent = {
@@ -90,7 +72,7 @@ const Jobs = () => {
     buttonText: "Explore Jobs",
   };
 
-  // Functions
+  // Scroll Functions
   const scrollToUploader = () => {
     uploaderRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -99,72 +81,88 @@ const Jobs = () => {
     jobsContent.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scrollToJobDescription = () => {
+    jobsContent.current?.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    
+  };
+
   // Fetch Jobs
 
-  useEffect(() => {
-    const searchJobs = async ({
-      title,
-      experience,
-      location,
-    }: searchJobsProps) => {
-      const queryData: Record<string, string> = {};
+  // useEffect(() => {
+  //   const searchJobs = async ({
+  //     title,
+  //     experience,
+  //     location,
+  //   }: searchJobsProps) => {
+  //     const queryData: Record<string, string> = {};
 
-      if (title) queryData.title = title;
-      if (experience) queryData.experience = experience;
-      if (location) queryData.location = location;
+  //     if (title) queryData.title = title;
+  //     if (experience) queryData.experience = experience;
+  //     if (location) queryData.location = location;
 
-      dispatch(setLoading(true));
+  //     dispatch(setLoading(true));
 
-      try {
-        const response = await fetch(`/api/get-jobs`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(queryData),
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          dispatch(setError(data.message));
-          return;
-        }
-        dispatch(setJobs(data));
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message || "Oops,something went wrong");
-        }
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
+  //     try {
+  //       const response = await fetch(`/api/get-jobs`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(queryData),
+  //       });
+  //       const data = await response.json();
+  //       if (!response.ok) {
+  //         dispatch(setError(data.message));
+  //         return;
+  //       }
+  //       dispatch(setJobs(data));
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         setError(error.message || "Oops,something went wrong");
+  //       }
+  //     } finally {
+  //       dispatch(setLoading(false));
+  //     }
+  //   };
 
+  //   if (title && status === "authenticated") {
+  //     searchJobs({ title, experience, location });
+  //   }
+  // }, [title, experience, location, dispatch, status]);
+
+  // Event Handlers
+  const handleSearch = async () => {
     if (status === "unauthenticated") {
       toast.error("Please sign in to search for jobs");
       return;
     }
 
-    if (title && status === "authenticated") {
-      searchJobs({ title, experience, location });
-    }
-  }, [title, experience, location, dispatch, status]);
+    dispatch(setLoading(true));
 
-  // Event Handlers
-  const handleSearch = () => {
-    const query: Record<string, string> = {};
-
-    if (formData.title) {
-      query.title = formData.title;
+    try {
+      const response = await fetch(`/api/get-jobs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobTitle),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        dispatch(setError(data.message));
+        return;
+      }
+      dispatch(setJobs(data));
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || "Oops,something went wrong");
+      }
+    } finally {
+      dispatch(setLoading(false));
     }
-    if (formData.experience) {
-      query.experience = formData.experience;
-    }
-    if (formData.location) {
-      query.location = formData.location;
-    }
-
-    const queryString = new URLSearchParams(query).toString();
-
-    router.push(`?${queryString}`, { scroll: false });
   };
 
   // Get Salary Range
@@ -240,59 +238,9 @@ const Jobs = () => {
             <FormControl sx={{ flex: 1, minWidth: { xs: "100%", sm: 300 } }}>
               <TextField
                 variant="outlined"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
                 placeholder="Job Title, Location, or Keyword"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 100,
-                    backgroundColor: "#f5f5f5",
-                    "&:hover fieldset": { borderColor: indigo[200] },
-                    "&.Mui-focused fieldset": { borderColor: indigo[400] },
-                  },
-                }}
-              />
-            </FormControl>
-            <FormControl sx={{ minWidth: { xs: "100%", sm: 200 } }}>
-              <Select
-                variant="outlined"
-                value={formData.experience}
-                onChange={(e) =>
-                  setFormData({ ...formData, experience: e.target.value })
-                }
-                displayEmpty
-                sx={{
-                  borderRadius: 100,
-                  backgroundColor: "#f5f5f5",
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: indigo[200],
-                  },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: indigo[400],
-                  },
-                }}
-                aria-label="Select experience level"
-              >
-                <MenuItem disabled value="">
-                  Experience Level
-                </MenuItem>
-                <MenuItem value="no_experience">Entry-Level</MenuItem>
-                <MenuItem value="under_3_years_experience">Mid-Level</MenuItem>
-                <MenuItem value="more_than_3_years_experience">
-                  Senior-Level
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ minWidth: { xs: "100%", sm: 200 } }}>
-              <TextField
-                variant="outlined"
-                value={formData.location}
-                onChange={(e) =>
-                  setFormData({ ...formData, location: e.target.value })
-                }
-                placeholder="Location"
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: 100,
@@ -308,7 +256,7 @@ const Jobs = () => {
               variant="contained"
               color="primary"
               onClick={handleSearch}
-              disabled={formData.title.trim().length === 0}
+              disabled={jobTitle.trim().length === 0}
               sx={{
                 borderRadius: 100,
                 py: 2,
@@ -353,34 +301,39 @@ const Jobs = () => {
                       className={`job-cards w-full space-y-6 transition duration-300`}
                     >
                       {currentJobs.map((item) => (
-                        <JobCard
+                        <div
+                          className="card"
                           key={item.job_id}
-                          id={item.job_id}
-                          imageUrl={item.employer_logo}
-                          title={item.job_title}
-                          company={item.employer_name}
-                          companyUrl={item.employer_website}
-                          location={
-                            item.job_location
-                              ? item.job_location
-                              : getLocation(
-                                  item.job_city,
-                                  item.job_state,
-                                  item.job_country
-                                )
-                          }
-                          type={item.job_employment_types}
-                          posted={item.job_posted_at}
-                          salary={
-                            item.job_salary?.toString()
-                              ? item.job_salary?.toString()
-                              : getSalary(
-                                  item.job_min_salary,
-                                  item.job_max_salary
-                                )
-                          }
-                          setDescJobId={setDescJobId}
-                        />
+                          onClick={scrollToJobDescription}
+                        >
+                          <JobCard
+                            id={item.job_id}
+                            imageUrl={item.employer_logo}
+                            title={item.job_title}
+                            company={item.employer_name}
+                            companyUrl={item.employer_website}
+                            location={
+                              item.job_location
+                                ? item.job_location
+                                : getLocation(
+                                    item.job_city,
+                                    item.job_state,
+                                    item.job_country
+                                  )
+                            }
+                            type={item.job_employment_types}
+                            posted={item.job_posted_at}
+                            salary={
+                              item.job_salary?.toString()
+                                ? item.job_salary?.toString()
+                                : getSalary(
+                                    item.job_min_salary,
+                                    item.job_max_salary
+                                  )
+                            }
+                            setDescJobId={setDescJobId}
+                          />
+                        </div>
                       ))}
                     </Box>
 
@@ -473,50 +426,55 @@ const Jobs = () => {
                           <ChevronLeft />
                         </IconButton>
                       </Box>
-                      <JobCard
-                        id={selectedJob.job_id}
-                        imageUrl={selectedJob.employer_logo}
-                        title={selectedJob.job_title}
-                        company={selectedJob.employer_name}
-                        companyUrl={selectedJob.employer_website}
-                        salary={
-                          selectedJob.job_salary?.toString()
-                            ? selectedJob.job_salary?.toString()
-                            : getSalary(
-                                selectedJob.job_min_salary,
-                                selectedJob.job_max_salary
-                              )
-                        }
-                        type={selectedJob.job_employment_types}
-                        posted={selectedJob.job_posted_at}
-                        location={
-                          selectedJob.job_location
-                            ? selectedJob.job_location
-                            : getLocation(
-                                selectedJob.job_city,
-                                selectedJob.job_state,
-                                selectedJob.job_country
-                              )
-                        }
-                        applyOptions={
-                          Array.isArray(selectedJob?.apply_options)
-                            ? selectedJob.apply_options
-                            : undefined
-                        }
-                        key={selectedJob.job_id}
-                        setDescJobId={setDescJobId}
-                      />
-                      {/* Job Sescription Skeleton*/}
-                      {descLoading && <JobDescriptionSkeleton />}
-
-                      {/* Jobs Description Content*/}
-                      {descriptionHTML && (
-                        <Box
-                          component="div"
-                          className="description w-full p-4 lg:p-10 border-2 border-gray-300 rounded-xl"
-                          dangerouslySetInnerHTML={{ __html: descriptionHTML }}
+                      <div className="content space-y-6" ref={jobDetailsRef}>
+                        <JobCard
+                          id={selectedJob.job_id}
+                          imageUrl={selectedJob.employer_logo}
+                          title={selectedJob.job_title}
+                          company={selectedJob.employer_name}
+                          companyUrl={selectedJob.employer_website}
+                          salary={
+                            selectedJob.job_salary?.toString()
+                              ? selectedJob.job_salary?.toString()
+                              : getSalary(
+                                  selectedJob.job_min_salary,
+                                  selectedJob.job_max_salary
+                                )
+                          }
+                          type={selectedJob.job_employment_types}
+                          posted={selectedJob.job_posted_at}
+                          location={
+                            selectedJob.job_location
+                              ? selectedJob.job_location
+                              : getLocation(
+                                  selectedJob.job_city,
+                                  selectedJob.job_state,
+                                  selectedJob.job_country
+                                )
+                          }
+                          applyOptions={
+                            Array.isArray(selectedJob?.apply_options)
+                              ? selectedJob.apply_options
+                              : undefined
+                          }
+                          key={selectedJob.job_id}
+                          setDescJobId={setDescJobId}
                         />
-                      )}
+
+                        {/* Job Sescription Skeleton*/}
+                        {descLoading && <JobDescriptionSkeleton />}
+
+                        {/* Jobs Description Content*/}
+                        {descriptionHTML && (
+                          <Box
+                            component="div"
+                            className="description w-full p-4 lg:p-10 border-2 border-gray-300 rounded-xl"
+                            dangerouslySetInnerHTML={{
+                              __html: descriptionHTML,
+                            }}
+                          />
+                        )}
+                      </div>
                     </Box>
                   )}
                 </Box>
