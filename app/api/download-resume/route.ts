@@ -9,10 +9,18 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "No Content" }, { status: 400 });
   }
 
-
   let browser = null;
   try {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({
+      // executablePath: "/usr/bin/chromium-browser",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+      ],
+    });
+
     const page = await browser.newPage();
 
     const htmlTemplate = `
