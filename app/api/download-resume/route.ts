@@ -9,7 +9,6 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "No Content" }, { status: 400 });
   }
 
-  console.log(html);
 
   let browser = null;
   try {
@@ -50,7 +49,7 @@ export const POST = async (req: NextRequest) => {
     if (browser) await browser.close();
     if (error instanceof Error) {
       return NextResponse.json(
-        { message: "failed to generate pdf" },
+        { message: "Failed to generate pdf" },
         { status: 500 }
       );
     }

@@ -38,6 +38,7 @@ const ResumeBuilder = () => {
 
       if (!res.ok) {
         const errorData = await res.json();
+        toast.error("Error in generating PDF")
         console.error(errorData.message || "Error generating PDF");
         return;
       }
