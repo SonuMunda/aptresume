@@ -6,7 +6,7 @@ const JobCardSkeleton = () => {
     <Box component={"div"} className="max-w-7xl p-4 mx-auto">
       <Box
         component={"div"}
-        className="skeleton w-full xl:Ww-1/2 p-8 border-2 border-gray-300 rounded-2xl"
+        className="skeleton w-full xl:Ww-1/2 p-8 border-2 border-gray-300 rounded"
       >
         <Stack spacing={1}>
           {/* Icon and Title */}

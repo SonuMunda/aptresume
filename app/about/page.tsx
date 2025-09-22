@@ -28,7 +28,7 @@ const AboutPage = () => {
 
       <ServicesSection />
 
-      <Box component={"section"} className="mission bg-indigo-50">
+      <Box component={"section"} className="mission bg-neutral-100">
         <Box
           component={"div"}
           className="container max-w-7xl px-4 py-25 mx-auto"
@@ -71,7 +71,7 @@ const AboutPage = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    borderRadius: 100,
+                    
                     p: 2,
                     textTransform: "capitalize",
                     backgroundColor: indigo[500],
@@ -90,7 +90,7 @@ const AboutPage = () => {
         </Box>
       </Box>
 
-      <Box component={"section"} className="mission bg-indigo-50">
+      <Box component={"section"} className="mission bg-neutral-100">
         <Box
           component={"div"}
           className="container max-w-7xl px-4 py-25 mx-auto"
@@ -117,7 +117,7 @@ const AboutPage = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    borderRadius: 100,
+                    
                     p: 2,
                     textTransform: "capitalize",
                     backgroundColor: indigo[500],

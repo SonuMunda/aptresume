@@ -205,7 +205,9 @@ const Jobs = () => {
   }, [selectedJob]);
 
   return (
-    <Box component={"main"}>
+    <Box component={"main"} className={`job-search min-h-[100vh] ${
+      selectedJob && "overflow-y-hidden"
+    } lg:overflow-hidden`}>
       <Toaster />
 
       {/* Hero Section */}
@@ -243,7 +245,7 @@ const Jobs = () => {
                 placeholder="Job Title, Location, or Keyword"
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    borderRadius: 100,
+                   
                     backgroundColor: "#f5f5f5",
                     "&:hover fieldset": { borderColor: indigo[200] },
                     "&.Mui-focused fieldset": { borderColor: indigo[400] },
@@ -258,7 +260,6 @@ const Jobs = () => {
               onClick={handleSearch}
               disabled={jobTitle.trim().length === 0}
               sx={{
-                borderRadius: 100,
                 py: 2,
                 px: 4,
                 width: 140,
@@ -373,6 +374,7 @@ const Jobs = () => {
                             currentPage === i + 1 ? "contained" : "outlined"
                           }
                           sx={{
+                            border: 2,
                             bgcolor:
                               currentPage === i + 1
                                 ? indigo[900]
@@ -419,7 +421,7 @@ const Jobs = () => {
                     >
                       <Box
                         component={"div"}
-                        className="block xl:hidden absolute bg-gray-900/10 rounded-xl top-2 right-2"
+                        className="block xl:hidden absolute bg-gray-900/10 rounded top-2 right-2"
                         onClick={() => setDescJobId("")}
                       >
                         <IconButton>
@@ -468,7 +470,7 @@ const Jobs = () => {
                         {descriptionHTML && (
                           <Box
                             component="div"
-                            className="description w-full p-4 lg:p-10 border-2 border-gray-300 rounded-xl"
+                            className="description w-full p-4 lg:p-10 border-2 border-gray-300 rounded"
                             dangerouslySetInnerHTML={{
                               __html: descriptionHTML,
                             }}
@@ -486,7 +488,7 @@ const Jobs = () => {
           {!jobs?.length && !loading && !error && (
             <Typography
               component={"p"}
-              className="text-center text-gray-600 text-lg md:text-xl mx-auto lg:mx-0 max-w-3xl leading-relaxed"
+              className="text-center text-gray-600 text-lg md:text-xl mx-auto lg:mx-0"
             >
               No jobs found. Try adjusting your search criteria.
             </Typography>
@@ -495,7 +497,7 @@ const Jobs = () => {
           {error && (
             <Box
               component="div"
-              className="rounded-md border border-red-300 bg-red-100 text-red-700 p-4 text-sm font-medium shadow-sm"
+              className="rounded border border-red-300 bg-red-100 text-red-700 p-4 text-sm font-medium shadow-sm"
             >
               {error || "An unexpected error occurred. Please try again."}
             </Box>
@@ -506,7 +508,7 @@ const Jobs = () => {
       {/* Promo */}
       <Box
         component="section"
-        className="bg-gradient-to-br from-indigo-50 to-sky-50 py-12 px-4"
+        className="bg-neutral-100 py-12 px-4"
       >
         <Box
           component="div"
@@ -527,7 +529,7 @@ const Jobs = () => {
                 sx={{
                   py: 2,
                   px: 4,
-                  borderRadius: 100,
+                 
                   backgroundColor: indigo[500],
                   color: "white",
                   fontWeight: 500,

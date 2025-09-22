@@ -99,7 +99,7 @@ const ResumeScan = () => {
               alt="ATS-Optimized Resume Analysis"
               width={400}
               height={300}
-              className="rounded-xl shadow-lg object-cover w-full"
+              className="rounded object-cover w-full"
             />
           </motion.div>
 
@@ -139,10 +139,7 @@ const ResumeScan = () => {
       </section>
 
       {/* Upload Section */}
-      <section
-        className="resume-uploader bg-gradient-to-br from-indigo-50 to-blue-50"
-        ref={uploaderRef}
-      >
+      <section className="resume-uploader bg-neutral-100" ref={uploaderRef}>
         <div className="container max-w-7xl mx-auto py-24 px-4 grid lg:grid-cols-2 items-center gap-10">
           <SectionSummary
             headline="Upload Your Resume"
@@ -185,9 +182,8 @@ const ResumeScan = () => {
       </section>
 
       {/* Faqs */}
-      <section className="bg-gradient-to-br from-indigo-50 to-blue-50 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
-        <motion.h3
-          className="text-4xl font-extrabold text-center mb-12 text-gray-800  lg:max-w-4xl lg:mx-auto"
+      <section className="bg-neutral-100 mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+        <motion.h1
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
@@ -195,9 +191,10 @@ const ResumeScan = () => {
             hidden: { opacity: 0, scale: 0 },
             visible: { opacity: 1, scale: 1 },
           }}
+          className="text-gray-800 font-bold text-3xl sm:text-5xl mb-12 text-center"
         >
-          Frequently Asked Questions
-        </motion.h3>
+          Frequently Asked Question
+        </motion.h1>
 
         <div className="faq-accordion max-w-5xl mx-auto space-y-6">
           {atsScanFaqData.map((faq, index) => (

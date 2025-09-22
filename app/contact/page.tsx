@@ -74,15 +74,15 @@ const Contact = () => {
     <Box component="main">
       <Box
         component={"section"}
-        className="contact-us bg-gradient-to-br from-blue-50 to-sky-50"
+        className="contact-us bg-neutral-100"
       >
         <Box
           component={"div"}
-          className="container max-w-7xl mx-auto px-4 py-24 grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="container max-w-7xl mx-auto px-4 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           <Box
             component={motion.div}
-            className="left h-full bg-white rounded-xl p-6 lg:p-10 border-2 border-indigo-100 shadow shadow-lg"
+            className="left h-full bg-white rounded p-6 lg:p-10 border-2 border-indigo-100 shadow shadow-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
@@ -100,7 +100,7 @@ const Contact = () => {
                     bgcolor: indigo[50],
                     width: "fit-content",
                     p: "0.2rem 0.6rem",
-                    borderRadius: "16px",
+                    borderRadius: "4px",
                     fontWeight: 600,
                   }}
                 >
@@ -231,7 +231,7 @@ const Contact = () => {
           </Box>
           <Box
             component={motion.div}
-            className="right bg-white rounded-xl overflow-hidden border-2 border-indigo-100 shadow shadow-lg"
+            className="right bg-white rounded overflow-hidden  shadow shadow-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
@@ -242,7 +242,7 @@ const Contact = () => {
                 alt="contact-us"
                 width={800}
                 height={800}
-                className="mx-auto rounded-lg"
+                className="mx-auto"
               />
             </Box>
             <Box component={"div"} className="contact-info p-4 lg:p-10">

@@ -20,7 +20,7 @@ const HeroSection = ({
   handleScroll,
 }: SectionProps) => {
   return (
-    <section className="relative min-h-[85vh] py-25 flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50 text-gray-800 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[85vh] py-25 flex flex-col lg:flex-row items-center justify-center bg-neutral-100 text-gray-800 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="container max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
         <motion.div
           className="content w-full lg:w-1/2 text-left"
@@ -49,7 +49,7 @@ const HeroSection = ({
 
           {buttonText && (
             <motion.button
-              className="bg-indigo-700 block mt-8 text-white px-8 py-4 rounded-full font-medium hover:bg-indigo-800 transition duration-300 shadow-md"
+              className="bg-indigo-700 block mt-8 text-white px-8 py-4 rounded font-medium hover:bg-indigo-800 transition duration-300 shadow-md"
               onClick={handleScroll}
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

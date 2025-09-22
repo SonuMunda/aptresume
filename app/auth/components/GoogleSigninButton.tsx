@@ -70,7 +70,6 @@ const GoogleSigninButton: React.FC<GoogleSigninButtonProps> = ({
           py: 1.5,
           px: 4,
           border: 2,
-          borderRadius: 2,
           textTransform: "none",
           fontWeight: 500,
           backgroundColor: "#f8faff",

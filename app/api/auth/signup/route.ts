@@ -15,10 +15,16 @@ export const POST = async (req: NextRequest) => {
     }
 
     const { name, email, password } = parsed.data;
-    const token = body?.token;
+    const token = body.token;
 
-    // Verify reCAPTCHA token
-    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!token) {
+      return NextResponse.json(
+        { message: "Captcha token is missing" },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY!;
     if (!recaptchaSecret) {
       return NextResponse.json(
         { message: "reCAPTCHA secret key is not configured" },
@@ -26,25 +32,22 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const rescaptchaResponse = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${token}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `secret=${recaptchaSecret}&response=${token}`,
-      }
-    );
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
 
-    const recaptchaData = await rescaptchaResponse.json();
+    const response = await fetch(verifyUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `secret=${recaptchaSecret}&response=${token}`,
+    });
 
-    console.log("reCAPTCHA data:", recaptchaData.score);
+    const recaptchaData = await response.json();
 
 
     if (!recaptchaData.success || recaptchaData.score < 0.5) {
       return NextResponse.json(
-        { message: "reCAPTCHA verification failed" },
+        { message: "reCAPTCHA verification failed", data: recaptchaData },
         { status: 400 }
       );
     }
@@ -102,7 +105,8 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : "Unexpected error",
+        message:
+          error instanceof Error ? "Unexpected error" : "Internal Server Error",
       },
       { status: 500 }
     );

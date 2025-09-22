@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import puppeteer from "puppeteer";
-
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
   const { html, pageSize } = body;
@@ -10,16 +8,23 @@ export const POST = async (req: NextRequest) => {
   }
 
   let browser = null;
+
   try {
-    browser = await puppeteer.launch({
-      // executablePath: "/usr/bin/chromium-browser",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-      ],
-    });
+    let puppeteer;
+    let launchOptions = {};
+    if (process.env.VERCEL_ENV !== "development") {
+      const chromium = (await import("@sparticuz/chromium")).default;
+      puppeteer = await import("puppeteer-core");
+      launchOptions = {
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+        ignoreHTTPSErrors: true,
+      };
+    } else {
+      puppeteer = await import("puppeteer");
+    }
+
+    browser = await puppeteer.launch(launchOptions);
 
     const page = await browser.newPage();
 
@@ -56,6 +61,8 @@ export const POST = async (req: NextRequest) => {
   } catch (error) {
     if (browser) await browser.close();
     if (error instanceof Error) {
+      console.log(error);
+
       return NextResponse.json(
         { message: "Failed to generate pdf" },
         { status: 500 }

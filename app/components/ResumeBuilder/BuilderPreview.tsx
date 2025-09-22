@@ -14,7 +14,7 @@ const BuilderPreview = ({
   const { template } = useSelector((state: RootState) => state.format.data);
 
   return (
-    <div ref={contentRef}>
+    <div className="flex items-center justify-center" ref={contentRef}>
       {template === "template01" && <JakesResume />}
       {template === "template02" && <MattysResume />}
     </div>

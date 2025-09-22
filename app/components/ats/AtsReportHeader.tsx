@@ -6,10 +6,13 @@ import { indigo } from "@mui/material/colors";
 
 const AtsReportHeader = () => {
   return (
-    <Box component={"header"} className="ats-header bg-gray-100 border-b border-gray-300">
+    <Box
+      component={"header"}
+      className="ats-header bg-gray-100 border-b border-gray-300"
+    >
       <Box
         component={"div"}
-        className="w-full mx-auto flex items-center justify-between py-2 px-10"
+        className="w-full mx-auto flex items-center justify-between py-2 px-4 sm:px-10"
       >
         {/* Logo */}
         <Box component={"div"} className="logo gap-2">
@@ -29,7 +32,8 @@ const AtsReportHeader = () => {
             href="/resume-scan"
             sx={{
               textTransform: "none",
-              backgroundColor: indigo[600]
+              borderRadius: 100,
+              backgroundColor: indigo[600],
             }}
           >
             Upload New

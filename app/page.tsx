@@ -8,7 +8,6 @@ import Link from "next/link";
 import SectionSummary from "./components/shared/SectionSummary";
 import homeFaqData from "@/data/homeFaqData";
 import AccordionComponent from "./components/shared/AccordionComponent";
-import { cardVariants } from "@/ui/animations";
 import ServicesSection from "./components/ServicesSection";
 import userJourneySteps from "@/data/userJourneySteps";
 
@@ -29,7 +28,7 @@ export default function Home() {
   return (
     <main className="w-full overflow-x-hidden">
       {/* Hero Section */}
-      <section className="hero-section flex items-center min-h-[75vh] lg:h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
+      <section className="hero-section flex items-center min-h-[75vh] lg:h-screen bg-neutral-100">
         <div className="container px-4 py-25 mx-auto h-full max-w-7xl flex flex-col lg:flex-row items-center justify-between">
           <motion.div
             className="hero-content h-full w-full lg:w-1/2 flex flex-col justify-center"
@@ -71,7 +70,6 @@ export default function Home() {
                     textTransform: "none",
                     p: 2,
                     px: 4,
-                    borderRadius: 100,
                     backgroundColor: indigo[500],
                     color: "#ffffff",
                     fontSize: "1.125rem",
@@ -114,19 +112,10 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-center gap-10">
             {userJourneySteps.map(({ Icon, title, description }, index) => (
               <motion.div
-                initial="offscreen"
-                whileInView="onscreen"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={cardVariants}
-                whileHover={{
-                  scale: 1.04,
-                  boxShadow: "0 8px 32px rgba(60,72,150,0.18)",
-                }}
-                transition={{ type: "spring", stiffness: 260, damping: 15 }}
-                className="column h-full bg-indigo-50 space-y-6 p-6 border border-gray-300 rounded-xl"
+                className="column h-full space-y-6 p-6"
                 key={index}
               >
-                <div className="flex items-center justify-center h-16 w-16 rounded-full text-indigo-600  mx-auto">
+                <div className="flex items-center justify-center h-16 w-16 rounded-full text-indigo-800  mx-auto">
                   <Icon fontSize="large" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
@@ -137,7 +126,7 @@ export default function Home() {
         </div>
       </section>
       {/* About Section */}
-      <section className="about-section bg-indigo-50 py-24 px-4 sm:px-10 text-gray-900 overflow-x-hidden">
+      <section className="about-section bg-neutral-100 py-24 px-4 sm:px-10 text-gray-900 overflow-x-hidden">
         <div className="container max-w-7xl mx-auto">
           <motion.div
             className="w-full text-center"
@@ -186,7 +175,6 @@ export default function Home() {
                     textTransform: "none",
                     p: 2,
                     px: 4,
-                    borderRadius: 100,
                     backgroundColor: indigo[500],
                     color: "#ffffff",
                     fontSize: "1.125rem",
@@ -208,7 +196,7 @@ export default function Home() {
       <ServicesSection />
 
       {/* Faqs */}
-      <section className="bg-gradient-to-br from-indigo-50 to-blue-50">
+      <section className="bg-neutral-100">
         <motion.div className="container max-w-7xl mx-auto py-20 px-4">
           <motion.h1
             initial="hidden"

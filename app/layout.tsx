@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     "jobs",
     "resume",
     "cv",
-
     "Sonu Munda",
   ],
   authors: [{ name: "Sonu Munda", url: "https://sonumunda.vecel.app" }],
@@ -59,7 +58,7 @@ export const metadata: Metadata = {
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+  variable: "--font-roboto",
   display: "swap",
 });
 
@@ -74,11 +73,11 @@ export default function RootLayout({
         <SessionProviderWrapper>
           <ReduxWrapper>
             <ThemeRegistry>
-              <HeaderWrapper />
               <ReCaptchaProvider>
+                <HeaderWrapper />
                 <Suspense fallback={<Loading />}>{children}</Suspense>
+                <FooterWrapper />
               </ReCaptchaProvider>
-              <FooterWrapper />
             </ThemeRegistry>
           </ReduxWrapper>
         </SessionProviderWrapper>

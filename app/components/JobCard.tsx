@@ -44,7 +44,7 @@ const JobCard = ({
   return (
     <Box
       component="div"
-      className="job-card cursor-pointer p-5 lg:p-10 flex gap-6 border border-2 border-gray-300 rounded-xl"
+      className="job-card cursor-pointer p-5 lg:p-10 flex gap-6 border border-2 border-gray-300 rounded"
       onClick={() => setDescJobId(id)}
     >
       <Box component="div" className="card-image">
@@ -121,7 +121,6 @@ const JobCard = ({
                   <Button
                     variant="contained"
                     sx={{
-                      borderRadius: 2,
                       backgroundColor: indigo[600],
                     }}
                   >

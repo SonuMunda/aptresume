@@ -55,10 +55,14 @@ export default function SignUp() {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!executeRecaptcha) {
+      setResponseData({
+        message: "Recaptcha not ready",
+        success: false,
+      });
       return;
     }
 
-    const token = await executeRecaptcha("signup");
+    const token = await executeRecaptcha("signup_action");
 
     const dataWithToken = { ...data, token };
     setLoading(true);
@@ -182,7 +186,6 @@ export default function SignUp() {
                     sx={textFieldStyle}
                   />
                 </FormControl>
-
                 <FormControl>
                   <TextField
                     {...register("email")}
@@ -199,7 +202,6 @@ export default function SignUp() {
                     sx={textFieldStyle}
                   />
                 </FormControl>
-
                 <FormControl>
                   <TextField
                     {...register("password")}
@@ -237,7 +239,6 @@ export default function SignUp() {
                     sx={textFieldStyle}
                   />
                 </FormControl>
-
                 <Button
                   type="submit"
                   fullWidth
@@ -247,7 +248,6 @@ export default function SignUp() {
                   sx={{
                     py: 1.5,
                     backgroundColor: indigo[600],
-                    borderRadius: 2,
                     textTransform: "none",
                     boxShadow: "none",
                     mt: 1,

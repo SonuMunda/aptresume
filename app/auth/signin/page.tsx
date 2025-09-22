@@ -23,6 +23,7 @@ import GoogleSigninButton from "../components/GoogleSigninButton";
 import { indigo } from "@mui/material/colors";
 import { textFieldStyle } from "@/ui/styles/textFieldStyle";
 import { motion } from "framer-motion";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface SignInForm {
   email: string;
@@ -36,6 +37,7 @@ interface FieldErrors {
 
 export default function SignIn() {
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const [form, setForm] = useState<SignInForm>({
     email: "",
@@ -74,6 +76,16 @@ export default function SignIn() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!executeRecaptcha) {
+      setFormResponse({
+        message: "Recaptcha not ready",
+        success: false,
+      });
+      return;
+    }
+
+    const token = await executeRecaptcha("signin_action");
+
     setFieldErrors({});
 
     const result = signInSchema.safeParse(form);
@@ -98,6 +110,7 @@ export default function SignIn() {
         redirect: false,
         email: form.email,
         password: form.password,
+        token: token,
       });
 
       if (res?.ok && !res.error) {
@@ -263,7 +276,7 @@ export default function SignIn() {
               disabled={loading}
               sx={{
                 py: 1.5,
-                borderRadius: 2,
+               
                 textTransform: "none",
                 boxShadow: "none",
                 backgroundColor: indigo[600],

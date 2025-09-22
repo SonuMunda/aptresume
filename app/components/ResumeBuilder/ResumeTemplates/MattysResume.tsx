@@ -91,6 +91,7 @@ const MattysResume = () => {
         color: format.textColor,
         minHeight: "297mm",
         minWidth: "210mm",
+        cursor: "move"
       }}
     >
       <div

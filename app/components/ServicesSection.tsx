@@ -3,7 +3,6 @@ import SectionSummary from "./shared/SectionSummary";
 import services from "@/data/servicesData";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { cardVariants } from "@/ui/animations";
 
 const ServicesSection = () => {
   return (
@@ -20,16 +19,7 @@ const ServicesSection = () => {
           {services.map(({ Icon, title, description, href }, index) => (
             <Link href={href} key={index}>
               <motion.div
-                initial="offscreen"
-                whileInView="onscreen"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={cardVariants}
-                whileHover={{
-                  scale: 1.04,
-                  boxShadow: "0 8px 32px rgba(60,72,150,0.18)",
-                }}
-                transition={{ type: "spring", stiffness: 260, damping: 15 }}
-                className="column h-full bg-indigo-50 space-y-6 p-6 border border-gray-300 rounded-xl"
+                className="column h-full space-y-6 p-6"
               >
                 <div className="flex items-center justify-center h-16 w-16 rounded-full text-indigo-600  mx-auto">
                   <Icon fontSize="large" />

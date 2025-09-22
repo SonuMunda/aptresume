@@ -19,7 +19,7 @@ export const textFieldStyle = {
     color: indigo[500],
   },
   "& .MuiInputBase-root.MuiFilledInput-root": {
-    borderRadius: 2,
+    borderRadius: 0,
     borderColor: indigo[500],
   },
   "& .MuiInputBase-root.MuiStandardInput-root": {

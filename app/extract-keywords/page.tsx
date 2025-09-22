@@ -130,7 +130,6 @@ const KeywordExtractor = () => {
               sx={{
                 mb: 5,
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
                   "& fieldset": {
                     borderColor: "grey.300",
                   },
@@ -154,7 +153,6 @@ const KeywordExtractor = () => {
                   px: { xs: 4, sm: 8 },
                   py: 1.5,
                   textTransform: "none",
-                  borderRadius: 2,
                   backgroundColor: indigo[500],
                   boxShadow: "0 4px 14px rgba(99, 102, 241, 0.3)",
                   transition: "all 0.3s ease",
@@ -187,7 +185,6 @@ const KeywordExtractor = () => {
                 variant="outlined"
                 sx={{
                   fontWeight: 500,
-                  borderRadius: 2,
                   backgroundColor: "#fef2f2",
                   borderColor: "#f87171",
                 }}
@@ -219,7 +216,6 @@ const KeywordExtractor = () => {
                     wordBreak: "break-word",
                     backgroundColor: "#f8fafc",
                     p: 4,
-                    borderRadius: 2,
                     border: "1px solid",
                     borderColor: "grey.200",
                   }}
@@ -235,7 +231,7 @@ const KeywordExtractor = () => {
       {/* How It Works Section */}
       <Box
         component="section"
-        className="working-section bg-gradient-to-br from-indigo-50 to-blue-50"
+        className="working-section bg-neutral-100"
       >
         <Box component="div" className="container max-w-7xl mx-auto py-20 px-4">
           <SectionSummary
@@ -290,7 +286,7 @@ const KeywordExtractor = () => {
               alt="Importance of keywords"
               width={600}
               height={600}
-              className="rounded-2xl object-cover"
+              className="rounded object-cover"
             />
           </Box>
 
@@ -390,7 +386,7 @@ const KeywordExtractor = () => {
       {/* Faqs */}
       <Box
         component={"section"}
-        className="bg-gradient-to-br from-indigo-50 to-blue-50"
+        className="bg-neutral-100"
       >
         <Box
           component={"div"}

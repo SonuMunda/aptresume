@@ -3,7 +3,7 @@ import { Box, Skeleton, Stack } from '@mui/material';
 
 const JobDescriptionSkeleton = () => {
   return (
-    <Box component={"div"}  className='skeleton w-full p-8 border-2 border-gray-300 rounded-xl'>
+    <Box component={"div"}  className='skeleton w-full p-8 border-2 border-gray-300 rounded'>
       <Stack spacing={2}>
         {/* Title */}
         <Skeleton variant="text" width="60%" height={40} />

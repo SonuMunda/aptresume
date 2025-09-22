@@ -35,15 +35,18 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
     },
   };
   return (
-    <Box component={"div"} className="ats-content flex flex-col gap-10 max-w-3xl w-full">
+    <Box
+      component={"div"}
+      className="ats-content flex flex-col gap-10 max-w-3xl w-full"
+    >
       {/* Tailoring Section */}
       <Box
         component={motion.div}
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="tailoring bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="tailoring bg-white p-6 sm:p-10 border border-gray-300 rounded-xl"
         id="tailoring"
       >
         {/* Main Heading */}
@@ -141,8 +144,8 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="content bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="content bg-white p-6 sm:p-10 border border-gray-300 rounded-xl"
         id="content"
       >
         {/* Main Heading */}
@@ -287,8 +290,8 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="style bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="style bg-white p-6 sm:p-10 border border-gray-300 rounded-xl"
         id="format"
       >
         {/* Main Heading */}
@@ -404,8 +407,8 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="style bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="style bg-white p-6 sm:p-10 border border-gray-300 rounded-xl"
         id="sections"
       >
         {/* Main Heading */}
@@ -523,150 +526,152 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="style bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="style bg-white border border-gray-300 rounded-xl"
         id="style"
       >
-        {/* Main Heading */}
-        <Box className="style-heading flex items-center gap-2 mb-10">
-          <StyleOutlined fontSize="medium" className="text-rose-500" />
-          <Typography
-            variant="h3"
-            component="h5"
-            sx={{
-              textTransform: "uppercase",
-            }}
-          >
-            Style
-          </Typography>
-        </Box>
-
-        {/* Description */}
-        <Box className="style-tip mt-6 text-gray-700">
-          <Typography variant="body1" component="p" marginBottom={3}>
-            Maintain a consistent, professional writing style with clear,
-            concise language. Use active voice, bullet points, and appropriate
-            tense.
-          </Typography>
-        </Box>
-
-        {/* Score */}
-        <Box className="score flex flex-col gap-8 p-6 border border-gray-300 rounded-md bg-gray-50 mb-10 ">
-          <Typography
-            variant="h4"
-            component={"h4"}
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            Your Resume Styling Score
-          </Typography>
-          <ProgressLinear
-            value={report.breakdown_by_category.style.score * 10}
-          />
-          {/* Feedback */}
-          <Box className="feedback text-center italic">
-            <Typography component="p" variant="body2">
-              {report.breakdown_by_category.style.feedback}
+        <div className="content p-6 sm:p-10">
+          {/* Main Heading */}
+          <Box className="style-heading flex items-center gap-2 mb-10">
+            <StyleOutlined fontSize="medium" className="text-rose-500" />
+            <Typography
+              variant="h3"
+              component="h5"
+              sx={{
+                textTransform: "uppercase",
+              }}
+            >
+              Style
             </Typography>
           </Box>
-        </Box>
 
-        {/* Style Attributes */}
-        <Box className="style-attributes mt-10">
-          <Typography variant="h4">Writing Style Attributes</Typography>
-          <Box className="attributes flex flex-wrap gap-4 mt-4">
-            <Chip
-              label={`Font Consistency: ${
-                report.breakdown_by_category.style.font_consistency
-                  ? "Yes"
-                  : "No"
-              }`}
-              color={
-                report.breakdown_by_category.style.font_consistency
-                  ? "success"
-                  : "error"
-              }
-              variant="outlined"
-            />
-
-            <Chip
-              label={`Bullet Points Used: ${
-                report.breakdown_by_category.style.bullet_points_used
-                  ? "Yes"
-                  : "No"
-              }`}
-              color={
-                report.breakdown_by_category.style.bullet_points_used
-                  ? "success"
-                  : "error"
-              }
-              variant="outlined"
-            />
-            <Chip
-              label={`Tense Consistency: ${
-                report.breakdown_by_category.style.tense_consistency
-                  ? "Yes"
-                  : "No"
-              }`}
-              color={
-                report.breakdown_by_category.style.tense_consistency
-                  ? "success"
-                  : "error"
-              }
-              variant="outlined"
-            />
+          {/* Description */}
+          <Box className="style-tip mt-6 text-gray-700">
+            <Typography variant="body1" component="p" marginBottom={3}>
+              Maintain a consistent, professional writing style with clear,
+              concise language. Use active voice, bullet points, and appropriate
+              tense.
+            </Typography>
           </Box>
-        </Box>
 
-        {/* Readability Feedback */}
-        <Box className="readability-feedback p-6 border border-gray-300 rounded-md bg-gray-50 mt-10">
-          <Typography
-            variant="h4"
-            sx={{ marginBottom: 4, textAlign: "center" }}
-          >
-            Readability Feedback
-          </Typography>
-          <Typography variant="body1" component="p" marginBottom={1}>
-            <span>Sentence Complexity:</span>
-            <span className="ms-2 text-gray-600">
-              {
-                report.breakdown_by_category.style.readability_feedback
-                  .sentence_complexity
-              }
-            </span>
-          </Typography>
-          <Typography variant="body1" component="p" marginBottom={1}>
-            <span>Passive Voice Usage:</span>
-            <span className="ms-2 text-gray-600">
-              {
-                report.breakdown_by_category.style.readability_feedback
-                  .passive_voice_usage
-              }
-            </span>
-          </Typography>
-
-          {/* Recommendations */}
-          {report.breakdown_by_category.style.readability_feedback
-            .recommendations?.length > 0 && (
-            <Box className="recommendations mt-4">
-              <Typography
-                variant="body1"
-                component="p"
-                sx={{ marginBottom: 1 }}
-              >
-                Recommendations:
+          {/* Score */}
+          <Box className="score flex flex-col gap-8 p-6 border border-gray-300 rounded-md bg-gray-50 mb-10 ">
+            <Typography
+              variant="h4"
+              component={"h4"}
+              sx={{
+                textAlign: "center",
+              }}
+            >
+              Your Resume Styling Score
+            </Typography>
+            <ProgressLinear
+              value={report.breakdown_by_category.style.score * 10}
+            />
+            {/* Feedback */}
+            <Box className="feedback text-center italic">
+              <Typography component="p" variant="body2">
+                {report.breakdown_by_category.style.feedback}
               </Typography>
-              <ul className="list-disc list-inside text-gray-700">
-                {report.breakdown_by_category.style.readability_feedback.recommendations.map(
-                  (rec, idx) => (
-                    <li key={idx}>{rec}</li>
-                  )
-                )}
-              </ul>
             </Box>
-          )}
-        </Box>
+          </Box>
+
+          {/* Style Attributes */}
+          <Box className="style-attributes mt-10">
+            <Typography variant="h4">Writing Style Attributes</Typography>
+            <Box className="attributes flex flex-wrap gap-4 mt-4">
+              <Chip
+                label={`Font Consistency: ${
+                  report.breakdown_by_category.style.font_consistency
+                    ? "Yes"
+                    : "No"
+                }`}
+                color={
+                  report.breakdown_by_category.style.font_consistency
+                    ? "success"
+                    : "error"
+                }
+                variant="outlined"
+              />
+
+              <Chip
+                label={`Bullet Points Used: ${
+                  report.breakdown_by_category.style.bullet_points_used
+                    ? "Yes"
+                    : "No"
+                }`}
+                color={
+                  report.breakdown_by_category.style.bullet_points_used
+                    ? "success"
+                    : "error"
+                }
+                variant="outlined"
+              />
+              <Chip
+                label={`Tense Consistency: ${
+                  report.breakdown_by_category.style.tense_consistency
+                    ? "Yes"
+                    : "No"
+                }`}
+                color={
+                  report.breakdown_by_category.style.tense_consistency
+                    ? "success"
+                    : "error"
+                }
+                variant="outlined"
+              />
+            </Box>
+          </Box>
+
+          {/* Readability Feedback */}
+          <Box className="readability-feedback p-6 border border-gray-300 rounded-md bg-gray-50 mt-10">
+            <Typography
+              variant="h4"
+              sx={{ marginBottom: 4, textAlign: "center" }}
+            >
+              Readability Feedback
+            </Typography>
+            <Typography variant="body1" component="p" marginBottom={1}>
+              <span>Sentence Complexity:</span>
+              <span className="ms-2 text-gray-600">
+                {
+                  report.breakdown_by_category.style.readability_feedback
+                    .sentence_complexity
+                }
+              </span>
+            </Typography>
+            <Typography variant="body1" component="p" marginBottom={1}>
+              <span>Passive Voice Usage:</span>
+              <span className="ms-2 text-gray-600">
+                {
+                  report.breakdown_by_category.style.readability_feedback
+                    .passive_voice_usage
+                }
+              </span>
+            </Typography>
+
+            {/* Recommendations */}
+            {report.breakdown_by_category.style.readability_feedback
+              .recommendations?.length > 0 && (
+              <Box className="recommendations mt-4">
+                <Typography
+                  variant="body1"
+                  component="p"
+                  sx={{ marginBottom: 1 }}
+                >
+                  Recommendations:
+                </Typography>
+                <ul className="list-disc list-inside text-gray-700">
+                  {report.breakdown_by_category.style.readability_feedback.recommendations.map(
+                    (rec, idx) => (
+                      <li key={idx}>{rec}</li>
+                    )
+                  )}
+                </ul>
+              </Box>
+            )}
+          </Box>
+        </div>
       </Box>
 
       {/* Tips Section */}
@@ -675,8 +680,8 @@ const AtsContent = ({ report }: { report: ATSReport }) => {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        className="recommendations bg-white p-6 sm:p-10 border border-gray-300 rounded-lg"
+        viewport={{ once: false }}
+        className="recommendations bg-white p-6 sm:p-10 border border-gray-300 rounded-xl"
         id="recommendations"
       >
         {/* Main Heading */}

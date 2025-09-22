@@ -46,11 +46,11 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.2 }}
-      className="uploader space-y-6 w-full max-w-xl mx-auto p-4 bg-white rounded-xl text-center"
+      className="uploader space-y-6 w-full max-w-xl mx-auto p-10 bg-white rounded text-center"
     >
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed p-8 rounded-xl cursor-pointer select-none transition-colors duration-300 ${
+        className={`border-2 border-dashed p-8 rounded cursor-pointer select-none transition-colors duration-300 ${
           isDragActive
             ? "border-indigo-500 bg-indigo-50"
             : "border-gray-200 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-25"
@@ -77,9 +77,9 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       </div>
 
       {resumeFile && (
-        <div className="relative flex items-center justify-between p-3 bg-white border border-gray-300 rounded-xl mx-auto">
+        <div className="relative flex items-center justify-between p-3 bg-white border border-gray-300 rounded mx-auto">
           <div className="flex items-center gap-4">
-            <div className="icon p-2 text-gray-600 bg-white border border-gray-300 rounded-lg">
+            <div className="icon p-2 text-gray-600 bg-white border border-gray-300 rounded">
               <InsertDriveFileRounded className="text-3xl" />
             </div>
             <div className="details text-left">
@@ -118,7 +118,6 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             width: "100%",
             padding: "10px 20px",
             fontSize: "1rem",
-            borderRadius: 2,
             backgroundColor: indigo[500],
             "&:hover": { backgroundColor: indigo[700] },
           }}

@@ -17,21 +17,54 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
+        token: { label: "Captcha Token", type: "text" },
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
 
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email and password are required");
+        }
+
+        if (!credentials.token) {
+          throw new Error("Captcha token is missing");
+        }
+
+        const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+        if (!recaptchaSecret) {
+          throw new Error("reCAPTCHA secret key is not configured");
+        }
+
+        // Verify reCAPTCHA
+        const verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+
+        const response = await fetch(verifyUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `secret=${recaptchaSecret}&response=${credentials.token}`,
+        });
+
+        const recaptchaData = await response.json();
+
+        if (!recaptchaData.success || recaptchaData.score < 0.5) {
+          throw new Error("reCAPTCHA verification failed");
+        }
+
+        // Find user
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || !user.password) return null;
+        if (!user || !user.password) {
+          throw new Error("Invalid credentials");
+        }
 
         const isValid = await bcrypt.compare(
           credentials.password,
           user.password
         );
-        if (!isValid) return null;
+        if (!isValid) {
+          throw new Error("Invalid credentials");
+        }
 
         return {
           id: user.id,

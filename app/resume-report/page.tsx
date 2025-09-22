@@ -85,13 +85,13 @@ const ResumeReport = () => {
               component={motion.section}
               className="ats-report bg-gray-100 min-h-screen pb-24"
             >
-              <Box component={motion.div} className="container max-w-7xl mx-auto sm:p-4">
+              <Box component={motion.div} className="container max-w-7xl mx-auto p-4">
                 <Box
                   component={motion.div}
-                  className="content flex justify-center gap-10"
+                  className="content flex flex-col lg:flex-row justify-center gap-10"
                 >
                   <AtsResultSidebar
-                    score={atsReport.breakdown_by_category.overall_score.score}
+                    score={atsReport?.breakdown_by_category.overall_score.score}
                   />
                   <AtsContent report={atsReport} />
                   <AtsResultBottomBar />

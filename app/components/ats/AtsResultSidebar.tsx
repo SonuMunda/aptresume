@@ -2,24 +2,24 @@ import { Box, Button, List, ListItem, Typography } from "@mui/material";
 import React from "react";
 import ProgressRing from "./ProgressRing";
 import Link from "next/link";
-import sectionsList from "../../../data/resumeResultSibarList";
+import sectionsList from "@/data/resumeResultSibarList";
 import { indigo } from "@mui/material/colors";
 
 const AtsResultSidebar = ({ score }: { score: number }) => {
   const handleScroll = (key: string) => {
     const element = document.getElementById(key);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      element.scrollIntoView({behavior: "smooth" , block:"start" });
     }
   };
   return (
     <Box
       component={"div"}
-      className="sidebar hidden lg:block bg-white h-fit sticky top-10 min-w-xs border border-gray-300 shadow-md rounded-md p-8"
+      className="sidebar bg-white h-fit lg:sticky top-10 lg:min-w-xs border border-gray-300 lg:shadow-md rounded-xl p-8"
     >
       <Box
         component={"div"}
-        className="sidebar-header border-b border-gray-300 pb-4"
+        className="sidebar-header lg:border-b border-gray-300 pb-4"
       >
         <Box
           component={"div"}
@@ -35,7 +35,7 @@ const AtsResultSidebar = ({ score }: { score: number }) => {
         </Box>
       </Box>
 
-      <Box component={"div"} className="sidebar-body mt-6">
+      <Box component={"div"} className="sidebar-body hidden lg:block mt-6">
         <Box component={"nav"} className="sidebar-navigations  w-full">
           <List dense className="sidebar-list">
             {sectionsList.map((section) => {
@@ -70,6 +70,7 @@ const AtsResultSidebar = ({ score }: { score: number }) => {
             variant="contained"
             sx={{
               width: "100%",
+              borderRadius: 100,
               backgroundColor: indigo[600],
               p: 1,
             }}

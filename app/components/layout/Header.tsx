@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <header
-      className={`header w-full border-b-2 border-indigo-50 fixed top-0 left-0 z-10 bg-white/50 backdrop-blur-3xl flex justify-between items-center p-2 lg:px-8 `}
+      className={`header w-full border-b-2 border-indigo-50 fixed top-0 left-0 z-10 bg-neutral-100 backdrop-blur-3xl flex justify-between items-center p-2 lg:px-8 `}
     >
       <div className="container max-w-full mx-auto flex justify-between">
         {/* Logo */}

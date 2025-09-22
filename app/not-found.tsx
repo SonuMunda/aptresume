@@ -75,12 +75,7 @@ export default function NotFound() {
               px: 5,
               py: 1.5,
               fontSize: 16,
-              borderRadius: 3,
-              background: "linear-gradient(to right, #2563eb, #1e40af)",
               boxShadow: "0px 4px 14px rgba(37, 99, 235, 0.3)",
-              "&:hover": {
-                background: "linear-gradient(to right, #1d4ed8, #1e3a8a)",
-              },
             }}
           >
             Go Back Home

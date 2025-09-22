@@ -90,8 +90,7 @@ const JakesResume = () => {
         color: format.textColor,
         minHeight: format.pageSize == "A4" ? "297mm" : "279.4mm",
         minWidth: format.pageSize == "A4" ? "210mm" : "215.9mm",
-        cursor: "text",
-        userSelect: "text",
+        cursor: "move",
       }}
     >
       <div
